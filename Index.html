@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaterPrice TopUp</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b1020;
+      color: white;
+    }
+
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #151c35;
+    }
+
+    header h1 {
+      font-size: 28px;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: #b8c0d9;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #151c35;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    input, select {
+      background: #252e4d;
+      color: white;
+    }
+
+    button {
+      background: #ff7a00;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .package {
+      background: #252e4d;
+      padding: 18px;
+      text-align: center;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .package:hover {
+      background: #354064;
+    }
+
+    .contact {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact a {
+      display: block;
+      text-align: center;
+      padding: 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      background: #252e4d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #9da6c2;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>💎 WaterPrice TopUp</h1>
+  <p>Fast & Reliable Game Top-Up Service</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🎮 Free Fire Top-Up</h2>
+
+    <input
+      type="text"
+      placeholder="আপনার Free Fire UID লিখুন"
+    >
+
+    <select>
+      <option>Diamond Package নির্বাচন করুন</option>
+      <option>100 Diamonds</option>
+      <option>310 Diamonds</option>
+      <option>520 Diamonds</option>
+      <option>1060 Diamonds</option>
+    </select>
+
+    <button>
+      Continue
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>💎 Diamond Packages</h2>
+
+    <div class="packages">
+      <div class="package">100 Diamonds</div>
+      <div class="package">310 Diamonds</div>
+      <div class="package">520 Diamonds</div>
+      <div class="package">1060 Diamonds</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📞 Contact Us</h2>
+
+    <div class="contact">
+      <a href="https://wa.me/8801623615826" target="_blank">
+        WhatsApp
+      </a>
+
+      <a href="https://t.me/01623615826" target="_blank">
+        Telegram
+      </a>
+
+      <a href="#">
+        Facebook — Coming Soon
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 WaterPrice TopUp. All Rights Reserved.
+</footer>
+
+</body>
+</html>
