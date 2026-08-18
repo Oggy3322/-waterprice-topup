@@ -1,1 +1,19 @@
- 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff4a3"/>
+      <stop offset=".25" stop-color="#ffd43b"/>
+      <stop offset=".5" stop-color="#fff0a0"/>
+      <stop offset=".75" stop-color="#d89b00"/>
+      <stop offset="1" stop-color="#fff2a6"/>
+    </linearGradient>
+    <filter id="g"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <circle cx="256" cy="256" r="210" fill="#ffc400" opacity=".22" filter="url(#g)"/>
+  <path d="M256 38 395 115 430 256 395 397 256 474 117 397 82 256 117 115Z"
+        fill="url(#gold)" stroke="#fff1a0" stroke-width="10"/>
+  <path d="M256 90 350 145 375 256 350 367 256 422 162 367 137 256 162 145Z"
+        fill="#9c6a00" opacity=".32"/>
+  <path d="M256 110 285 195 375 205 306 258 330 350 256 295 182 350 206 258 137 205 227 195Z"
+        fill="#fff8c7"/>
+</svg> 
