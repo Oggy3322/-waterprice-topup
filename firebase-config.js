@@ -12,24 +12,17 @@ import {
 
 
 const firebaseConfig = {
-
-  apiKey: "YOUR_API_KEY",
-
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-
-  projectId: "YOUR_PROJECT_ID",
-
-  storageBucket: "YOUR_PROJECT.appspot.com",
-
-  messagingSenderId: "YOUR_SENDER_ID",
-
-  appId: "YOUR_APP_ID"
-
+  apiKey: "AIzaSyCfiqHTb3sGk1e7cfPyVe0oXsDJsna2Gbeo",
+  authDomain: "water-price-top-up-bd.firebaseapp.com",
+  projectId: "water-price-top-up-bd",
+  storageBucket: "water-price-top-up-bd.firebasestorage.app",
+  messagingSenderId: "759484315438",
+  appId: "1:759484315438:web:9630e5c17673b214526cbf",
+  measurementId: "G-8252E0PJPM"
 };
 
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-
 export const db = getFirestore(app);
