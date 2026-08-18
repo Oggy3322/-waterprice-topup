@@ -1,11 +1,12 @@
-// ======================================================
-// Water Price Top Up BD
-// app.js
-// Login → UID → Order → Rank → My Orders
-// ======================================================
+import { auth, db } from "./firebase-config.js";
 
 import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
   onAuthStateChanged,
+  updateProfile,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
@@ -15,464 +16,990 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
   query,
   where,
-  orderBy,
-  serverTimestamp,
-  setDoc
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-import { auth, db } from "./firebase-config.js";
 
-
-// ======================================================
-// 1. RANK SYSTEM
-// ======================================================
+/* =========================
+   RANK SYSTEM
+========================= */
 
 const RANKS = [
+
   {
     name: "Bronze",
     min: 0,
-    max: 499,
-    logo: "assets/ranks/bronze.png"
+    max: 100,
+    logo: "assets/ranks/bronze.svg"
   },
+
   {
     name: "Silver",
-    min: 500,
-    max: 1499,
-    logo: "assets/ranks/silver.png"
+    min: 101,
+    max: 1000,
+    logo: "assets/ranks/silver.svg"
   },
+
   {
     name: "Gold",
-    min: 1500,
-    max: 2999,
-    logo: "assets/ranks/gold.png"
+    min: 1001,
+    max: 5000,
+    logo: "assets/ranks/gold.svg"
   },
+
   {
     name: "Platinum",
-    min: 3000,
-    max: 4999,
-    logo: "assets/ranks/platinum.png"
+    min: 5001,
+    max: 10000,
+    logo: "assets/ranks/platinum.svg"
   },
+
   {
     name: "Diamond",
-    min: 5000,
-    max: 9999,
-    logo: "assets/ranks/diamond.png"
+    min: 10001,
+    max: 25000,
+    logo: "assets/ranks/diamond.svg"
   },
+
   {
     name: "Heroic",
-    min: 10000,
-    max: 19999,
-    logo: "assets/ranks/heroic.png"
+    min: 25001,
+    max: 50000,
+    logo: "assets/ranks/heroic.svg"
   },
+
   {
-    name: "Grandmaster",
-    min: 20000,
+    name: "Master",
+    min: 50001,
+    max: 100000,
+    logo: "assets/ranks/master.svg"
+  },
+
+  {
+    name: "Grand Master",
+    min: 100001,
     max: Infinity,
-    logo: "assets/ranks/grandmaster.png"
+    logo: "assets/ranks/grandmaster.svg"
   }
+
 ];
 
 
-// ======================================================
-// 2. GET CURRENT RANK
-// ======================================================
+/* =========================
+   PRODUCTS
+========================= */
 
-function getRank(totalTopUp) {
+/*
+   এগুলো এখন DEMO PRICE.
+   ভিডিও থেকে exact price পাওয়ার পরে
+   শুধু এই section পরিবর্তন করবে।
+*/
 
-  totalTopUp = Number(totalTopUp) || 0;
+const PRODUCTS = [
 
-  let currentRank = RANKS[0];
+  {
+    id: "d115",
+    cat: "diamond",
+    name: "115 Diamonds",
+    detail: "115 💎",
+    price: 78,
+    icon: "◆"
+  },
 
-  for (const rank of RANKS) {
-    if (totalTopUp >= rank.min) {
-      currentRank = rank;
-    }
+  {
+    id: "d240",
+    cat: "diamond",
+    name: "240 Diamonds",
+    detail: "240 💎",
+    price: 156,
+    icon: "◆"
+  },
+
+  {
+    id: "d610",
+    cat: "diamond",
+    name: "610 Diamonds",
+    detail: "610 💎",
+    price: 395,
+    icon: "◆"
+  },
+
+  {
+    id: "d1240",
+    cat: "diamond",
+    name: "1240 Diamonds",
+    detail: "1240 💎",
+    price: 790,
+    icon: "◆"
+  },
+
+  {
+    id: "d2530",
+    cat: "diamond",
+    name: "2530 Diamonds",
+    detail: "2530 💎",
+    price: 1580,
+    icon: "◆"
+  },
+
+  {
+    id: "weekly",
+    cat: "weekly",
+    name: "Weekly Membership",
+    detail: "Weekly",
+    price: 156,
+    icon: "W"
+  },
+
+  {
+    id: "weeklyLite",
+    cat: "weekly",
+    name: "Weekly Lite",
+    detail: "Weekly Lite",
+    price: 40,
+    icon: "W"
+  },
+
+  {
+    id: "monthly",
+    cat: "monthly",
+    name: "Monthly Membership",
+    detail: "Monthly",
+    price: 780,
+    icon: "M"
+  },
+
+  {
+    id: "like200",
+    cat: "like",
+    name: "200 Likes",
+    detail: "FF Like",
+    price: 30,
+    icon: "♥"
+  },
+
+  {
+    id: "like400",
+    cat: "like",
+    name: "400 Likes",
+    detail: "FF Like",
+    price: 60,
+    icon: "♥"
+  },
+
+  {
+    id: "like600",
+    cat: "like",
+    name: "600 Likes",
+    detail: "FF Like",
+    price: 90,
+    icon: "♥"
+  },
+
+  {
+    id: "like1400",
+    cat: "like",
+    name: "1400 Likes",
+    detail: "FF Like",
+    price: 200,
+    icon: "♥"
+  },
+
+  {
+    id: "like3000",
+    cat: "like",
+    name: "3000 Likes",
+    detail: "FF Like",
+    price: 430,
+    icon: "♥"
+  },
+
+  {
+    id: "like6000",
+    cat: "like",
+    name: "6000 Likes",
+    detail: "FF Like",
+    price: 800,
+    icon: "♥"
   }
 
-  return currentRank;
-}
+];
 
 
-// ======================================================
-// 3. FORMAT MONEY
-// ======================================================
-
-function money(amount) {
-  return `৳${Number(amount || 0).toLocaleString("en-BD")}`;
-}
+const $ = selector =>
+  document.querySelector(selector);
 
 
-// ======================================================
-// 4. SHOW USER DATA
-// ======================================================
-
-function showUser(user) {
-
-  if (!user) return;
-
-  const name =
-    user.displayName ||
-    user.email?.split("@")[0] ||
-    "User";
-
-  const email = user.email || "";
-
-  // Name
-  document.querySelectorAll("[data-user-name]").forEach(el => {
-    el.textContent = name;
-  });
-
-  // Email
-  document.querySelectorAll("[data-user-email]").forEach(el => {
-    el.textContent = email;
-  });
-
-  // UID
-  document.querySelectorAll("[data-user-uid]").forEach(el => {
-    el.textContent = user.uid;
-  });
-
-  // Initial
-  document.querySelectorAll("[data-user-initial]").forEach(el => {
-    el.textContent = name.charAt(0).toUpperCase();
-  });
-}
+const $$ = selector =>
+  document.querySelectorAll(selector);
 
 
-// ======================================================
-// 5. LOAD USER PROFILE
-// ======================================================
-
-async function loadUserProfile(user) {
-
-  try {
-
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-
-      const data = userSnap.data();
-
-      document.querySelectorAll("[data-user-name]").forEach(el => {
-        el.textContent =
-          data.name ||
-          user.displayName ||
-          user.email?.split("@")[0] ||
-          "User";
-      });
-
-      document.querySelectorAll("[data-user-email]").forEach(el => {
-        el.textContent =
-          data.email ||
-          user.email ||
-          "";
-      });
-
-    }
-
-  } catch (error) {
-
-    console.error("Profile loading error:", error);
-
-  }
-}
+const money = number =>
+  `৳${Number(number || 0).toLocaleString("en-BD")}`;
 
 
-// ======================================================
-// 6. CALCULATE TOTAL TOP-UP
-// ======================================================
+const rankFor = total => {
 
-async function getTotalTopUp(uid) {
+  return RANKS.reduce(
+
+    (rank, item) =>
+
+      total >= item.min
+        ? item
+        : rank,
+
+    RANKS[0]
+
+  );
+
+};
+
+
+const esc = value => {
+
+  return String(value ?? "").replace(
+
+    /[&<>"']/g,
+
+    character => ({
+
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+
+    }[character])
+
+  );
+
+};
+
+
+/* =========================
+   TOTAL TOPUP
+========================= */
+
+async function totalTopup(uid) {
+
+  const snapshot = await getDocs(
+
+    query(
+
+      collection(db, "orders"),
+
+      where("userId", "==", uid)
+
+    )
+
+  );
 
   let total = 0;
 
-  try {
+  snapshot.forEach(document => {
 
-    const ordersRef = collection(db, "orders");
+    const data = document.data();
 
-    const q = query(
-      ordersRef,
-      where("userId", "==", uid)
-    );
+    const status =
+      String(data.status || "pending")
+        .toLowerCase();
 
-    const snapshot = await getDocs(q);
+    if (
 
-    snapshot.forEach(order => {
+      [
+        "completed",
+        "approved",
+        "success",
+        "paid"
+      ].includes(status)
 
-      const data = order.data();
+    ) {
 
-      // Only count successful/completed orders
-      const status =
-        String(data.status || "pending").toLowerCase();
+      total += Number(data.amount || 0);
 
-      if (
-        status === "completed" ||
-        status === "approved" ||
-        status === "success" ||
-        status === "paid"
-      ) {
+    }
 
-        total += Number(
-          data.amount ||
-          data.price ||
-          data.total ||
-          0
-        );
-
-      }
-
-    });
-
-  } catch (error) {
-
-    console.error("Top-up calculation error:", error);
-
-  }
+  });
 
   return total;
 }
 
 
-// ======================================================
-// 7. UPDATE RANK
-// ======================================================
+/* =========================
+   SAVE USER PROFILE
+========================= */
 
-async function updateUserRank(user) {
+async function saveProfile(user) {
+
+  const reference =
+    doc(db, "users", user.uid);
+
+  const old =
+    await getDoc(reference);
+
+  const oldData =
+    old.exists()
+      ? old.data()
+      : {};
+
+  await setDoc(
+
+    reference,
+
+    {
+
+      uid: user.uid,
+
+      email: user.email || "",
+
+      name:
+        user.displayName ||
+        oldData.name ||
+        user.email?.split("@")[0] ||
+        "User",
+
+      updatedAt:
+        serverTimestamp()
+
+    },
+
+    {
+      merge: true
+    }
+
+  );
+
+}
+
+
+/* =========================
+   RENDER USER
+========================= */
+
+async function renderUser(user) {
 
   if (!user) return;
 
-  try {
 
-    const totalTopUp = await getTotalTopUp(user.uid);
+  const initial = (
 
-    const rank = getRank(totalTopUp);
+    user.displayName ||
+    user.email ||
+    "U"
 
-    const userRef = doc(db, "users", user.uid);
+  ).charAt(0).toUpperCase();
 
-    await setDoc(
-      userRef,
-      {
-        uid: user.uid,
-        email: user.email || "",
-        name:
+
+  $$(".avatar").forEach(
+
+    element => {
+
+      element.textContent =
+        initial;
+
+    }
+
+  );
+
+
+  $$("[data-user-name]")
+    .forEach(
+
+      element => {
+
+        element.textContent =
           user.displayName ||
           user.email?.split("@")[0] ||
-          "User",
+          "User";
 
-        totalTopUp: totalTopUp,
-
-        rank: rank.name,
-
-        rankLogo: rank.logo,
-
-        updatedAt: serverTimestamp()
-
-      },
-      {
-        merge: true
       }
+
     );
 
-    showRank(rank, totalTopUp);
 
-  } catch (error) {
+  $$("[data-user-email]")
+    .forEach(
 
-    console.error("Rank update error:", error);
+      element => {
+
+        element.textContent =
+          user.email || "";
+
+      }
+
+    );
+
+
+  $$("[data-user-uid]")
+    .forEach(
+
+      element => {
+
+        element.textContent =
+          user.uid;
+
+      }
+
+    );
+
+
+  $$("[data-user-initial]")
+    .forEach(
+
+      element => {
+
+        element.textContent =
+          initial;
+
+      }
+
+    );
+
+
+  const total =
+    await totalTopup(user.uid);
+
+
+  const rank =
+    rankFor(total);
+
+
+  $$("[data-total-topup]")
+    .forEach(
+
+      element => {
+
+        element.textContent =
+          money(total);
+
+      }
+
+    );
+
+
+  $$("[data-rank-name]")
+    .forEach(
+
+      element => {
+
+        element.textContent =
+          rank.name;
+
+      }
+
+    );
+
+
+  $$("[data-rank-logo]")
+    .forEach(
+
+      element => {
+
+        element.src =
+          rank.logo;
+
+        element.alt =
+          rank.name;
+
+      }
+
+    );
+
+
+  const rankList =
+    $("[data-rank-list]");
+
+
+  if (rankList) {
+
+    rankList.innerHTML =
+
+      RANKS.map(
+
+        item => `
+
+          <div class="rank-item ${
+            item.name === rank.name
+              ? "current"
+              : ""
+          }">
+
+            <img
+              src="${item.logo}"
+              alt="${item.name}"
+            >
+
+            <div>
+
+              <b>${item.name}</b>
+
+              <div class="muted">
+
+                ${money(item.min)}
+
+                ${
+                  item.max === Infinity
+                    ? "+"
+                    : " – " + money(item.max)
+                }
+
+              </div>
+
+            </div>
+
+            <span class="lock">
+
+              ${
+                item.name === rank.name
+                  ? "✓ Current"
+                  : "🔒 Locked"
+              }
+
+            </span>
+
+          </div>
+
+        `
+
+      ).join("");
 
   }
+
+
+  $$("[data-wallet]")
+    .forEach(
+
+      element => {
+
+        element.textContent =
+          "৳0";
+
+      }
+
+    );
+
 }
 
 
-// ======================================================
-// 8. SHOW RANK ON ACCOUNT PAGE
-// ======================================================
+/* =========================
+   AUTH MESSAGE
+========================= */
 
-function showRank(rank, totalTopUp) {
+function authMsg(text) {
 
-  document.querySelectorAll("[data-rank-name]").forEach(el => {
-    el.textContent = rank.name;
-  });
+  const element =
+    $("#authMessage");
 
-  document.querySelectorAll("[data-rank-logo]").forEach(el => {
+  if (element) {
 
-    el.src = rank.logo;
-    el.alt = rank.name;
+    element.textContent =
+      text;
 
-    // premium glow
-    el.classList.add("rank-glow");
+  }
 
-  });
-
-  document.querySelectorAll("[data-total-topup]").forEach(el => {
-    el.textContent = money(totalTopUp);
-  });
-
-  // Current rank text
-  document.querySelectorAll("[data-current-rank]").forEach(el => {
-    el.textContent = rank.name;
-  });
 }
 
 
-// ======================================================
-// 9. LOAD MY ORDERS
-// ======================================================
+/* =========================
+   LOGIN / REGISTER
+========================= */
 
-async function loadMyOrders(user) {
+function initAuthForms() {
 
-  const container =
-    document.querySelector("#ordersList") ||
-    document.querySelector("[data-orders-list]");
+  const loginForm =
+    $("#loginForm");
 
-  if (!container) return;
 
-  container.innerHTML = `
-    <div class="orders-loading">
-      Loading your orders...
-    </div>
-  `;
+  if (loginForm) {
+
+    loginForm.addEventListener(
+
+      "submit",
+
+      async event => {
+
+        event.preventDefault();
+
+        try {
+
+          await signInWithEmailAndPassword(
+
+            auth,
+
+            $("#email").value.trim(),
+
+            $("#password").value
+
+          );
+
+          location.href =
+            "index.html";
+
+        }
+
+        catch (error) {
+
+          authMsg(
+            error.message
+          );
+
+        }
+
+      }
+
+    );
+
+  }
+
+
+  const registerForm =
+    $("#registerForm");
+
+
+  if (registerForm) {
+
+    registerForm.addEventListener(
+
+      "submit",
+
+      async event => {
+
+        event.preventDefault();
+
+        try {
+
+          const credential =
+            await createUserWithEmailAndPassword(
+
+              auth,
+
+              $("#email").value.trim(),
+
+              $("#password").value
+
+            );
+
+
+          await updateProfile(
+
+            credential.user,
+
+            {
+
+              displayName:
+                $("#name").value.trim()
+
+            }
+
+          );
+
+
+          await saveProfile(
+            credential.user
+          );
+
+
+          location.href =
+            "index.html";
+
+        }
+
+        catch (error) {
+
+          authMsg(
+            error.message
+          );
+
+        }
+
+      }
+
+    );
+
+  }
+
+
+  const google =
+    $("#googleLogin");
+
+
+  if (google) {
+
+    google.addEventListener(
+
+      "click",
+
+      async () => {
+
+        try {
+
+          const credential =
+            await signInWithPopup(
+
+              auth,
+
+              new GoogleAuthProvider()
+
+            );
+
+
+          await saveProfile(
+            credential.user
+          );
+
+
+          location.href =
+            "index.html";
+
+        }
+
+        catch (error) {
+
+          authMsg(
+            error.message
+          );
+
+        }
+
+      }
+
+    );
+
+  }
+
+}
+
+
+/* =========================
+   MY ORDERS
+========================= */
+
+async function renderOrders(user) {
+
+  const box =
+    $("#ordersList");
+
+
+  if (!box) return;
+
+
+  if (!user) {
+
+    box.innerHTML = `
+
+      <div class="order-card">
+
+        <h3>
+          Login required
+        </h3>
+
+        <p class="muted">
+          Please login to see your orders.
+        </p>
+
+        <a
+          class="btn primary"
+          href="login.html"
+        >
+          Login
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
 
   try {
 
-    const ordersRef = collection(db, "orders");
+    const snapshot =
+      await getDocs(
 
-    // IMPORTANT:
-    // Only current user's UID
-    const q = query(
-      ordersRef,
-      where("userId", "==", user.uid)
-    );
+        query(
 
-    const snapshot = await getDocs(q);
+          collection(db, "orders"),
+
+          where(
+            "userId",
+            "==",
+            user.uid
+          )
+
+        )
+
+      );
+
 
     if (snapshot.empty) {
 
-      container.innerHTML = `
-        <div class="no-orders">
-          <div class="no-orders-icon">📦</div>
-          <h3>No Orders Yet</h3>
-          <p>Your orders will appear here.</p>
+      box.innerHTML = `
+
+        <div
+          class="order-card"
+          style="text-align:center"
+        >
+
+          <div style="font-size:48px">
+            📦
+          </div>
+
+          <h3>
+            No order data found!
+          </h3>
+
+          <a
+            class="btn primary"
+            href="product.html"
+          >
+            ORDER NOW
+          </a>
+
         </div>
+
       `;
 
       return;
+
     }
 
 
     const orders = [];
 
-    snapshot.forEach(item => {
 
-      orders.push({
-        id: item.id,
-        ...item.data()
-      });
+    snapshot.forEach(
 
-    });
+      document => {
 
+        orders.push({
 
-    // Newest first
-    orders.sort((a, b) => {
+          id: document.id,
 
-      const aTime =
-        a.createdAt?.seconds ||
-        0;
+          ...document.data()
 
-      const bTime =
-        b.createdAt?.seconds ||
-        0;
+        });
 
-      return bTime - aTime;
+      }
 
-    });
+    );
 
 
-    container.innerHTML = "";
+    orders.sort(
+
+      (a, b) =>
+
+        (b.createdAt?.seconds || 0) -
+        (a.createdAt?.seconds || 0)
+
+    );
 
 
-    orders.forEach(order => {
+    box.innerHTML =
 
-      const status =
-        order.status ||
-        "Pending";
+      orders.map(
 
-      const amount =
-        Number(
-          order.amount ||
-          order.price ||
-          order.total ||
-          0
-        );
+        order => `
 
-      const packageName =
-        order.packageName ||
-        order.productName ||
-        order.package ||
-        "Top Up";
+          <article class="order-card">
 
-      const orderId =
-        order.orderId ||
-        order.id;
+            <div class="order-card-top">
 
+              <div>
 
-      const card = document.createElement("div");
+                <h3>
+                  ${esc(
+                    order.productName ||
+                    "Top Up"
+                  )}
+                </h3>
 
-      card.className = "order-card";
+                <span class="order-id">
+                  #${esc(order.id)}
+                </span>
 
-      card.innerHTML = `
+              </div>
 
-        <div class="order-card-top">
+              <span
+                class="
+                  order-status
+                  status-${String(
+                    order.status ||
+                    "pending"
+                  ).toLowerCase()}
+                "
+              >
 
-          <div>
-            <h3>${escapeHTML(packageName)}</h3>
+                ${esc(
+                  order.status ||
+                  "pending"
+                )}
 
-            <span class="order-id">
-              Order #${escapeHTML(orderId)}
-            </span>
-          </div>
+              </span>
 
-          <span class="order-status ${statusClass(status)}">
-            ${escapeHTML(status)}
-          </span>
-
-        </div>
+            </div>
 
 
-        <div class="order-card-info">
+            <div class="order-card-info">
 
-          <div>
-            <small>Amount</small>
-            <strong>${money(amount)}</strong>
-          </div>
+              <div>
 
-          <div>
-            <small>UID</small>
-            <strong>
-              ${escapeHTML(order.uid || order.gameUid || "-")}
-            </strong>
-          </div>
+                <small>
+                  Amount
+                </small>
 
-        </div>
+                <strong>
+                  ${money(order.amount)}
+                </strong>
 
-      `;
-
-      container.appendChild(card);
-
-    });
+              </div>
 
 
-  } catch (error) {
+              <div>
 
-    console.error("Orders loading error:", error);
+                <small>
+                  Game UID
+                </small>
 
-    container.innerHTML = `
-      <div class="orders-error">
-        <h3>Unable to load orders</h3>
-        <p>Please try again later.</p>
+                <strong>
+                  ${esc(
+                    order.gameUid ||
+                    "-"
+                  )}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        `
+
+      ).join("");
+
+  }
+
+  catch (error) {
+
+    box.innerHTML = `
+
+      <div class="order-card">
+
+        <h3>
+          Could not load orders
+        </h3>
+
+        <p class="muted">
+          ${esc(error.message)}
+        </p>
+
       </div>
+
     `;
 
   }
@@ -480,462 +1007,410 @@ async function loadMyOrders(user) {
 }
 
 
-// ======================================================
-// 10. STATUS CLASS
-// ======================================================
+/* =========================
+   PRODUCTS
+========================= */
 
-function statusClass(status) {
+function renderProducts(filter = "all") {
 
-  const value =
-    String(status || "")
-      .toLowerCase();
-
-  if (
-    value === "completed" ||
-    value === "approved" ||
-    value === "success" ||
-    value === "paid"
-  ) {
-
-    return "status-success";
-
-  }
-
-  if (
-    value === "cancelled" ||
-    value === "canceled" ||
-    value === "rejected"
-  ) {
-
-    return "status-danger";
-
-  }
-
-  return "status-pending";
-}
+  const box =
+    $("#products");
 
 
-// ======================================================
-// 11. CREATE ORDER
-// ======================================================
-
-async function createOrder(orderData) {
-
-  const user = auth.currentUser;
-
-  // Login required
-  if (!user) {
-
-    alert("Please login first.");
-
-    window.location.href = "login.html";
-
-    return null;
-  }
+  if (!box) return;
 
 
-  try {
+  const list =
+    filter === "all"
 
-    const amount = Number(
-      orderData.amount ||
-      orderData.price ||
-      orderData.total ||
-      0
-    );
+      ? PRODUCTS
 
-
-    const order = {
-
-      // VERY IMPORTANT
-      // Current Firebase Auth UID
-      userId: user.uid,
-
-      // Game UID / customer UID
-      uid:
-        orderData.uid ||
-        orderData.gameUid ||
-        "",
-
-      email: user.email || "",
-
-      userName:
-        user.displayName ||
-        user.email?.split("@")[0] ||
-        "User",
-
-      packageName:
-        orderData.packageName ||
-        orderData.productName ||
-        orderData.package ||
-        "Top Up",
-
-      amount: amount,
-
-      price: amount,
-
-      status: "pending",
-
-      createdAt: serverTimestamp()
-
-    };
+      : PRODUCTS.filter(
+          item =>
+            item.cat === filter
+        );
 
 
-    const docRef = await addDoc(
-      collection(db, "orders"),
-      order
-    );
+  box.innerHTML =
+
+    list.map(
+
+      product => `
+
+        <article class="product-card">
+
+          <div class="product-icon">
+
+            ${product.icon}
+
+          </div>
+
+          <h3>
+            ${esc(product.name)}
+          </h3>
+
+          <p>
+            ${esc(product.detail)}
+          </p>
+
+          <div class="product-price">
+
+            ${money(product.price)}
+
+          </div>
+
+          <button
+            class="btn primary buy"
+            data-id="${product.id}"
+          >
+            Buy Now
+          </button>
+
+        </article>
+
+      `
+
+    ).join("");
 
 
-    // Update rank after new order
-    await updateUserRank(user);
+  $$(".buy").forEach(
 
+    button => {
 
-    return docRef.id;
+      button.onclick = () => {
 
+        selectProduct(
+          button.dataset.id
+        );
 
-  } catch (error) {
+      };
 
-    console.error("Order creation error:", error);
+    }
 
-    alert(
-      "Order failed. Please try again."
-    );
-
-    return null;
-
-  }
+  );
 
 }
 
 
-// ======================================================
-// 12. ORDER FORM AUTO HANDLER
-// ======================================================
+/* =========================
+   SELECT PRODUCT
+========================= */
 
-function setupOrderForm() {
+function selectProduct(id) {
+
+  const product =
+    PRODUCTS.find(
+      item => item.id === id
+    );
+
+
+  if (!product) return;
+
+
+  $("#selectedProductId").value =
+    product.id;
+
+
+  $("#selectedProductName")
+    .textContent =
+      product.name;
+
+
+  $("#selectedProductPrice")
+    .textContent =
+      money(product.price);
+
+
+  $("#checkout")
+    .classList
+    .remove("hidden");
+
+
+  $("#checkout")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =========================
+   PRODUCT PAGE
+========================= */
+
+function initProducts() {
+
+  if (!$("#products")) return;
+
+
+  renderProducts("all");
+
+
+  $$(".category-tabs button")
+    .forEach(
+
+      button => {
+
+        button.onclick = () => {
+
+          $$(".category-tabs button")
+            .forEach(
+              item =>
+                item.classList
+                  .remove("selected")
+            );
+
+
+          button.classList
+            .add("selected");
+
+
+          renderProducts(
+            button.dataset.filter
+          );
+
+        };
+
+      }
+
+    );
+
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
+
+
+  const category =
+    params.get("category");
+
+
+  if (category) {
+
+    const button =
+      document.querySelector(
+        `[data-filter="${category}"]`
+      );
+
+
+    if (button) {
+
+      button.click();
+
+    }
+
+  }
+
 
   const form =
-    document.querySelector("#orderForm") ||
-    document.querySelector("[data-order-form]");
+    $("#orderForm");
+
 
   if (!form) return;
 
 
-  form.addEventListener("submit", async event => {
+  form.addEventListener(
 
-    event.preventDefault();
+    "submit",
 
+    async event => {
 
-    const user = auth.currentUser;
-
-
-    if (!user) {
-
-      alert("Please login first.");
-
-      window.location.href = "login.html";
-
-      return;
-
-    }
+      event.preventDefault();
 
 
-    // Try to find common input names
-    const gameUidInput =
-      form.querySelector(
-        '[name="uid"], [name="gameUid"], #uid, #gameUid'
-      );
-
-    const packageInput =
-      form.querySelector(
-        '[name="packageName"], [name="package"], #packageName'
-      );
-
-    const amountInput =
-      form.querySelector(
-        '[name="amount"], [name="price"], #amount, #price'
-      );
+      const user =
+        auth.currentUser;
 
 
-    const gameUid =
-      gameUidInput?.value?.trim() || "";
+      if (!user) {
 
-    const packageName =
-      packageInput?.value?.trim() ||
-      "Top Up";
+        location.href =
+          "login.html";
 
-    const amount =
-      Number(amountInput?.value || 0);
+        return;
 
-
-    if (!gameUid) {
-
-      alert("Please enter your UID.");
-
-      return;
-
-    }
+      }
 
 
-    if (amount <= 0) {
+      const product =
+        PRODUCTS.find(
 
-      alert("Please select a valid package.");
+          item =>
+            item.id ===
+            $("#selectedProductId").value
 
-      return;
-
-    }
-
-
-    const orderId = await createOrder({
-
-      uid: gameUid,
-
-      packageName: packageName,
-
-      amount: amount
-
-    });
+        );
 
 
-    if (orderId) {
-
-      alert(
-        "Order placed successfully!"
-      );
-
-
-      form.reset();
+      const gameUid =
+        $("#gameUid")
+          .value
+          .trim();
 
 
-      // Refresh rank
-      await updateUserRank(user);
+      if (!product || !gameUid) {
+
+        return;
+
+      }
 
 
-      // If order page exists
-      if (
-        document.querySelector("#ordersList") ||
-        document.querySelector("[data-orders-list]")
-      ) {
+      try {
 
-        await loadMyOrders(user);
+        await addDoc(
+
+          collection(
+            db,
+            "orders"
+          ),
+
+          {
+
+            userId:
+              user.uid,
+
+            userEmail:
+              user.email || "",
+
+            gameUid:
+              gameUid,
+
+            productId:
+              product.id,
+
+            productName:
+              product.name,
+
+            amount:
+              product.price,
+
+            status:
+              "pending",
+
+            createdAt:
+              serverTimestamp()
+
+          }
+
+        );
+
+
+        alert(
+          "Order placed successfully!"
+        );
+
+
+        location.href =
+          "orders.html";
+
+      }
+
+      catch (error) {
+
+        alert(
+          error.message
+        );
 
       }
 
     }
 
-  });
+  );
 
 }
 
 
-// ======================================================
-// 13. LOGOUT
-// ======================================================
+/* =========================
+   APP START
+========================= */
 
-function setupLogout() {
+document.addEventListener(
 
-  document.querySelectorAll(
-    "#logoutBtn, [data-logout]"
-  ).forEach(button => {
+  "DOMContentLoaded",
 
-    button.addEventListener(
-      "click",
-      async () => {
+  () => {
 
-        try {
+    initAuthForms();
+
+    initProducts();
+
+
+    const logout =
+      $("#logoutBtn");
+
+
+    if (logout) {
+
+      logout.onclick =
+        async () => {
 
           await signOut(auth);
 
-          window.location.href =
+          location.href =
             "index.html";
 
-        } catch (error) {
+        };
 
-          console.error(
-            "Logout error:",
-            error
-          );
+    }
+
+
+    $$("[data-account]")
+      .forEach(
+
+        button => {
+
+          button.onclick = () => {
+
+            location.href =
+              auth.currentUser
+                ? "account.html"
+                : "login.html";
+
+          };
+
+        }
+
+      );
+
+
+    onAuthStateChanged(
+
+      auth,
+
+      async user => {
+
+        if (user) {
+
+          await saveProfile(user);
+
+          await renderUser(user);
+
+          await renderOrders(user);
+
+        }
+
+        else {
+
+          await renderOrders(null);
+
+
+          if (
+            location.pathname
+              .endsWith("account.html")
+          ) {
+
+            location.href =
+              "login.html";
+
+          }
 
         }
 
       }
+
     );
-
-  });
-
-}
-
-
-// ======================================================
-// 14. LOGIN STATE
-// ======================================================
-
-onAuthStateChanged(auth, async user => {
-
-  const loginButtons =
-    document.querySelectorAll(
-      "#loginBtn, [data-login]"
-    );
-
-  const accountButtons =
-    document.querySelectorAll(
-      "#accountBtn, [data-account]"
-    );
-
-
-  if (user) {
-
-    console.log(
-      "Logged in UID:",
-      user.uid
-    );
-
-
-    // Show user
-    showUser(user);
-
-    await loadUserProfile(user);
-
-
-    // Login button → Account
-    loginButtons.forEach(button => {
-
-      button.textContent =
-        "Account";
-
-      button.onclick = () => {
-
-        window.location.href =
-          "account.html";
-
-      };
-
-    });
-
-
-    // Account buttons
-    accountButtons.forEach(button => {
-
-      button.onclick = () => {
-
-        window.location.href =
-          "account.html";
-
-      };
-
-    });
-
-
-    // Rank
-    await updateUserRank(user);
-
-
-    // Orders page
-    if (
-      document.querySelector("#ordersList") ||
-      document.querySelector("[data-orders-list]")
-    ) {
-
-      await loadMyOrders(user);
-
-    }
-
-
-  } else {
-
-    console.log(
-      "No user logged in"
-    );
-
-
-    // Login buttons
-    loginButtons.forEach(button => {
-
-      button.textContent =
-        "Login";
-
-      button.onclick = () => {
-
-        window.location.href =
-          "login.html";
-
-      };
-
-    });
-
-
-    // Account page protection
-    if (
-      window.location.pathname.endsWith(
-        "account.html"
-      )
-    ) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-
-    }
-
-
-    // Orders page protection
-    if (
-      window.location.pathname.endsWith(
-        "orders.html"
-      )
-    ) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-
-    }
 
   }
 
-});
-
-
-// ======================================================
-// 15. HTML ESCAPE
-// ======================================================
-
-function escapeHTML(value) {
-
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
-
-// ======================================================
-// 16. PAGE START
-// ======================================================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    setupOrderForm();
-
-    setupLogout();
-
-  }
 );
-
-
-// ======================================================
-// 17. MAKE FUNCTIONS AVAILABLE
-// ======================================================
-
-window.createOrder = createOrder;
-window.loadMyOrders = loadMyOrders;
-window.updateUserRank = updateUserRank;
-window.getRank = getRank;
-window.RANKS = RANKS;
