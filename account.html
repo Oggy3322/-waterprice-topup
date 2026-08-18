@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>My Account - Water Price Top Up BD</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+  <div class="container navbar">
+
+    <a href="index.html" class="brand">
+
+      <div class="brand-logo">
+        W
+      </div>
+
+      <div class="brand-name">
+        Water Price Top Up BD
+      </div>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+      <a
+        href="index.html"
+        class="nav-link">
+        Home
+      </a>
+
+      <a
+        href="orders.html"
+        class="nav-link">
+        My Orders
+      </a>
+
+      <button
+        class="btn btn-danger"
+        data-logout>
+        Logout
+      </button>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main class="account-section">
+
+  <div class="container">
+
+
+    <div class="account-card">
+
+
+      <div class="profile">
+
+        <div
+          class="avatar"
+          id="avatar">
+          W
+        </div>
+
+
+        <div>
+
+          <h2 id="userName">
+            Loading...
+          </h2>
+
+          <p id="userEmail">
+            Loading...
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="account-actions">
+
+        <a
+          href="orders.html"
+          class="btn btn-primary">
+
+          📦 My Orders
+
+        </a>
+
+
+        <a
+          href="index.html#offers"
+          class="btn btn-light">
+
+          💎 View Offers
+
+        </a>
+
+
+        <button
+          class="btn btn-danger"
+          data-logout>
+
+          Logout
+
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<script type="module">
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  auth
+} from "./firebase-config.js";
+
+
+onAuthStateChanged(auth, (user) => {
+
+  if (!user) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  document.getElementById("userName")
+    .textContent =
+      user.displayName ||
+      user.email.split("@")[0];
+
+
+  document.getElementById("userEmail")
+    .textContent =
+      user.email;
+
+
+  const letter =
+    (
+      user.displayName ||
+      user.email ||
+      "W"
+    )
+    .charAt(0)
+    .toUpperCase();
+
+
+  document.getElementById("avatar")
+    .textContent = letter;
+
+});
+
+</script>
+
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
