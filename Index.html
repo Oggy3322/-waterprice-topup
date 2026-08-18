@@ -1,366 +1,648 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6c2cff" />
 
-  <title>Water Price Top Up BD</title>
+  <title>TopUp Buzz BD</title>
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #f3f6ff;
-      color: #10233f;
+      background: #f6f7fb;
+      color: #171717;
     }
 
     button {
+      border: 0;
       cursor: pointer;
     }
 
-    /* ================= LOGIN ================= */
-
-    #loginPage {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #071d49, #073f62);
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    .login-box {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      border-radius: 25px;
-      padding: 30px 25px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    /* ================= HEADER ================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #ffffff;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      height: 70px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .logo {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      margin: 0 auto 15px;
       display: flex;
-      justify-content: center;
       align-items: center;
+      gap: 9px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #6c2cff;
+      white-space: nowrap;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #7b35ff, #4e14d9);
+      display: grid;
+      place-items: center;
       color: white;
-      font-size: 28px;
-      font-weight: bold;
-      background: linear-gradient(135deg, #673ab7, #e91e63);
+      font-size: 20px;
     }
 
-    .login-box h1 {
-      text-align: center;
-      margin-bottom: 8px;
-      font-size: 27px;
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
     }
 
-    .login-subtitle {
-      text-align: center;
-      color: #777;
+    nav a {
+      font-size: 14px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    nav a:hover {
+      color: #6c2cff;
+    }
+
+    .header-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .login-btn,
+    .account-btn {
+      background: #6c2cff;
+      color: white;
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .mobile-menu {
+      display: none;
+      font-size: 25px;
+      background: transparent;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 0 18px;
+    }
+
+    .hero-box {
+      min-height: 300px;
+      border-radius: 25px;
+      padding: 45px;
+      color: white;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.25), transparent 30%),
+        linear-gradient(120deg, #5d21e8, #8d43ff);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .hero-text {
+      max-width: 600px;
+    }
+
+    .hero-text small {
+      background: rgba(255,255,255,.16);
+      padding: 8px 13px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: 45px;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      opacity: .9;
       margin-bottom: 25px;
     }
 
-    .input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccd3df;
-      border-radius: 12px;
-      margin-bottom: 13px;
+    .hero-btn {
+      background: white;
+      color: #6424e9;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .hero-shape {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      display: grid;
+      place-items: center;
+      font-size: 90px;
+    }
+
+    /* ================= MAIN ================= */
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 18px 50px;
+    }
+
+    .section {
+      margin-top: 35px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      font-size: 25px;
+    }
+
+    .section-title span {
+      color: #6c2cff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* ================= CATEGORIES ================= */
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .category {
+      background: white;
+      border-radius: 15px;
+      padding: 20px 10px;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(0,0,0,.04);
+    }
+
+    .category-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      margin: auto auto 10px;
+      display: grid;
+      place-items: center;
+      background: #eee8ff;
+      font-size: 25px;
+    }
+
+    .category strong {
+      font-size: 14px;
+    }
+
+    /* ================= PRODUCTS ================= */
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 17px;
+      padding: 17px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.04);
+      border: 1px solid #eeeeee;
+    }
+
+    .product-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .product-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 13px;
+      background: #f0ebff;
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+    }
+
+    .product h3 {
       font-size: 16px;
-      outline: none;
+      margin-bottom: 4px;
     }
 
-    .input:focus {
-      border-color: #3157d5;
+    .product small {
+      color: #777;
     }
 
-    .main-btn {
+    .product-info {
+      background: #f7f7fa;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .order-btn {
       width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: #102d73;
+      padding: 11px;
+      border-radius: 9px;
+      background: #6c2cff;
       color: white;
-      font-size: 16px;
-      font-weight: bold;
-      margin-top: 5px;
+      font-weight: 700;
     }
 
-    .main-btn:hover {
-      background: #173f9b;
+    .order-btn:hover {
+      background: #5520ca;
+    }
+
+    /* ================= OFFER ================= */
+
+    .offers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .offer {
+      padding: 22px;
+      border-radius: 18px;
+      color: white;
+      min-height: 150px;
+    }
+
+    .offer:nth-child(1) {
+      background: linear-gradient(135deg, #ff4f81, #ff8757);
+    }
+
+    .offer:nth-child(2) {
+      background: linear-gradient(135deg, #405de6, #7b42f6);
+    }
+
+    .offer:nth-child(3) {
+      background: linear-gradient(135deg, #00a878, #20c997);
+    }
+
+    .offer h3 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .offer p {
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      background: #17131f;
+      color: white;
+      margin-top: 40px;
+      padding: 40px 18px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 30px;
+    }
+
+    footer h3 {
+      margin-bottom: 14px;
+    }
+
+    footer p,
+    footer a {
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .copyright {
+      max-width: 1200px;
+      margin: 30px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #302b38;
+      color: #999;
+      font-size: 13px;
+    }
+
+    /* ================= MODAL ================= */
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 15px;
+    }
+
+    .modal-bg.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-radius: 20px;
+      padding: 27px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 18px;
+      background: #f1f1f1;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+
+    .modal h2 {
+      margin-bottom: 7px;
+    }
+
+    .modal-subtitle {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      border: 1px solid #ddd;
+      padding: 13px;
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .input-group input:focus {
+      border-color: #6c2cff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: #6c2cff;
+      color: white;
+      border-radius: 10px;
+      font-weight: 800;
+      margin-top: 5px;
     }
 
     .google-btn {
       width: 100%;
-      padding: 13px;
-      margin-top: 12px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
+      padding: 12px;
       background: white;
       color: #222;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .google-btn:hover {
-      background: #f6f6f6;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-weight: 700;
+      margin-top: 12px;
     }
 
     .divider {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 20px 0;
-      color: #999;
+      color: #aaa;
+      font-size: 12px;
+      margin: 17px 0;
     }
 
     .divider::before,
     .divider::after {
       content: "";
-      flex: 1;
       height: 1px;
       background: #ddd;
+      flex: 1;
     }
 
-    .switch {
+    .switch-auth {
       text-align: center;
-      margin-top: 18px;
-      color: #666;
+      margin-top: 17px;
+      font-size: 13px;
+      color: #777;
     }
 
-    .switch span {
-      color: #3157d5;
-      font-weight: bold;
-      cursor: pointer;
+    .switch-auth button {
+      background: transparent;
+      color: #6c2cff;
+      font-weight: 800;
     }
 
-    #authMessage {
-      margin-top: 12px;
-      text-align: center;
-      color: #d32f2f;
-      min-height: 20px;
-    }
-
-    /* ================= APP ================= */
-
-    #app {
+    .error-message {
       display: none;
+      background: #ffe8e8;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 12px;
     }
 
-    .topbar {
-      background: #063f60;
-      color: white;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    .success-message {
+      display: none;
+      background: #e6f8ed;
+      color: #16813d;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 12px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    /* ================= ACCOUNT ================= */
 
-    .brand-logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #673ab7, #e91e63);
-      font-weight: bold;
-      font-size: 19px;
-    }
-
-    .brand h2 {
-      font-size: 21px;
-    }
-
-    .brand h2 span {
-      color: #ff1690;
-    }
-
-    .user-area {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-photo {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: white;
-    }
-
-    .logout {
-      background: #e53935;
-      border: none;
-      color: white;
-      padding: 9px 13px;
-      border-radius: 9px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 25px 18px 60px;
-    }
-
-    .hero {
-      background: #f8faff;
-      border: 1px solid #dce4f1;
-      border-radius: 28px;
-      padding: 45px 35px;
-      margin-bottom: 35px;
-    }
-
-    .hero h1 {
-      font-family: Georgia, serif;
-      font-size: 48px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-family: Georgia, serif;
-      font-size: 25px;
-      color: #727a87;
-      line-height: 1.5;
-    }
-
-    .section-title {
-      font-family: Georgia, serif;
-      font-size: 38px;
-      margin: 25px 0;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 5px 20px rgba(20,40,90,.10);
-      border: 1px solid #e0e5ef;
-    }
-
-    .card-top {
-      height: 175px;
-      background: radial-gradient(circle, #153ed5, #07145c);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 42px;
-      font-weight: bold;
-    }
-
-    .card-bottom {
-      padding: 25px 15px;
-      min-height: 105px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .account-info {
       text-align: center;
-      font-family: Georgia, serif;
-      font-size: 23px;
-      font-weight: bold;
     }
 
-    .profile {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      margin-top: 40px;
-      box-shadow: 0 5px 20px rgba(20,40,90,.08);
+    .avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      background: #eee8ff;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      color: #6c2cff;
+      overflow: hidden;
     }
 
-    .profile h2 {
-      margin-bottom: 15px;
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .download-btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 13px 18px;
-      border-radius: 10px;
-      background: #102d73;
+    .logout-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background: #f04444;
       color: white;
-      text-decoration: none;
-      font-weight: bold;
+      border-radius: 10px;
+      font-weight: 700;
     }
 
-    @media (max-width: 750px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-      }
+    /* ================= RESPONSIVE ================= */
 
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .hero p {
-        font-size: 21px;
-      }
-
-      .section-title {
-        font-size: 34px;
-      }
-
-      .card-top {
-        height: 145px;
-        font-size: 34px;
-      }
-
-      .card-bottom {
-        font-size: 19px;
-      }
-
-      .brand h2 {
-        font-size: 16px;
-      }
-
-      .logout {
-        padding: 7px 9px;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .cards {
+    @media (max-width: 900px) {
+      .products {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .hero {
-        padding: 30px 20px;
+      .categories {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        height: 62px;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .hero-box {
+        min-height: 340px;
+        padding: 28px 22px;
       }
 
       .hero h1 {
-        font-size: 34px;
+        font-size: 32px;
       }
 
-      .card-top {
-        height: 125px;
+      .hero-shape {
+        display: none;
+      }
+
+      .products {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .product {
+        padding: 12px;
+      }
+
+      .product h3 {
+        font-size: 14px;
+      }
+
+      .product-icon {
+        width: 45px;
+        height: 45px;
+      }
+
+      .offers {
+        grid-template-columns: 1fr;
+      }
+
+      .categories {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .category {
+        padding: 13px 5px;
+      }
+
+      .category-icon {
+        width: 45px;
+        height: 45px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .header-buttons .login-btn {
+        padding: 9px 12px;
+        font-size: 12px;
       }
     }
   </style>
@@ -368,202 +650,26 @@
 
 <body>
 
-<!-- ================= LOGIN PAGE ================= -->
+  <!-- ================= HEADER ================= -->
 
-<div id="loginPage">
+  <header>
+    <div class="header-inner">
 
-  <div class="login-box">
+      <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        TopUp Buzz
+      </a>
 
-    <div class="logo">WP</div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#offers">Weekly Offers</a>
+        <a href="#monthly">Monthly</a>
+        <a href="#games">Games</a>
+      </nav>
 
-    <h1 id="authTitle">Welcome Back</h1>
+      <div class="header-buttons">
+        <button class="login-btn" id="headerLoginBtn">
+          Login
+        </button>
 
-    <p class="login-subtitle">
-      Water Price Top Up BD
-    </p>
-
-    <form id="authForm">
-
-      <input
-        id="email"
-        class="input"
-        type="email"
-        placeholder="Email address"
-        required
-      >
-
-      <input
-        id="password"
-        class="input"
-        type="password"
-        placeholder="Password"
-        required
-      >
-
-      <button class="main-btn" type="submit" id="emailBtn">
-        Login
-      </button>
-
-    </form>
-
-    <div class="divider">OR</div>
-
-    <button class="google-btn" id="googleBtn">
-      🔵 Continue with Google
-    </button>
-
-    <div class="switch">
-      <span id="switchText">
-        Don't have an account? Create account
-      </span>
-    </div>
-
-    <div id="authMessage"></div>
-
-  </div>
-
-</div>
-
-
-<!-- ================= MAIN APP ================= -->
-
-<div id="app">
-
-  <header class="topbar">
-
-    <div class="brand">
-
-      <div class="brand-logo">
-        WP
-      </div>
-
-      <h2>
-        WATER PRICE <span>TOP UP BD</span>
-      </h2>
-
-    </div>
-
-    <div class="user-area">
-
-      <img
-        id="userPhoto"
-        class="user-photo"
-        src=""
-        alt="User"
-      >
-
-      <button class="logout" id="logoutBtn">
-        Logout
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <main class="container">
-
-    <section class="hero">
-
-      <h1>
-        Water Price Top Up BD
-      </h1>
-
-      <p>
-        Fast, easy & secure top up for your favourite games and services.
-      </p>
-
-    </section>
-
-
-    <!-- POPULAR OFFERS -->
-
-    <h2 class="section-title">
-      Popular Offers
-    </h2>
-
-    <div class="cards">
-
-      <div class="card">
-        <div class="card-top">W 💎</div>
-        <div class="card-bottom">Weekly Offer</div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">M 💎</div>
-        <div class="card-bottom">Monthly Offer</div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">★</div>
-        <div class="card-bottom">Premium Users</div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">25 💎</div>
-        <div class="card-bottom">Free 25 Diamond Voucher</div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">f</div>
-        <div class="card-bottom">Facebook Followers</div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">👍</div>
-        <div class="card-bottom">Facebook Post React</div>
-      </div>
-
-    </div>
-
-
-    <!-- GAME SERVICES -->
-
-    <h2 class="section-title">
-      Game Services
-    </h2>
-
-    <div class="cards">
-
-      <div class="card">
-        <div class="card-top">FF</div>
-        <div class="card-bottom">
-          FF UID Top Up (BD)
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">W+</div>
-        <div class="card-bottom">
-          Weekly Lite (BD Server)
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">LV</div>
-        <div class="card-bottom">
-          New Level Up Pass
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">WM</div>
-        <div class="card-bottom">
-          Weekly / Monthly Offer
-        </div>
-      </div>
-
-    </div>
-
-
-    <!-- PROFILE -->
-
-    <div class="profile">
-
-      <h2>
-        Your Account
-      </h2>
-
-      <p>
-        <strong>Name:</strong>
-        <span id="profileName">Loading
+        <button class="account-btn" id="headerAccountBtn" style="display:none;">
