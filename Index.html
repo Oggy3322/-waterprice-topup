@@ -2,484 +2,346 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#07324d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WaterPrice TopUp</title>
+<title>Water Price Top Up BD</title>
 
 <style>
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-  font-family:Georgia,"Times New Roman",serif;
-  background:#f3f7fc;
-  color:#123653;
-  padding-bottom:92px;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
+    font-family:Georgia, "Noto Serif Bengali", serif;
+    background:#f3f6ff;
+    color:#10243b;
+    padding-bottom:80px;
 }
 
 /* HEADER */
-
 .header{
-  height:72px;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
-  position:sticky;
-  top:0;
-  z-index:100;
+    height:75px;
+    background:#073b5b;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    color:white;
 }
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:9px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:Arial,sans-serif;
+    font-weight:bold;
+    font-size:22px;
 }
 
 .logo-icon{
-  width:45px;
-  height:45px;
-  border-radius:13px;
-  background:linear-gradient(135deg,#09b7ff,#7548ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-  box-shadow:0 6px 18px rgba(61,92,255,.25);
-}
-
-.logo-text{
-  font-family:Arial,sans-serif;
-  font-size:21px;
-  font-weight:900;
-  color:#123653;
+    width:45px;
+    height:45px;
+    border-radius:12px 22px 12px 22px;
+    background:linear-gradient(135deg,#0b5278,#a20a59);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
 }
 
 .logo-text span{
-  color:#d32362;
+    color:#e91e82;
 }
 
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.balance{
-  background:#073b5a;
-  color:#fff;
-  border-radius:30px;
-  padding:12px 15px;
-  font-family:Arial,sans-serif;
-  font-size:13px;
-  font-weight:bold;
-}
-
-.account{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:#08795f;
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-family:Arial,sans-serif;
-  font-weight:bold;
-  font-size:18px;
-  border:3px solid #e5eef4;
+.wallet{
+    background:#0b4769;
+    border:1px solid #ffffff44;
+    border-radius:30px;
+    padding:13px 18px;
+    font-weight:bold;
 }
 
 /* MAIN */
-
 .container{
-  max-width:1000px;
-  margin:auto;
-  padding:22px 16px 30px;
+    max-width:1100px;
+    margin:auto;
+    padding:20px 15px;
 }
-
-/* HERO */
 
 .hero{
-  background:linear-gradient(135deg,#073653,#0b5c79 55%,#192b62);
-  border-radius:20px;
-  padding:28px 23px;
-  margin-bottom:24px;
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 12px 30px rgba(7,54,83,.2);
-}
-
-.hero:after{
-  content:"💎";
-  position:absolute;
-  right:12px;
-  top:-5px;
-  font-size:120px;
-  opacity:.12;
-  transform:rotate(15deg);
-}
-
-.hero small{
-  font-family:Arial,sans-serif;
-  font-size:11px;
-  letter-spacing:2px;
-  font-weight:bold;
-  opacity:.8;
+    background:linear-gradient(135deg,#ffffff,#eef5ff);
+    border:1px solid #dce4ef;
+    border-radius:20px;
+    padding:25px 20px;
+    margin-bottom:20px;
 }
 
 .hero h1{
-  font-family:Arial,sans-serif;
-  font-size:30px;
-  margin:8px 0;
+    font-size:30px;
+    margin-bottom:8px;
 }
 
 .hero p{
-  font-family:Arial,sans-serif;
-  font-size:13px;
-  line-height:1.6;
-  opacity:.85;
-  max-width:430px;
-}
-
-.hero-btn{
-  display:inline-block;
-  margin-top:16px;
-  background:#fff;
-  color:#073653;
-  padding:11px 18px;
-  border-radius:9px;
-  font-family:Arial,sans-serif;
-  font-size:12px;
-  font-weight:bold;
+    color:#667085;
 }
 
 /* SECTION */
-
 .section-title{
-  text-align:center;
-  margin:22px 0 18px;
-}
-
-.section-title h2{
-  font-size:28px;
-  color:#123f61;
-}
-
-.section-title p{
-  font-family:Arial,sans-serif;
-  font-size:12px;
-  color:#75879a;
-  margin-top:5px;
+    font-size:26px;
+    margin:20px 0 15px;
 }
 
 /* PRODUCT GRID */
-
-.products{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:22px 18px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
 }
 
-.product{
-  text-align:center;
-  cursor:pointer;
+.card{
+    background:white;
+    border:1px solid #e1e7ef;
+    border-radius:15px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 5px 15px #073b5b10;
 }
 
-.art{
-  width:100%;
-  aspect-ratio:1/1;
-  border-radius:4px;
-  overflow:hidden;
-  position:relative;
-  background:
-    radial-gradient(circle at 50% 45%,#265fff 0%,#17236b 38%,#090e3c 75%);
-  box-shadow:0 4px 10px rgba(0,0,0,.12);
-  transition:.2s;
+.card:hover{
+    transform:translateY(-3px);
 }
 
-.product:hover .art{
-  transform:translateY(-4px);
-  box-shadow:0 10px 22px rgba(17,48,110,.2);
+.card-image{
+    height:145px;
+    background:
+    radial-gradient(circle at center,#285cff 0,#141b69 45%,#071747 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-family:Arial,sans-serif;
+    font-size:35px;
+    font-weight:bold;
 }
 
-/* ARTWORK EFFECT */
-
-.art:before{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  background:
-    radial-gradient(circle,rgba(48,205,255,.5) 1px,transparent 2px);
-  background-size:22px 22px;
-  transform:rotate(18deg);
-  opacity:.5;
+.card h3{
+    text-align:center;
+    padding:14px 8px;
+    font-size:17px;
+    line-height:1.3;
 }
 
-.glow{
-  position:absolute;
-  width:65%;
-  height:65%;
-  left:17%;
-  top:13%;
-  border-radius:50%;
-  background:#2b7dff;
-  filter:blur(35px);
-  opacity:.35;
+/* TOPUP PAGE */
+.page{
+    display:none;
 }
 
-/* DIAMOND ART */
-
-.diamond-art .gem{
-  position:absolute;
-  left:50%;
-  top:29%;
-  transform:translate(-50%,-50%) rotate(45deg);
-  width:72px;
-  height:72px;
-  background:linear-gradient(135deg,#dffbff,#24cfff 45%,#0878ff);
-  border:3px solid #b9f5ff;
-  box-shadow:0 0 30px #18bfff;
+.page.active{
+    display:block;
 }
 
-.gem:after{
-  content:"";
-  position:absolute;
-  inset:15px;
-  border:2px solid rgba(255,255,255,.7);
+.form-card{
+    background:white;
+    border:1px solid #dce4ef;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
 }
 
-.art-title{
-  position:absolute;
-  left:7px;
-  right:7px;
-  bottom:34px;
-  font-family:Arial,sans-serif;
-  font-size:21px;
-  font-weight:900;
-  color:#ffe500;
-  text-shadow:2px 3px 0 #141450;
-  z-index:3;
+.step{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:18px;
 }
 
-.art-sub{
-  position:absolute;
-  left:5px;
-  right:5px;
-  bottom:10px;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  font-size:12px;
-  font-weight:bold;
-  z-index:3;
+.number{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#073b5b;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial;
 }
 
-/* OTHER ARTWORKS */
-
-.weekly .box,
-.monthly .box,
-.level .box,
-.offer .box{
-  position:absolute;
-  left:50%;
-  top:28%;
-  transform:translateX(-50%);
-  width:105px;
-  height:68px;
-  border-radius:8px;
-  background:linear-gradient(145deg,#e44aff,#7431d8);
-  border:3px solid #ff9aff;
-  box-shadow:0 0 35px #9d4aff;
+.options{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
 
-.monthly .box{
-  background:linear-gradient(145deg,#ff4dca,#6733cf);
+.option{
+    background:white;
+    border:2px solid #d7dce3;
+    border-radius:12px;
+    padding:16px;
+    cursor:pointer;
+    text-align:left;
 }
 
-.level .box{
-  width:100px;
-  height:75px;
-  background:linear-gradient(145deg,#36eaff,#1856e8);
+.option.active{
+    border-color:#ff6900;
 }
 
-.offer .box{
-  background:linear-gradient(145deg,#28cfff,#143ec7);
+.option strong{
+    display:block;
+    font-size:18px;
 }
 
-.art-text{
-  position:absolute;
-  top:40%;
-  left:0;
-  right:0;
-  text-align:center;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  font-size:16px;
-  font-weight:900;
-  text-shadow:2px 2px 4px #111;
-  z-index:4;
+.price{
+    color:#ff6900;
+    font-weight:bold;
 }
 
-.product-name{
-  font-size:17px;
-  line-height:1.3;
-  font-weight:bold;
-  margin-top:12px;
-  color:#143e60;
+.input{
+    width:100%;
+    padding:15px;
+    border:2px solid #b9d1f4;
+    border-radius:12px;
+    font-size:17px;
+    outline:none;
 }
 
-.product-price{
-  font-family:Arial,sans-serif;
-  color:#d32362;
-  font-size:13px;
-  font-weight:bold;
-  margin-top:5px;
+.payment{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-/* SERVICE NOTICE */
-
-.notice{
-  margin:30px 0;
-  padding:15px;
-  border-radius:13px;
-  background:#fff;
-  border:1px solid #dce6ef;
-  text-align:center;
-  font-family:Arial,sans-serif;
-  font-size:12px;
-  color:#526c82;
+.buy{
+    width:100%;
+    background:#073b5b;
+    color:white;
+    border:0;
+    padding:16px;
+    border-radius:12px;
+    margin-top:18px;
+    font-size:19px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 /* BOTTOM NAV */
-
 .bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  height:82px;
-  background:#fff;
-  border-top:1px solid #dce4eb;
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-  z-index:200;
-  box-shadow:0 -5px 20px rgba(0,0,0,.08);
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:72px;
+    background:white;
+    border-top:1px solid #dce4ef;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:100;
 }
 
-.nav-item{
-  width:20%;
-  text-align:center;
-  color:#768494;
-  font-family:Arial,sans-serif;
-  font-size:10px;
-  font-weight:600;
+.nav-btn{
+    border:0;
+    background:none;
+    color:#64748b;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.nav-btn.active{
+    color:#073b5b;
 }
 
 .nav-icon{
-  font-size:23px;
-  display:block;
-  margin-bottom:5px;
+    display:block;
+    font-size:23px;
+    margin-bottom:3px;
 }
 
-.nav-item.active{
-  color:#073b5a;
+.plus{
+    width:55px;
+    height:55px;
+    margin:-22px auto 0;
+    border-radius:50%;
+    background:#073b5b;
+    color:white;
+    border:5px solid white;
+    font-size:32px;
+    line-height:42px;
 }
 
-.add{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:#073b5a;
-  color:#fff;
-  border:5px solid #fff;
-  box-shadow:0 4px 18px rgba(7,59,90,.35);
-  display:grid;
-  place-items:center;
-  font-size:34px;
-  margin-top:-27px;
-}
-
-/* SUPPORT */
-
-.support{
-  position:fixed;
-  right:15px;
-  bottom:102px;
-  width:57px;
-  height:57px;
-  border-radius:50%;
-  background:#073b5a;
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-size:25px;
-  z-index:150;
-  border:4px solid #dbe7ee;
-  box-shadow:0 7px 20px rgba(0,0,0,.25);
+/* MESSAGE */
+.message{
+    display:none;
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:12px 18px;
+    border-radius:10px;
+    z-index:200;
 }
 
 /* MOBILE */
-
 @media(max-width:600px){
 
-  .products{
-    gap:20px 14px;
-  }
+    .logo{
+        font-size:17px;
+    }
 
-  .product-name{
-    font-size:15px;
-  }
+    .logo-icon{
+        width:40px;
+        height:40px;
+    }
 
-  .art-title{
-    font-size:17px;
-  }
+    .wallet{
+        padding:11px 14px;
+    }
 
-  .art-sub{
-    font-size:10px;
-  }
+    .container{
+        padding:15px 12px;
+    }
 
-  .hero h1{
-    font-size:26px;
-  }
+    .hero h1{
+        font-size:25px;
+    }
 
-  .balance{
-    padding:10px 12px;
-  }
+    .grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:10px;
+    }
 
+    .card-image{
+        height:110px;
+        font-size:25px;
+    }
+
+    .card h3{
+        font-size:14px;
+        padding:11px 5px;
+    }
+
+    .options{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .payment{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
-/* SMALL MOBILE */
+@media(min-width:800px){
 
-@media(max-width:380px){
+    .grid{
+        grid-template-columns:repeat(4,1fr);
+    }
 
-  .logo-text{
-    font-size:18px;
-  }
-
-  .balance{
-    display:none;
-  }
-
-  .products{
-    gap:18px 10px;
-  }
-
-  .product-name{
-    font-size:13px;
-  }
 }
 </style>
 </head>
@@ -487,350 +349,495 @@ a{
 <body>
 
 <!-- HEADER -->
-
 <header class="header">
 
-  <a href="#" class="logo">
+    <div class="logo">
 
-    <div class="logo-icon">💎</div>
+        <div class="logo-icon">
+            WP
+        </div>
 
-    <div class="logo-text">
-      Water<span>Price</span>
+        <div class="logo-text">
+            WATER PRICE
+            <span>TOP UP BD</span>
+        </div>
+
     </div>
 
-  </a>
-
-  <div class="header-actions">
-
-    <div class="balance">
-      💳 ৳ 0
+    <div class="wallet">
+        💳 0৳
     </div>
-
-    <div class="account">
-      W
-    </div>
-
-  </div>
 
 </header>
 
 
 <main class="container">
 
-<!-- HERO -->
+<!-- HOME PAGE -->
+<section id="home" class="page active">
 
-<section class="hero">
+    <div class="hero">
 
-  <small>WATERPRICE TOPUP</small>
+        <h1>Water Price Top Up BD</h1>
 
-  <h1>
-    Free Fire Diamond<br>
-    Top-Up Store
-  </h1>
+        <p>
+            দ্রুত, সহজ ও নিরাপদে আপনার প্রিয় গেমে Top Up করুন।
+        </p>
 
-  <p>
-    Diamond, Weekly, Monthly এবং Level Up Pass—
-    সব Free Fire service এক জায়গায়।
-  </p>
+    </div>
 
-  <a href="#collection" class="hero-btn">
-    VIEW COLLECTION →
-  </a>
+
+    <h2 class="section-title">
+        Popular Offers
+    </h2>
+
+
+    <div class="grid">
+
+        <div class="card" onclick="openTopup('Weekly Offer')">
+
+            <div class="card-image">
+                W 💎
+            </div>
+
+            <h3>
+                Weekly Offer
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Monthly Offer')">
+
+            <div class="card-image">
+                M 💎
+            </div>
+
+            <h3>
+                Monthly Offer
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Premium Users')">
+
+            <div class="card-image">
+                ★
+            </div>
+
+            <h3>
+                Premium Users
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Free 25 Diamond')">
+
+            <div class="card-image">
+                25 💎
+            </div>
+
+            <h3>
+                Free 25 Diamond Voucher
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Facebook Followers')">
+
+            <div class="card-image">
+                f
+            </div>
+
+            <h3>
+                Facebook Followers
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Facebook Post React')">
+
+            <div class="card-image">
+                👍
+            </div>
+
+            <h3>
+                Facebook Post React
+            </h3>
+
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+        Game Services
+    </h2>
+
+
+    <div class="grid">
+
+        <div class="card" onclick="openTopup('FF UID Top Up')">
+
+            <div class="card-image">
+                FF
+            </div>
+
+            <h3>
+                FF UID Top Up (BD)
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Weekly Lite')">
+
+            <div class="card-image">
+                W+
+            </div>
+
+            <h3>
+                Weekly Lite (BD Server)
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Level Up Pass')">
+
+            <div class="card-image">
+                LV
+            </div>
+
+            <h3>
+                New Level Up Pass
+            </h3>
+
+        </div>
+
+
+        <div class="card" onclick="openTopup('Weekly Monthly Offer')">
+
+            <div class="card-image">
+                WM
+            </div>
+
+            <h3>
+                Weekly / Monthly Offer
+            </h3>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- COLLECTION -->
+<!-- TOPUP PAGE -->
+<section id="topup" class="page">
 
-<section id="collection">
+    <div class="hero">
 
-  <div class="section-title">
+        <h1 id="serviceName">
+            Weekly Offer
+        </h1>
 
-    <h2>Free Fire Collection</h2>
-
-    <p>
-      Choose your preferred service
-    </p>
-
-  </div>
-
-
-  <div class="products">
-
-
-    <!-- DIAMOND -->
-
-    <div class="product" onclick="openProduct('Diamond TopUp')">
-
-      <div class="art diamond-art">
-
-        <div class="glow"></div>
-
-        <div class="gem"></div>
-
-        <div class="art-title">
-          DIAMOND
-        </div>
-
-        <div class="art-sub">
-          FREE FIRE TOPUP
-        </div>
-
-      </div>
-
-      <div class="product-name">
-        FF Diamond TopUp
-      </div>
-
-      <div class="product-price">
-        View Packages
-      </div>
+        <p>
+            আপনার Game UID দিয়ে অর্ডার করুন।
+        </p>
 
     </div>
 
 
-    <!-- WEEKLY -->
+    <!-- STEP 1 -->
 
-    <div class="product" onclick="openProduct('Weekly Membership')">
+    <div class="form-card">
 
-      <div class="art weekly">
+        <div class="step">
 
-        <div class="glow"></div>
+            <div class="number">
+                1
+            </div>
 
-        <div class="box"></div>
+            Select Recharge
 
-        <div class="art-text">
-          WEEKLY
         </div>
 
-        <div class="art-title">
-          WEEKLY
+
+        <div class="options">
+
+
+            <button class="option active"
+                onclick="selectPackage(this,156)">
+
+                <strong>
+                    Weekly
+                </strong>
+
+                <span class="price">
+                    156 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,780)">
+
+                <strong>
+                    Monthly
+                </strong>
+
+                <span class="price">
+                    780 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,20)">
+
+                <strong>
+                    25 Diamond
+                </strong>
+
+                <span class="price">
+                    20 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,35)">
+
+                <strong>
+                    50 Diamond
+                </strong>
+
+                <span class="price">
+                    35 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,79)">
+
+                <strong>
+                    115 Diamond
+                </strong>
+
+                <span class="price">
+                    79 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,158)">
+
+                <strong>
+                    240 Diamond
+                </strong>
+
+                <span class="price">
+                    158 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,237)">
+
+                <strong>
+                    355 Diamond
+                </strong>
+
+                <span class="price">
+                    237 TK
+                </span>
+
+            </button>
+
+
+            <button class="option"
+                onclick="selectPackage(this,336)">
+
+                <strong>
+                    505 Diamond
+                </strong>
+
+                <span class="price">
+                    336 TK
+                </span>
+
+            </button>
+
+
         </div>
-
-        <div class="art-sub">
-          MEMBERSHIP
-        </div>
-
-      </div>
-
-      <div class="product-name">
-        Weekly Membership
-      </div>
-
-      <div class="product-price">
-        View Details
-      </div>
 
     </div>
 
 
-    <!-- MONTHLY -->
+    <!-- STEP 2 -->
 
-    <div class="product" onclick="openProduct('Monthly Membership')">
+    <div class="form-card">
 
-      <div class="art monthly">
+        <div class="step">
 
-        <div class="glow"></div>
+            <div class="number">
+                2
+            </div>
 
-        <div class="box"></div>
+            Account Info
 
-        <div class="art-text">
-          MONTHLY
         </div>
 
-        <div class="art-title">
-          MONTHLY
-        </div>
 
-        <div class="art-sub">
-          MEMBERSHIP
-        </div>
-
-      </div>
-
-      <div class="product-name">
-        Monthly Membership
-      </div>
-
-      <div class="product-price">
-        View Details
-      </div>
+        <input
+            type="text"
+            id="uid"
+            class="input"
+            placeholder="এখানে Game UID / ID Code দিন"
+        >
 
     </div>
 
 
-    <!-- LEVEL UP -->
+    <!-- STEP 3 -->
 
-    <div class="product" onclick="openProduct('Level Up Pass')">
+    <div class="form-card">
 
-      <div class="art level">
+        <div class="step">
 
-        <div class="glow"></div>
+            <div class="number">
+                3
+            </div>
 
-        <div class="box"></div>
+            Select Payment
 
-        <div class="art-text">
-          LEVEL UP
         </div>
 
-        <div class="art-title">
-          LEVEL UP
+
+        <div class="payment">
+
+
+            <button class="option active">
+
+                💳
+
+                <strong>
+                    Wallet Pay
+                </strong>
+
+            </button>
+
+
+            <button class="option">
+
+                📱
+
+                <strong>
+                    Instant Pay
+                </strong>
+
+                <small>
+                    bKash / Nagad / Rocket
+                </small>
+
+            </button>
+
+
         </div>
 
-        <div class="art-sub">
-          PASS
-        </div>
 
-      </div>
+        <button
+            class="buy"
+            onclick="buyNow()"
+        >
 
-      <div class="product-name">
-        New Level Up Pass
-      </div>
+            Buy Now —
+            <span id="total">
+                156
+            </span>
+            TK
 
-      <div class="product-price">
-        View Details
-      </div>
+        </button>
 
     </div>
-
-
-    <!-- WEEKLY OFFER -->
-
-    <div class="product" onclick="openProduct('Weekly Offer')">
-
-      <div class="art offer">
-
-        <div class="glow"></div>
-
-        <div class="box"></div>
-
-        <div class="art-text">
-          WEEKLY
-        </div>
-
-        <div class="art-title">
-          OFFER
-        </div>
-
-        <div class="art-sub">
-          SPECIAL DEAL
-        </div>
-
-      </div>
-
-      <div class="product-name">
-        Weekly Offer
-      </div>
-
-      <div class="product-price">
-        View Details
-      </div>
-
-    </div>
-
-
-    <!-- MONTHLY OFFER -->
-
-    <div class="product" onclick="openProduct('Monthly Offer')">
-
-      <div class="art monthly">
-
-        <div class="glow"></div>
-
-        <div class="box"></div>
-
-        <div class="art-text">
-          MONTHLY
-        </div>
-
-        <div class="art-title">
-          OFFER
-        </div>
-
-        <div class="art-sub">
-          SPECIAL DEAL
-        </div>
-
-      </div>
-
-      <div class="product-name">
-        Monthly Offer
-      </div>
-
-      <div class="product-price">
-        View Details
-      </div>
-
-    </div>
-
-  </div>
 
 </section>
 
 
-<div class="notice">
-  🔒 আপনার Game Password প্রয়োজন নেই &nbsp; • &nbsp;
-  ⚡ দ্রুত অর্ডার প্রসেসিং &nbsp; • &nbsp;
-  💬 Customer Support
-</div>
+<!-- ORDERS -->
 
-</main>
+<section id="orders" class="page">
 
+    <div class="hero">
 
-<!-- SUPPORT -->
+        <h1>
+            My Orders
+        </h1>
 
-<a
-  class="support"
-  href="https://wa.me/8801623615826"
-  target="_blank">
-  🎧
-</a>
+        <p>
+            আপনার অর্ডারগুলো এখানে দেখা যাবে।
+        </p>
+
+    </div>
 
 
-<!-- BOTTOM NAV -->
+    <div class="form-card">
 
-<nav class="bottom-nav">
+        <p id="orderText">
+            এখনো কোনো অর্ডার নেই।
+        </p>
 
-  <a href="#" class="nav-item active">
-    <span class="nav-icon">⌂</span>
-    Home
-  </a>
+    </div>
 
-  <a href="#collection" class="nav-item">
-    <span class="nav-icon">🛍️</span>
-    My Orders
-  </a>
-
-  <a href="#" class="nav-item">
-    <span class="add">+</span>
-    Add Money
-  </a>
-
-  <a href="#" class="nav-item">
-    <span class="nav-icon">▤</span>
-    My Codes
-  </a>
-
-  <a href="#" class="nav-item">
-    <span class="nav-icon">♙</span>
-    My Account
-  </a>
-
-</nav>
+</section>
 
 
-<script>
+<!-- ADD MONEY -->
 
-function openProduct(product){
+<section id="money" class="page">
 
-  alert(
-    product +
-    "\n\nNext step: Product details + UID + checkout."
-  );
+    <div class="hero">
 
-}
+        <h1>
+            Add Money
+        </h1>
 
-</script>
+        <p>
+            Wallet balance বাড়াতে টাকা Add করুন।
+        </p>
 
-</body>
-</html>
+    </div>
+
+
+    <div class="form-card">
+
+        <input
+            class="input"
+            type="number"
+            placeholder="Amount TK"
+        >
+
+        <button
+            class="buy"
+            onclick="showMessage('Payment system demo mode')"
+        >
+            Continue
+        </button>
+
+    </div>
+
+</section>
