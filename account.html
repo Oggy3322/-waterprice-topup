@@ -1,208 +1,291 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
-  <title>My Account - Water Price Top Up BD</title>
+<title>
+  My Account
+</title>
 
-  <link rel="stylesheet" href="style.css">
+<link
+  rel="stylesheet"
+  href="style.css"
+>
 
 </head>
 
+
 <body>
 
-<script type="module">
+<header class="topbar">
 
-import {
-  auth
-} from "./firebase-config.js";
+  <a
+    class="brand"
+    href="index.html"
+  >
 
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    <span class="brand-mark">
+      W
+    </span>
 
-import {
-  renderHeader,
-  renderBottomNav,
-  logout
-} from "./app.js";
+    <span>
+      WATER PRICE<br>
+      <b>TOP UP BD</b>
+    </span>
 
-
-onAuthStateChanged(auth, user => {
-
-  if (!user) {
-
-    window.location.href =
-      "login.html?redirect=account.html";
-
-    return;
-
-  }
+  </a>
 
 
-  renderHeader();
+  <div class="wallet-pill">
+
+    ▣
+
+    <span data-wallet>
+      ৳0
+    </span>
+
+  </div>
 
 
-  const app =
-    document.createElement("main");
+  <button
+    class="avatar"
+    data-account
+  >
+    U
+  </button>
 
-  app.className = "page";
-
-
-  const photo =
-    user.photoURL
-      ? `<img src="${user.photoURL}" alt="Profile">`
-      : (user.displayName ||
-         user.email ||
-         "U").charAt(0).toUpperCase();
+</header>
 
 
-  app.innerHTML = `
-
-    <section class="section">
-
-      <div class="section-head">
-        <h2>My Account</h2>
-      </div>
+<main class="page account-page">
 
 
-      <div class="profile-card">
+  <section class="profile-card">
 
-        <div class="profile-avatar">
-          ${photo}
-        </div>
-
-        <div class="profile-info">
-
-          <h2>
-            ${user.displayName || "User"}
-          </h2>
-
-          <p>
-            ${user.email || ""}
-          </p>
-
-        </div>
-
-      </div>
+    <div
+      class="profile-avatar"
+      data-user-initial
+    >
+      U
+    </div>
 
 
-      <div class="account-grid">
+    <div>
+
+      <h1 data-user-name>
+        User
+      </h1>
+
+      <p data-user-email>
+        email
+      </p>
+
+      <span class="verified">
+        ● Verified Account
+      </span>
+
+    </div>
+
+  </section>
 
 
-        <a
-          href="orders.html"
-          class="account-menu">
+  <section class="balance-card">
 
-          <div class="account-menu-icon">
-            📦
-          </div>
+    <div>
 
-          <div>
+      <small>
+        WALLET BALANCE
+      </small>
 
-            <h3>My Orders</h3>
+      <strong data-wallet>
+        ৳0
+      </strong>
 
-            <p>
-              View your previous orders
-            </p>
-
-          </div>
-
-        </a>
+    </div>
 
 
-        <a
-          href="index.html#products"
-          class="account-menu">
+    <a
+      class="btn light"
+      href="product.html"
+    >
+      Add Money
+    </a>
 
-          <div class="account-menu-icon">
-            💎
-          </div>
-
-          <div>
-
-            <h3>Top Up</h3>
-
-            <p>
-              Browse available packages
-            </p>
-
-          </div>
-
-        </a>
+  </section>
 
 
-        <a
-          href="index.html"
-          class="account-menu">
+  <section class="rank-card">
 
-          <div class="account-menu-icon">
-            🏠
-          </div>
+    <div class="rank-head">
 
-          <div>
+      <div>
 
-            <h3>Home</h3>
+        <p class="eyebrow">
+          CURRENT RANK
+        </p>
 
-            <p>
-              Return to homepage
-            </p>
+        <h2 data-rank-name>
+          Bronze
+        </h2>
 
-          </div>
-
-        </a>
-
-
-        <button
-          id="logout"
-          class="account-menu">
-
-          <div class="account-menu-icon">
-            ↪
-          </div>
-
-          <div>
-
-            <h3>Logout</h3>
-
-            <p>
-              Sign out of your account
-            </p>
-
-          </div>
-
-        </button>
-
+        <p>
+          Total top-up:
+          <b data-total-topup>
+            ৳0
+          </b>
+        </p>
 
       </div>
 
-    </section>
 
-  `;
+      <img
+        data-rank-logo
+        src="assets/ranks/bronze.svg"
+        alt="Rank"
+      >
 
-
-  document.body.appendChild(app);
-
-
-  document
-    .getElementById("logout")
-    .addEventListener(
-      "click",
-      logout
-    );
+    </div>
 
 
-  renderBottomNav("account");
+    <div
+      class="rank-list"
+      data-rank-list
+    ></div>
 
-});
+  </section>
 
-</script>
+
+  <section class="panel">
+
+    <p class="eyebrow">
+      ACCOUNT
+    </p>
+
+    <h2>
+      User Information
+    </h2>
+
+
+    <div class="info-row">
+
+      <span>
+        👤
+      </span>
+
+      <div>
+
+        <small>
+          NAME
+        </small>
+
+        <b data-user-name>
+          User
+        </b>
+
+      </div>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        ✉
+      </span>
+
+      <div>
+
+        <small>
+          EMAIL
+        </small>
+
+        <b data-user-email>
+          -
+        </b>
+
+      </div>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span>
+        #
+      </span>
+
+      <div>
+
+        <small>
+          USER ID
+        </small>
+
+        <b
+          class="uid"
+          data-user-uid
+        >
+          -
+        </b>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <button
+    id="logoutBtn"
+    class="btn danger full"
+  >
+    Logout
+  </button>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+  <a href="index.html">
+    ⌂
+    <span>Home</span>
+  </a>
+
+  <a href="orders.html">
+    ▣
+    <span>My Orders</span>
+  </a>
+
+  <a
+    class="add"
+    href="product.html"
+  >
+    ＋
+  </a>
+
+  <a
+    class="active"
+    href="account.html"
+  >
+    ☻
+    <span>My Account</span>
+  </a>
+
+</nav>
+
+
+<script
+  type="module"
+  src="app.js"
+></script>
 
 </body>
 </html>
