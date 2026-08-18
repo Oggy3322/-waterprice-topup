@@ -3,569 +3,929 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WaterPrice TopUp | Premium Game Top-Up</title>
+<meta name="theme-color" content="#080b16">
+
+<title>WaterPrice TopUp | Free Fire</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
 :root{
-  --bg:#050712;
-  --card:#0d1224;
-  --card2:#121a31;
+  --bg:#070914;
+  --card:#101426;
+  --card2:#151a2e;
+  --purple:#7657ff;
+  --cyan:#36d9ff;
   --text:#fff;
-  --muted:#8e99b7;
-  --primary:#7c3cff;
-  --secondary:#00d9ff;
-  --green:#20e090;
-  --border:rgba(255,255,255,.08);
+  --muted:#8e97b2;
+  --border:rgba(255,255,255,.07);
+  --green:#20d889;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-  font-family:Inter,Arial,sans-serif;
+  font-family:Arial, sans-serif;
   background:
-    radial-gradient(circle at 10% 10%,rgba(124,60,255,.18),transparent 30%),
-    radial-gradient(circle at 90% 20%,rgba(0,217,255,.12),transparent 30%),
+    radial-gradient(circle at 80% 0%,rgba(118,87,255,.18),transparent 28%),
+    radial-gradient(circle at 0% 40%,rgba(54,217,255,.08),transparent 25%),
     var(--bg);
   color:var(--text);
-  min-height:100vh;
+  padding-bottom:82px;
 }
 
-a{text-decoration:none;color:inherit}
+/* TOP NAV */
 
-.navbar{
-  height:76px;
+.topbar{
+  height:68px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 7%;
-  border-bottom:1px solid var(--border);
-  background:rgba(5,7,18,.75);
-  backdrop-filter:blur(18px);
+  padding:0 18px;
   position:sticky;
   top:0;
   z-index:100;
+  background:rgba(7,9,20,.86);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
 }
 
 .logo{
   display:flex;
   align-items:center;
-  gap:10px;
-  font-size:21px;
+  gap:9px;
+  font-size:18px;
   font-weight:900;
 }
 
-.logo span{color:#a97cff}
-
-.nav-links{
-  display:flex;
-  gap:28px;
-  color:#aab3cc;
-  font-size:14px;
+.logo-icon{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  font-size:20px;
+  box-shadow:0 8px 25px rgba(118,87,255,.25);
 }
 
-.nav-links a:hover{color:white}
-
-.nav-btn{
-  padding:11px 18px;
+.login{
+  padding:10px 15px;
   border-radius:10px;
-  background:linear-gradient(135deg,var(--primary),#4e20d9);
-  font-weight:700;
-  font-size:13px;
+  background:linear-gradient(135deg,#7657ff,#5635dd);
+  font-size:12px;
+  font-weight:800;
+}
+
+/* HERO */
+
+.container{
+  width:min(100% - 28px,520px);
+  margin:auto;
 }
 
 .hero{
-  max-width:1180px;
-  margin:auto;
-  padding:85px 25px 55px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:50px;
-  align-items:center;
+  padding:18px 0 10px;
 }
 
-.badge{
-  display:inline-flex;
-  padding:8px 13px;
-  border:1px solid rgba(124,60,255,.35);
-  border-radius:30px;
-  background:rgba(124,60,255,.1);
-  color:#c9b5ff;
-  font-size:12px;
-  font-weight:700;
-  margin-bottom:20px;
-}
-
-.hero h1{
-  font-size:clamp(42px,6vw,72px);
-  line-height:1.02;
-  letter-spacing:-3px;
-  margin-bottom:20px;
-}
-
-.gradient{
-  background:linear-gradient(90deg,#fff,#a77cff,#00d9ff);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.hero p{
-  color:var(--muted);
-  max-width:570px;
-  line-height:1.8;
-  font-size:16px;
-}
-
-.hero-actions{
-  display:flex;
-  gap:12px;
-  margin-top:30px;
-  flex-wrap:wrap;
-}
-
-.primary-btn,.secondary-btn{
-  padding:15px 22px;
-  border-radius:12px;
-  font-weight:800;
-  border:1px solid var(--border);
-}
-
-.primary-btn{
-  background:linear-gradient(135deg,var(--primary),#5420e4);
-  box-shadow:0 10px 35px rgba(124,60,255,.25);
-}
-
-.secondary-btn{
-  background:rgba(255,255,255,.04);
-}
-
-.hero-card{
-  position:relative;
-  background:linear-gradient(145deg,rgba(20,28,53,.9),rgba(8,12,27,.95));
-  border:1px solid var(--border);
-  border-radius:28px;
-  padding:30px;
-  box-shadow:0 25px 80px rgba(0,0,0,.4);
+.hero-banner{
+  min-height:205px;
+  border-radius:22px;
   overflow:hidden;
+  position:relative;
+  padding:25px 22px;
+  background:
+    radial-gradient(circle at 85% 35%,rgba(54,217,255,.38),transparent 25%),
+    linear-gradient(135deg,#171242,#26106c 50%,#071d35);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 55px rgba(0,0,0,.35);
 }
 
-.hero-card:before{
+.hero-banner:after{
   content:"";
   position:absolute;
   width:180px;
   height:180px;
-  background:#7c3cff;
-  filter:blur(90px);
-  opacity:.35;
-  right:-40px;
-  top:-50px;
+  right:-65px;
+  top:-55px;
+  border-radius:50%;
+  background:rgba(118,87,255,.3);
+  filter:blur(25px);
 }
 
-.game-icon{
-  width:70px;
-  height:70px;
-  border-radius:20px;
-  display:grid;
-  place-items:center;
-  font-size:36px;
-  background:linear-gradient(135deg,#29204c,#142d4d);
-  margin-bottom:18px;
-}
-
-.hero-card h2{font-size:25px;margin-bottom:8px}
-.hero-card p{font-size:13px}
-
-.form-label{
-  display:block;
-  margin:20px 0 8px;
-  font-size:12px;
-  color:#aeb7d0;
+.small-title{
+  color:#aeb6d1;
+  font-size:11px;
   font-weight:700;
+  margin-bottom:9px;
 }
 
-input,select{
-  width:100%;
-  padding:15px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  outline:none;
-  background:#080d1d;
-  color:white;
+.hero h1{
+  font-size:30px;
+  line-height:1.05;
+  font-weight:900;
+  position:relative;
+  z-index:2;
 }
 
-input:focus,select:focus{
-  border-color:#7c3cff;
+.hero h1 span{
+  background:linear-gradient(90deg,#fff,#9d8aff,#47ddff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
+
+.hero-text{
+  color:#aab2ca;
+  font-size:12px;
+  line-height:1.6;
+  max-width:240px;
+  margin-top:12px;
+  position:relative;
+  z-index:2;
+}
+
+.hero-btn{
+  display:inline-block;
+  margin-top:17px;
+  padding:11px 17px;
+  border-radius:10px;
+  background:#fff;
+  color:#101225;
+  font-size:11px;
+  font-weight:900;
+  position:relative;
+  z-index:3;
+}
+
+/* NOTICE */
+
+.notice{
+  margin-top:13px;
+  padding:12px 14px;
+  border-radius:13px;
+  background:rgba(118,87,255,.08);
+  border:1px solid rgba(118,87,255,.15);
+  color:#bfc5da;
+  font-size:11px;
+}
+
+/* SECTION */
 
 .section{
-  max-width:1180px;
-  margin:auto;
-  padding:45px 25px;
+  padding-top:24px;
 }
 
-.section-head{
+.section-title{
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  align-items:end;
-  margin-bottom:25px;
+  margin-bottom:13px;
 }
 
-.section-head h2{font-size:30px}
-.section-head p{color:var(--muted);font-size:13px}
+.section-title h2{
+  font-size:18px;
+  font-weight:900;
+}
+
+.section-title a{
+  font-size:11px;
+  color:#9f91ff;
+}
+
+/* SERVICE */
+
+.service-card{
+  padding:15px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#141a30,#0d1120);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-shadow:0 12px 35px rgba(0,0,0,.22);
+}
+
+.ff-icon{
+  width:58px;
+  height:58px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  background:linear-gradient(135deg,#302064,#123d58);
+  font-size:30px;
+}
+
+.service-info{
+  flex:1;
+}
+
+.service-info h3{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.service-info p{
+  font-size:10px;
+  color:var(--muted);
+}
+
+.status{
+  margin-top:7px;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:9px;
+  color:var(--green);
+}
+
+.status i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+}
+
+/* TOPUP FORM */
+
+.topup-box{
+  margin-top:14px;
+  padding:18px;
+  border-radius:19px;
+  background:linear-gradient(145deg,#11162a,#0c1020);
+  border:1px solid var(--border);
+}
+
+.label{
+  display:block;
+  font-size:10px;
+  color:#9ba4bf;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.input{
+  width:100%;
+  padding:14px;
+  background:#080c18;
+  border:1px solid var(--border);
+  border-radius:11px;
+  outline:none;
+  color:#fff;
+  font-size:13px;
+}
+
+.input:focus{
+  border-color:var(--purple);
+}
+
+.field{
+  margin-bottom:14px;
+}
+
+.continue{
+  width:100%;
+  border:0;
+  padding:14px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#7657ff,#5635dd);
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* PACKAGES */
 
 .packages{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+  grid-template-columns:repeat(2,1fr);
+  gap:11px;
 }
 
 .package{
   position:relative;
-  background:linear-gradient(145deg,var(--card2),var(--card));
+  padding:17px 14px;
+  border-radius:17px;
+  background:linear-gradient(145deg,#151a2e,#0d1120);
   border:1px solid var(--border);
-  border-radius:20px;
-  padding:24px;
-  transition:.25s;
+  overflow:hidden;
 }
 
-.package:hover{
-  transform:translateY(-7px);
-  border-color:rgba(124,60,255,.55);
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
+.package.popular{
+  border-color:rgba(118,87,255,.45);
 }
 
-.popular{
+.badge{
   position:absolute;
-  top:12px;
-  right:12px;
-  background:#7c3cff;
-  padding:5px 8px;
-  border-radius:7px;
-  font-size:9px;
-  font-weight:800;
+  right:9px;
+  top:9px;
+  padding:4px 6px;
+  border-radius:5px;
+  background:#7657ff;
+  font-size:7px;
+  font-weight:900;
 }
 
 .diamond{
-  font-size:34px;
-  margin-bottom:12px;
+  font-size:25px;
+  margin-bottom:8px;
 }
 
-.package h3{font-size:19px}
+.package h3{
+  font-size:14px;
+}
+
 .package p{
   color:var(--muted);
-  font-size:12px;
-  margin:6px 0 18px;
+  font-size:9px;
+  margin-top:5px;
 }
 
 .price{
-  font-size:21px;
+  margin-top:12px;
+  font-size:15px;
   font-weight:900;
-  margin-bottom:16px;
 }
 
-.buy-btn{
+.buy{
   width:100%;
-  padding:12px;
+  margin-top:12px;
+  padding:10px;
   border:0;
-  border-radius:10px;
-  color:white;
-  font-weight:800;
-  background:linear-gradient(135deg,#7c3cff,#5523d8);
-  cursor:pointer;
+  border-radius:9px;
+  background:#202640;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
 }
+
+/* FEATURES */
 
 .features{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  gap:9px;
 }
 
 .feature{
-  padding:25px;
-  background:rgba(255,255,255,.025);
-  border:1px solid var(--border);
-  border-radius:18px;
-}
-
-.feature-icon{font-size:27px;margin-bottom:12px}
-.feature h3{font-size:16px;margin-bottom:7px}
-.feature p{font-size:12px;color:var(--muted);line-height:1.7}
-
-.contact-box{
   text-align:center;
-  padding:50px 25px;
-  background:linear-gradient(135deg,rgba(124,60,255,.13),rgba(0,217,255,.05));
+  padding:15px 7px;
+  border-radius:15px;
+  background:#101527;
   border:1px solid var(--border);
-  border-radius:25px;
 }
 
-.contact-box h2{font-size:30px;margin-bottom:10px}
-.contact-box p{color:var(--muted);margin-bottom:25px}
+.feature-icon{
+  font-size:21px;
+  margin-bottom:8px;
+}
+
+.feature h3{
+  font-size:10px;
+}
+
+.feature p{
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.5;
+  margin-top:5px;
+}
+
+/* CONTACT */
+
+.contact{
+  padding:20px;
+  border-radius:19px;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(118,87,255,.18),transparent 45%),
+    #101426;
+  border:1px solid var(--border);
+}
+
+.contact h2{
+  font-size:18px;
+}
+
+.contact p{
+  color:var(--muted);
+  font-size:10px;
+  margin:7px 0 15px;
+}
 
 .contact-buttons{
   display:flex;
-  justify-content:center;
-  gap:12px;
-  flex-wrap:wrap;
+  gap:9px;
 }
 
 .contact-buttons a{
-  padding:13px 20px;
+  flex:1;
+  padding:11px 5px;
   border-radius:10px;
-  background:#11182d;
-  border:1px solid var(--border);
-  font-weight:700;
-  font-size:13px;
+  background:#181e34;
+  font-size:9px;
+  font-weight:800;
 }
 
-footer{
-  text-align:center;
-  color:#66708d;
-  padding:35px 20px;
-  border-top:1px solid var(--border);
-  margin-top:40px;
-  font-size:12px;
-}
+/* BOTTOM NAV */
 
-.float{
+.bottom-nav{
   position:fixed;
-  right:20px;
-  bottom:20px;
-  width:55px;
-  height:55px;
+  bottom:0;
+  left:0;
+  right:0;
+  height:70px;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  background:rgba(9,12,24,.94);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+}
+
+.nav-item{
+  text-align:center;
+  color:#68718c;
+  font-size:8px;
+  font-weight:700;
+}
+
+.nav-item .icon{
+  display:block;
+  font-size:19px;
+  margin-bottom:4px;
+}
+
+.nav-item.active{
+  color:#a894ff;
+}
+
+.nav-item.center{
+  width:53px;
+  height:53px;
+  margin-top:-27px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#7657ff,#5031d5);
+  color:#fff;
+  border:5px solid var(--bg);
+  box-shadow:0 8px 25px rgba(118,87,255,.4);
+}
+
+.nav-item.center .icon{
+  margin:0;
+}
+
+/* FLOAT */
+
+.whatsapp{
+  position:fixed;
+  right:17px;
+  bottom:86px;
+  width:47px;
+  height:47px;
   border-radius:50%;
   display:grid;
   place-items:center;
-  font-size:24px;
-  background:#20c66a;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
-  z-index:90;
+  background:#20d889;
+  font-size:21px;
+  z-index:150;
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
 }
 
-@media(max-width:850px){
-  .nav-links{display:none}
-  .hero{grid-template-columns:1fr;padding-top:55px}
-  .packages{grid-template-columns:repeat(2,1fr)}
-  .features{grid-template-columns:1fr}
-}
+/* DESKTOP */
 
-@media(max-width:500px){
-  .navbar{padding:0 18px}
-  .hero,.section{padding-left:16px;padding-right:16px}
-  .hero h1{font-size:43px;letter-spacing:-2px}
-  .packages{grid-template-columns:1fr}
-  .hero-card{padding:22px}
+@media(min-width:700px){
+
+  .container{
+    width:min(100% - 40px,1000px);
+  }
+
+  .hero-banner{
+    min-height:300px;
+    padding:45px;
+  }
+
+  .hero h1{
+    font-size:48px;
+  }
+
+  .packages{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .topbar{
+    padding:0 max(20px,calc((100% - 1000px)/2));
+  }
 }
 </style>
 </head>
 
 <body>
 
-<nav class="navbar">
-  <a class="logo" href="#">
-    💎 WaterPrice <span>TopUp</span>
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+  <div class="logo">
+    <div class="logo-icon">💎</div>
+    WaterPrice
+  </div>
+
+  <a class="login" href="#account">
+    Login / Sign Up
   </a>
 
-  <div class="nav-links">
-    <a href="#topup">Top-Up</a>
-    <a href="#packages">Packages</a>
-    <a href="#why">Why Us</a>
-    <a href="#contact">Contact</a>
-  </div>
+</header>
 
-  <a class="nav-btn" href="#topup">TOP UP NOW</a>
-</nav>
 
-<section class="hero" id="topup">
+<main class="container">
 
-  <div>
-    <div class="badge">⚡ FAST • SECURE • RELIABLE</div>
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-banner">
+
+    <div class="small-title">WATERPRICE TOPUP</div>
 
     <h1>
-      Your Gaming<br>
-      <span class="gradient">Power Starts Here.</span>
+      Free Fire<br>
+      <span>Diamond Top-Up</span>
     </h1>
 
-    <p>
-      WaterPrice TopUp — আপনার গেমিং টপ-আপের জন্য
-      একটি modern, fast এবং সহজ platform।
+    <p class="hero-text">
+      আপনার Free Fire UID দিয়ে পছন্দের
+      Diamond package নির্বাচন করুন।
     </p>
 
-    <div class="hero-actions">
-      <a class="primary-btn" href="#packages">💎 Explore Packages</a>
-      <a class="secondary-btn" href="#contact">Contact Support</a>
-    </div>
+    <a href="#topup" class="hero-btn">
+      TOP UP NOW →
+    </a>
+
   </div>
 
-  <div class="hero-card">
+  <div class="notice">
+    🔒 নিরাপদ অর্ডার • ⚡ দ্রুত প্রসেসিং • 💬 Customer Support
+  </div>
 
-    <div class="game-icon">🎮</div>
+</section>
 
-    <h2>Free Fire Top-Up</h2>
-    <p>Enter your UID and choose your preferred package.</p>
 
-    <label class="form-label">FREE FIRE UID</label>
-    <input id="uid" type="text" placeholder="Enter your UID">
+<!-- SERVICE -->
 
-    <label class="form-label">SELECT PACKAGE</label>
-    <select id="package">
-      <option value="">Choose Diamond Package</option>
-      <option>100 Diamonds</option>
-      <option>310 Diamonds</option>
-      <option>520 Diamonds</option>
-      <option>1060 Diamonds</option>
-    </select>
+<section class="section">
 
-    <button class="buy-btn" style="margin-top:18px" onclick="startOrder()">
+  <div class="section-title">
+    <h2>🎮 Free Fire</h2>
+    <a href="#packages">View All</a>
+  </div>
+
+  <div class="service-card">
+
+    <div class="ff-icon">🎮</div>
+
+    <div class="service-info">
+      <h3>Free Fire Diamond</h3>
+      <p>Garena Free Fire Top-Up</p>
+
+      <span class="status">
+        <i></i> Service Available
+      </span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TOPUP -->
+
+<section class="section" id="topup">
+
+  <div class="section-title">
+    <h2>💎 Top-Up Now</h2>
+  </div>
+
+  <div class="topup-box">
+
+    <div class="field">
+
+      <label class="label">
+        FREE FIRE UID
+      </label>
+
+      <input
+        id="uid"
+        class="input"
+        type="text"
+        inputmode="numeric"
+        placeholder="Enter your Free Fire UID"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label class="label">
+        SELECT DIAMOND PACKAGE
+      </label>
+
+      <select id="package" class="input">
+
+        <option value="">
+          Select a package
+        </option>
+
+        <option value="100 Diamonds">
+          💎 100 Diamonds
+        </option>
+
+        <option value="310 Diamonds">
+          💎 310 Diamonds
+        </option>
+
+        <option value="520 Diamonds">
+          💎 520 Diamonds
+        </option>
+
+        <option value="1060 Diamonds">
+          💎 1060 Diamonds
+        </option>
+
+      </select>
+
+    </div>
+
+    <button class="continue" onclick="checkout()">
       Continue to Checkout →
     </button>
 
   </div>
+
 </section>
+
+
+<!-- PACKAGES -->
 
 <section class="section" id="packages">
 
-  <div class="section-head">
-    <div>
-      <h2>💎 Diamond Packages</h2>
-      <p>Choose the package you need.</p>
-    </div>
+  <div class="section-title">
+    <h2>💎 Popular Packages</h2>
+    <a href="#topup">See More</a>
   </div>
 
   <div class="packages">
 
     <div class="package">
+
       <div class="diamond">💎</div>
+
       <h3>100 Diamonds</h3>
-      <p>Instant top-up package</p>
-      <div class="price">৳ Price</div>
-      <button class="buy-btn" onclick="selectPackage('100 Diamonds')">Select</button>
+      <p>Free Fire</p>
+
+      <div class="price">
+        ৳ Price
+      </div>
+
+      <button class="buy"
+        onclick="choosePackage('100 Diamonds')">
+        BUY NOW
+      </button>
+
     </div>
 
-    <div class="package">
-      <div class="popular">POPULAR</div>
+
+    <div class="package popular">
+
+      <div class="badge">
+        POPULAR
+      </div>
+
       <div class="diamond">💎</div>
+
       <h3>310 Diamonds</h3>
-      <p>Popular choice</p>
-      <div class="price">৳ Price</div>
-      <button class="buy-btn" onclick="selectPackage('310 Diamonds')">Select</button>
+      <p>Free Fire</p>
+
+      <div class="price">
+        ৳ Price
+      </div>
+
+      <button class="buy"
+        onclick="choosePackage('310 Diamonds')">
+        BUY NOW
+      </button>
+
     </div>
 
+
     <div class="package">
+
       <div class="diamond">💎</div>
+
       <h3>520 Diamonds</h3>
-      <p>Great value package</p>
-      <div class="price">৳ Price</div>
-      <button class="buy-btn" onclick="selectPackage('520 Diamonds')">Select</button>
+      <p>Free Fire</p>
+
+      <div class="price">
+        ৳ Price
+      </div>
+
+      <button class="buy"
+        onclick="choosePackage('520 Diamonds')">
+        BUY NOW
+      </button>
+
     </div>
 
+
     <div class="package">
+
       <div class="diamond">💎</div>
+
       <h3>1060 Diamonds</h3>
-      <p>For serious gamers</p>
-      <div class="price">৳ Price</div>
-      <button class="buy-btn" onclick="selectPackage('1060 Diamonds')">Select</button>
+      <p>Free Fire</p>
+
+      <div class="price">
+        ৳ Price
+      </div>
+
+      <button class="buy"
+        onclick="choosePackage('1060 Diamonds')">
+        BUY NOW
+      </button>
+
     </div>
 
   </div>
+
 </section>
 
-<section class="section" id="why">
 
-  <div class="section-head">
-    <div>
-      <h2>Why WaterPrice?</h2>
-      <p>Built for a better top-up experience.</p>
-    </div>
+<!-- FEATURES -->
+
+<section class="section">
+
+  <div class="section-title">
+    <h2>Why WaterPrice?</h2>
   </div>
 
   <div class="features">
 
     <div class="feature">
       <div class="feature-icon">⚡</div>
-      <h3>Fast Processing</h3>
-      <p>Orders can be processed quickly through an authorized top-up service.</p>
+      <h3>Fast</h3>
+      <p>Quick order processing.</p>
     </div>
 
     <div class="feature">
       <div class="feature-icon">🔐</div>
-      <h3>Secure Checkout</h3>
-      <p>We never ask for your game password. Only the required player information.</p>
+      <h3>Secure</h3>
+      <p>No game password required.</p>
     </div>
 
     <div class="feature">
       <div class="feature-icon">💬</div>
-      <h3>Customer Support</h3>
-      <p>Need help? Contact WaterPrice TopUp support directly.</p>
+      <h3>Support</h3>
+      <p>Friendly customer support.</p>
     </div>
 
   </div>
+
 </section>
 
-<section class="section" id="contact">
 
-  <div class="contact-box">
+<!-- CONTACT -->
+
+<section class="section">
+
+  <div class="contact">
+
     <h2>Need Help?</h2>
-    <p>Our support team is ready to help you.</p>
+
+    <p>
+      WaterPrice TopUp Support
+    </p>
 
     <div class="contact-buttons">
 
-      <a href="https://wa.me/8801623615826" target="_blank">
+      <a
+        href="https://wa.me/8801623615826"
+        target="_blank">
         🟢 WhatsApp
       </a>
 
-      <a href="https://t.me/01623615826" target="_blank">
+      <a href="#">
         ✈️ Telegram
       </a>
 
       <a href="#">
-        📘 Facebook — Coming Soon
+        📘 Facebook
       </a>
 
     </div>
+
   </div>
 
 </section>
 
-<footer>
-  © 2026 WaterPrice TopUp — All Rights Reserved.
-</footer>
+</main>
 
-<a class="float" href="https://wa.me/8801623615826" target="_blank">
+
+<!-- WHATSAPP -->
+
+<a
+  class="whatsapp"
+  href="https://wa.me/8801623615826"
+  target="_blank">
   💬
 </a>
 
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <a class="nav-item active" href="#">
+    <span class="icon">⌂</span>
+    Home
+  </a>
+
+  <a class="nav-item" href="#packages">
+    <span class="icon">💎</span>
+    TopUp
+  </a>
+
+  <a class="nav-item center" href="#topup">
+    <span class="icon">＋</span>
+  </a>
+
+  <a class="nav-item" href="#orders">
+    <span class="icon">📦</span>
+    Orders
+  </a>
+
+  <a class="nav-item" href="#account">
+    <span class="icon">👤</span>
+    Account
+  </a>
+
+</nav>
+
+
 <script>
-function selectPackage(packageName){
-  document.getElementById("package").value = packageName;
-  document.getElementById("topup").scrollIntoView({
-    behavior:"smooth"
-  });
+
+function choosePackage(name){
+
+  document.getElementById("package").value = name;
+
+  document.getElementById("topup")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
 }
 
-function startOrder(){
 
-  const uid = document.getElementById("uid").value.trim();
-  const pkg = document.getElementById("package").value;
+function checkout(){
+
+  const uid =
+    document.getElementById("uid").value.trim();
+
+  const pkg =
+    document.getElementById("package").value;
 
   if(!uid){
+
     alert("Please enter your Free Fire UID.");
+
     return;
   }
 
   if(!pkg){
-    alert("Please select a Diamond Package.");
+
+    alert("Please select a Diamond package.");
+
     return;
   }
 
   alert(
-    "Order system প্রস্তুত আছে।\\n\\n" +
+    "Checkout system will be connected next.\n\n" +
     "UID: " + uid +
-    "\\nPackage: " + pkg +
-    "\\n\\nপরবর্তী ধাপে আমরা বৈধ payment gateway এবং authorized top-up provider যুক্ত করব।"
+    "\nPackage: " + pkg
   );
+
 }
+
 </script>
 
 </body>
