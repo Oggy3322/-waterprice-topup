@@ -17,182 +17,203 @@
 
 <body>
 
-
-<header class="header">
-
-  <div class="container navbar">
-
-    <a href="index.html" class="brand">
-
-      <div class="brand-logo">
-        W
-      </div>
-
-      <div class="brand-name">
-        Water Price Top Up BD
-      </div>
-
-    </a>
-
-
-    <nav class="nav-links">
-
-      <a
-        href="index.html"
-        class="nav-link">
-        Home
-      </a>
-
-      <a
-        href="account.html"
-        class="nav-link">
-        Account
-      </a>
-
-      <button
-        class="btn btn-danger"
-        data-logout>
-        Logout
-      </button>
-
-    </nav>
-
-  </div>
-
-</header>
-
-
-<main class="section">
-
-  <div class="container">
-
-    <h1 class="section-title">
-      My Orders
-    </h1>
-
-    <p class="section-subtitle">
-      Your recent top-up orders.
-    </p>
-
-
-    <div
-      id="ordersList"
-      class="product-grid">
-
-    </div>
-
-  </div>
-
-</main>
-
-
 <script type="module">
-
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   auth
 } from "./firebase-config.js";
 
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-const ordersList =
-  document.getElementById("ordersList");
+import {
+  renderHeader,
+  renderBottomNav,
+  loadUserOrders
+} from "./app.js";
 
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async user => {
 
   if (!user) {
 
     window.location.href =
-      "login.html";
+      "login.html?redirect=orders.html";
 
     return;
 
   }
 
 
-  const key =
-    "orders_" + user.uid;
+  renderHeader();
 
 
-  const orders =
-    JSON.parse(
-      localStorage.getItem(key) || "[]"
-    );
+  const app =
+    document.createElement("main");
+
+  app.className = "page";
 
 
-  if (orders.length === 0) {
+  app.innerHTML = `
 
-    ordersList.innerHTML = `
+    <section class="section">
 
-      <div class="product-card">
+      <div class="section-head">
 
-        <div class="product-icon">
-          📦
+        <h2>My Orders</h2>
+
+        <a href="index.html#products">
+          New Order
+        </a>
+
+      </div>
+
+      <div id="ordersList">
+        <div class="empty-state">
+          Loading orders...
+        </div>
+      </div>
+
+    </section>
+
+  `;
+
+
+  document.body.appendChild(app);
+
+
+  const list =
+    document.getElementById("ordersList");
+
+
+  try {
+
+    const orders =
+      await loadUserOrders();
+
+
+    if (!orders.length) {
+
+      list.innerHTML = `
+
+        <div class="empty-state">
+
+          <div style="font-size:45px">
+            📦
+          </div>
+
+          <h3 style="margin:12px 0 7px">
+            No orders yet
+          </h3>
+
+          <p>
+            Your orders will appear here.
+          </p>
+
         </div>
 
-        <h3>
-          No orders yet
-        </h3>
+      `;
 
-        <p>
-          You haven't placed any orders yet.
-        </p>
+    } else {
 
-        <a
-          href="index.html#offers"
-          class="btn btn-primary">
+      list.innerHTML =
+        orders.map(order => {
 
-          View Offers
+          let date = "";
 
-        </a>
+          if (order.createdAt) {
+
+            try {
+
+              date =
+                order.createdAt
+                  .toDate()
+                  .toLocaleString();
+
+            } catch {}
+
+          }
+
+
+          return `
+
+            <div class="order-card">
+
+              <div class="order-top">
+
+                <div>
+
+                  <h3>
+                    ${order.productName}
+                  </h3>
+
+                </div>
+
+                <span class="status">
+                  ${order.status || "Pending"}
+                </span>
+
+              </div>
+
+
+              <div class="order-info">
+
+                Order ID:
+                ${order.id}
+
+                <br>
+
+                Player/UID:
+                ${order.playerId || "-"}
+
+                <br>
+
+                Phone:
+                ${order.phone || "-"}
+
+                <br>
+
+                Amount:
+                ৳${order.price || 0}
+
+                <br>
+
+                ${date}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }).join("");
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML = `
+
+      <div class="empty-state">
+
+        Could not load orders.
 
       </div>
 
     `;
 
-    return;
-
   }
 
 
-  ordersList.innerHTML =
-    orders.map(order => `
-
-      <div class="product-card">
-
-        <div class="product-icon">
-          ✓
-        </div>
-
-        <h3>
-          ${order.product}
-        </h3>
-
-        <p>
-          Order ID: ${order.id}
-        </p>
-
-        <p>
-          ${order.date}
-        </p>
-
-        <div class="price">
-          ৳${order.price}
-        </div>
-
-      </div>
-
-    `).join("");
+  renderBottomNav("orders");
 
 });
 
 </script>
-
-
-<script type="module" src="app.js"></script>
 
 </body>
 </html>
