@@ -1,248 +1,664 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Water Price Top Up BD</title>
+
+  <meta
+    name="description"
+    content="Water Price Top Up BD - Fast and reliable game top up service."
+  >
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<script type="module">
+  <!-- ================= HEADER ================= -->
 
-import {
-  products,
-  getProduct,
-  requireLogin,
-  renderHeader,
-  renderBottomNav
-} from "./app.js";
+  <header class="top-header">
 
-renderHeader();
+    <a href="index.html" class="brand">
 
+      <div class="brand-logo">
+        W
+      </div>
 
-const app = document.createElement("main");
+      <div class="brand-text">
+        <strong>Water Price</strong>
+        <span>Top Up BD</span>
+      </div>
 
-app.className = "page";
-
-app.innerHTML = `
-
-  <section class="hero">
-
-    <small>Premium Digital Top-Up</small>
-
-    <h1>
-      Water Price<br>
-      Top Up BD
-    </h1>
-
-    <p>
-      Fast, simple and secure digital top-up service.
-      Choose your package and place your order easily.
-    </p>
-
-    <a href="#products" class="hero-btn">
-      View Offers
     </a>
 
-  </section>
+
+    <div class="header-actions">
+
+      <button
+        class="wallet-mini"
+        type="button"
+        onclick="requireLogin()"
+      >
+        <span class="wallet-icon">৳</span>
+
+        <span>
+          <small>Balance</small>
+          <strong id="headerBalance">৳0.00</strong>
+        </span>
+      </button>
 
 
-  <section class="section" id="products">
-
-    <div class="section-head">
-      <h2>Weekly Offer</h2>
-      <a href="#products">View All</a>
-    </div>
-
-    <div class="product-grid" id="weeklyProducts"></div>
-
-  </section>
-
-
-  <section class="section">
-
-    <div class="section-head">
-      <h2>Monthly & Premium</h2>
-      <a href="#products">View All</a>
-    </div>
-
-    <div class="product-grid" id="premiumProducts"></div>
-
-  </section>
-
-
-  <section class="section">
-
-    <div class="section-head">
-      <h2>Diamond Packages</h2>
-    </div>
-
-    <div class="product-grid" id="diamondProducts"></div>
-
-  </section>
-
-
-  <section class="section">
-
-    <div class="feature-box">
-
-      <div class="section-head">
-        <h2>Why choose us?</h2>
-      </div>
-
-      <div class="feature-grid">
-
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <h3>Fast Delivery</h3>
-          <p>
-            Orders are processed quickly
-            after confirmation.
-          </p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">🔐</div>
-          <h3>Secure Account</h3>
-          <p>
-            Your account and order
-            information stays protected.
-          </p>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">💎</div>
-          <h3>Premium Service</h3>
-          <p>
-            Quality packages with a
-            clean premium experience.
-          </p>
-        </div>
-
-      </div>
+      <a
+        href="account.html"
+        class="profile-button"
+        aria-label="Account"
+      >
+        <span>👤</span>
+      </a>
 
     </div>
 
+  </header>
+
+
+  <!-- ================= NOTICE ================= -->
+
+  <section class="notice-wrap">
+
+    <div class="notice-label">
+      NOTICE
+    </div>
+
+    <div class="notice-text">
+      Welcome to Water Price Top Up BD — Fast, secure and reliable top up service.
+    </div>
+
+    <button
+      class="notice-close"
+      type="button"
+      onclick="closeNotice()"
+      aria-label="Close notice"
+    >
+      ×
+    </button>
+
   </section>
 
-`;
 
-document.body.appendChild(app);
+  <!-- ================= MAIN ================= -->
+
+  <main class="main-container">
 
 
-/* Product card */
+    <!-- ================= HERO BANNER ================= -->
 
-function productCard(product) {
+    <section class="hero-banner">
 
-  return `
+      <div class="hero-content">
 
-    <article class="product-card">
+        <span class="hero-tag">
+          WATER PRICE
+        </span>
 
-      <div class="product-art">
+        <h1>
+          TOP UP
+          <br>
+          <strong>FAST & SECURE</strong>
+        </h1>
 
-        <div class="diamond-icon">
-          ${product.icon}
-        </div>
-
-      </div>
-
-      <div class="product-content">
-
-        <h3>${product.name}</h3>
-
-        <p class="product-description">
-          ${product.description}
+        <p>
+          Your trusted destination for quick and reliable game top ups.
         </p>
 
-        <div class="product-bottom">
+        <a
+          href="#offers"
+          class="hero-button"
+        >
+          Explore Offers
+        </a>
 
-          <span class="price">
-            ${product.price === 0
-              ? "FREE"
-              : "৳" + product.price}
-          </span>
+      </div>
 
-          <button
-            class="order-btn"
-            data-product="${product.id}">
-            Order
-          </button>
 
+      <div class="hero-art">
+
+        <div class="hero-orb orb-one"></div>
+        <div class="hero-orb orb-two"></div>
+
+        <div class="hero-logo-big">
+          W
         </div>
 
       </div>
 
-    </article>
-  `;
-}
+    </section>
 
 
-/* Weekly */
+    <!-- ================= QUICK ACTIONS ================= -->
 
-document.querySelector("#weeklyProducts").innerHTML =
-  products
-    .filter(p => p.id === "weekly")
-    .map(productCard)
-    .join("");
+    <section class="quick-actions">
 
+      <a
+        href="account.html"
+        class="quick-card"
+      >
 
-/* Premium */
+        <div class="quick-icon account-icon">
+          👤
+        </div>
 
-document.querySelector("#premiumProducts").innerHTML =
-  products
-    .filter(p =>
-      ["monthly", "premium"].includes(p.id)
-    )
-    .map(productCard)
-    .join("");
+        <div>
+          <strong>My Account</strong>
+          <span>Profile & balance</span>
+        </div>
 
-
-/* Diamonds */
-
-document.querySelector("#diamondProducts").innerHTML =
-  products
-    .filter(p =>
-      p.id.includes("diamond")
-    )
-    .map(productCard)
-    .join("");
+      </a>
 
 
-/* Order buttons */
+      <a
+        href="orders.html"
+        class="quick-card"
+      >
 
-document.querySelectorAll(
-  "[data-product]"
-).forEach(button => {
+        <div class="quick-icon order-icon">
+          📦
+        </div>
 
-  button.addEventListener("click", () => {
+        <div>
+          <strong>My Orders</strong>
+          <span>Track your orders</span>
+        </div>
 
-    const id = button.dataset.product;
-
-    if (!requireLogin(
-      `product.html?id=${encodeURIComponent(id)}`
-    )) {
-      return;
-    }
-
-    window.location.href =
-      `product.html?id=${encodeURIComponent(id)}`;
-
-  });
-
-});
+      </a>
 
 
-renderBottomNav("home");
+      <a
+        href="product.html"
+        class="quick-card"
+      >
 
-</script>
+        <div class="quick-icon offer-icon">
+          ⚡
+        </div>
+
+        <div>
+          <strong>Special Offers</strong>
+          <span>Best top up deals</span>
+        </div>
+
+      </a>
+
+    </section>
+
+
+    <!-- ================= SPECIAL OFFER ================= -->
+
+    <section
+      class="section"
+      id="offers"
+    >
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            BEST DEALS
+          </span>
+
+          <h2>
+            Special Offer
+          </h2>
+        </div>
+
+        <a href="product.html">
+          View All
+        </a>
+
+      </div>
+
+
+      <div class="offer-grid">
+
+
+        <!-- OFFER 1 -->
+
+        <article
+          class="offer-card"
+          onclick="openProduct('weekly')"
+        >
+
+          <div class="offer-image offer-one">
+
+            <span class="offer-badge">
+              HOT
+            </span>
+
+            <div class="offer-symbol">
+              W
+            </div>
+
+          </div>
+
+          <div class="offer-info">
+
+            <span class="offer-type">
+              WEEKLY OFFER
+            </span>
+
+            <h3>
+              Weekly Top Up
+            </h3>
+
+            <div class="offer-bottom">
+
+              <strong>
+                ৳100
+              </strong>
+
+              <button
+                type="button"
+                onclick="event.stopPropagation(); openProduct('weekly')"
+              >
+                Buy Now
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <!-- OFFER 2 -->
+
+        <article
+          class="offer-card"
+          onclick="openProduct('monthly')"
+        >
+
+          <div class="offer-image offer-two">
+
+            <span class="offer-badge purple">
+              POPULAR
+            </span>
+
+            <div class="offer-symbol">
+              W
+            </div>
+
+          </div>
+
+          <div class="offer-info">
+
+            <span class="offer-type">
+              MONTHLY OFFER
+            </span>
+
+            <h3>
+              Monthly Top Up
+            </h3>
+
+            <div class="offer-bottom">
+
+              <strong>
+                ৳500
+              </strong>
+
+              <button
+                type="button"
+                onclick="event.stopPropagation(); openProduct('monthly')"
+              >
+                Buy Now
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <!-- OFFER 3 -->
+
+        <article
+          class="offer-card"
+          onclick="openProduct('premium')"
+        >
+
+          <div class="offer-image offer-three">
+
+            <span class="offer-badge gold">
+              PREMIUM
+            </span>
+
+            <div class="offer-symbol">
+              W
+            </div>
+
+          </div>
+
+          <div class="offer-info">
+
+            <span class="offer-type">
+              PREMIUM OFFER
+            </span>
+
+            <h3>
+              Premium Package
+            </h3>
+
+            <div class="offer-bottom">
+
+              <strong>
+                ৳1000
+              </strong>
+
+              <button
+                type="button"
+                onclick="event.stopPropagation(); openProduct('premium')"
+              >
+                Buy Now
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= CATEGORIES ================= -->
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            TOP UP
+          </span>
+
+          <h2>
+            Browse Categories
+          </h2>
+        </div>
+
+      </div>
+
+
+      <div class="category-grid">
+
+        <a href="product.html?category=weekly"
+           class="category-card">
+
+          <div class="category-icon">
+            ⚡
+          </div>
+
+          <div>
+            <strong>Weekly</strong>
+            <span>Weekly offers</span>
+          </div>
+
+          <b>›</b>
+
+        </a>
+
+
+        <a href="product.html?category=monthly"
+           class="category-card">
+
+          <div class="category-icon purple-bg">
+            ✦
+          </div>
+
+          <div>
+            <strong>Monthly</strong>
+            <span>Monthly packages</span>
+          </div>
+
+          <b>›</b>
+
+        </a>
+
+
+        <a href="product.html?category=premium"
+           class="category-card">
+
+          <div class="category-icon gold-bg">
+            ◆
+          </div>
+
+          <div>
+            <strong>Premium</strong>
+            <span>Premium packages</span>
+          </div>
+
+          <b>›</b>
+
+        </a>
+
+
+        <a href="product.html?category=special"
+           class="category-card">
+
+          <div class="category-icon green-bg">
+            ✓
+          </div>
+
+          <div>
+            <strong>Special</strong>
+            <span>Special deals</span>
+          </div>
+
+          <b>›</b>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= SUPPORT ================= -->
+
+    <section class="support-section">
+
+      <div class="support-content">
+
+        <span class="support-kicker">
+          NEED HELP?
+        </span>
+
+        <h2>
+          We're here for you.
+        </h2>
+
+        <p>
+          Contact our support team whenever you need assistance.
+        </p>
+
+      </div>
+
+
+      <div class="support-actions">
+
+        <a
+          href="#"
+          class="support-button"
+          onclick="openSupport(event)"
+        >
+          <span>💬</span>
+          Support
+        </a>
+
+        <a
+          href="#"
+          class="support-button secondary"
+          onclick="openGroup(event)"
+        >
+          <span>👥</span>
+          Join Group
+        </a>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- ================= FLOATING SUPPORT ================= -->
+
+  <button
+    class="floating-support"
+    onclick="openSupport(event)"
+    aria-label="Support"
+  >
+    🎧
+  </button>
+
+
+  <!-- ================= BOTTOM NAVIGATION ================= -->
+
+  <nav class="bottom-nav">
+
+    <a
+      href="index.html"
+      class="nav-item active"
+    >
+      <span class="nav-icon">⌂</span>
+      <span>Home</span>
+    </a>
+
+
+    <a
+      href="orders.html"
+      class="nav-item"
+    >
+      <span class="nav-icon">▣</span>
+      <span>My Orders</span>
+    </a>
+
+
+    <a
+      href="product.html"
+      class="nav-add"
+      aria-label="Top Up"
+    >
+      +
+    </a>
+
+
+    <a
+      href="#"
+      class="nav-item"
+      onclick="requireLogin(event)"
+    >
+      <span class="nav-icon">◇</span>
+      <span>My Codes</span>
+    </a>
+
+
+    <a
+      href="account.html"
+      class="nav-item"
+    >
+      <span class="nav-icon">○</span>
+      <span>Account</span>
+    </a>
+
+  </nav>
+
+
+  <!-- ================= SCRIPTS ================= -->
+
+  <script type="module">
+
+    import {
+      auth,
+      db
+    } from "./firebase-config.js";
+
+
+    window.firebaseAuth = auth;
+    window.firebaseDB = db;
+
+
+    window.requireLogin = function(event) {
+
+      if (event) {
+        event.preventDefault();
+      }
+
+      if (!auth.currentUser) {
+
+        window.location.href =
+          "login.html";
+
+        return;
+      }
+
+      window.location.href =
+        "account.html";
+
+    };
+
+
+    window.openProduct = function(product) {
+
+      window.location.href =
+        "product.html?product=" +
+        encodeURIComponent(product);
+
+    };
+
+
+    window.closeNotice = function() {
+
+      const notice =
+        document.querySelector(".notice-wrap");
+
+      if (notice) {
+        notice.style.display = "none";
+      }
+
+    };
+
+
+    window.openSupport = function(event) {
+
+      if (event) {
+        event.preventDefault();
+      }
+
+      alert(
+        "Support contact will be added here."
+      );
+
+    };
+
+
+    window.openGroup = function(event) {
+
+      if (event) {
+        event.preventDefault();
+      }
+
+      alert(
+        "Group link will be added here."
+      );
+
+    };
+
+  </script>
 
 </body>
 </html>
