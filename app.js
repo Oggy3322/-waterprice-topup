@@ -1,17 +1,4 @@
-import {
-  auth,
-  db,
-  googleProvider
-} from "./firebase-config.js";
-
-import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  updateProfile,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+// app.js
 
 import {
   collection,
@@ -21,358 +8,193 @@ import {
   orderBy,
   getDocs,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import { auth, db } from "./firebase-config.js";
 
 
-/* =====================================================
-   PRODUCTS
-===================================================== */
+// ======================================================
+// GLOBAL USER
+// ======================================================
 
-export const products = [
-  {
-    id: "weekly",
-    name: "Weekly Offer",
-    description: "Special weekly top-up package.",
-    price: 99,
-    icon: "💎"
-  },
-  {
-    id: "monthly",
-    name: "Monthly Offer",
-    description: "Monthly premium top-up package.",
-    price: 299,
-    icon: "💎"
-  },
-  {
-    id: "premium",
-    name: "Premium Users",
-    description: "Exclusive package for premium users.",
-    price: 499,
-    icon: "👑"
-  },
-  {
-    id: "diamond25",
-    name: "Free 25 Diamond Voucher",
-    description: "25 diamond voucher package.",
-    price: 0,
-    icon: "💎"
-  },
-  {
-    id: "diamond100",
-    name: "100 Diamond",
-    description: "Fast diamond top-up package.",
-    price: 150,
-    icon: "💎"
-  },
-  {
-    id: "diamond310",
-    name: "310 Diamond",
-    description: "Popular diamond package.",
-    price: 430,
-    icon: "💎"
-  },
-  {
-    id: "diamond520",
-    name: "520 Diamond",
-    description: "Large diamond package.",
-    price: 690,
-    icon: "💎"
-  },
-  {
-    id: "diamond1060",
-    name: "1060 Diamond",
-    description: "Premium diamond package.",
-    price: 1290,
-    icon: "💎"
-  },
-  {
-    id: "diamond2180",
-    name: "2180 Diamond",
-    description: "Mega diamond package.",
-    price: 2490,
-    icon: "💎"
+let currentUser = null;
+
+
+// ======================================================
+// LOGIN STATE
+// ======================================================
+
+onAuthStateChanged(auth, (user) => {
+
+  currentUser = user || null;
+
+  if (user) {
+    console.log("Logged in UID:", user.uid);
+    console.log("User Email:", user.email);
+  } else {
+    console.log("No user logged in");
   }
-];
+
+});
 
 
-/* =====================================================
-   GET PRODUCT
-===================================================== */
+// ======================================================
+// CREATE ORDER
+// ======================================================
 
-export function getProduct(id) {
-  return products.find(product => product.id === id);
-}
+async function createOrder(orderData = {}) {
 
-
-/* =====================================================
-   LOGIN REQUIRED
-===================================================== */
-
-export function requireLogin(returnUrl = window.location.href) {
-
+  // User login না করলে order করা যাবে না
   if (!auth.currentUser) {
 
-    window.location.href =
-      `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+    alert("Please login first.");
 
-    return false;
+    window.location.href = "login.html";
+
+    return null;
   }
 
-  return true;
-}
 
+  const user = auth.currentUser;
 
-/* =====================================================
-   GOOGLE LOGIN
-===================================================== */
-
-export async function loginWithGoogle() {
 
   try {
 
-    const result =
-      await signInWithPopup(
-        auth,
-        googleProvider
-      );
+    // IMPORTANT:
+    // UID automatically save হবে
+    const order = {
 
-    return result.user;
+      userId: user.uid,
 
-  } catch (error) {
+      userEmail: user.email || "",
 
-    console.error(
-      "Google login error:",
-      error
-    );
+      userName: user.displayName || "",
 
-    throw error;
-  }
-}
+      productId: orderData.productId || "",
 
+      productName: orderData.productName || "Unknown Product",
 
-/* =====================================================
-   EMAIL LOGIN
-===================================================== */
+      amount: Number(orderData.amount || 0),
 
-export async function loginWithEmail(
-  email,
-  password
-) {
+      quantity: Number(orderData.quantity || 1),
 
-  try {
+      phone: orderData.phone || "",
 
-    const result =
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      status: "pending",
 
-    return result.user;
+      createdAt: serverTimestamp()
 
-  } catch (error) {
-
-    console.error(
-      "Email login error:",
-      error
-    );
-
-    throw error;
-  }
-}
+    };
 
 
-/* =====================================================
-   REGISTER
-===================================================== */
-
-export async function registerWithEmail(
-  name,
-  email,
-  password
-) {
-
-  try {
-
-    const result =
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-    await updateProfile(
-      result.user,
-      {
-        displayName: name
-      }
-    );
-
-    return result.user;
-
-  } catch (error) {
-
-    console.error(
-      "Registration error:",
-      error
-    );
-
-    throw error;
-  }
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-export async function logout() {
-
-  try {
-
-    await signOut(auth);
-
-    window.location.href =
-      "index.html";
-
-  } catch (error) {
-
-    console.error(
-      "Logout error:",
-      error
-    );
-  }
-}
-
-
-/* =====================================================
-   CREATE ORDER
-   IMPORTANT:
-   uid is saved with the order.
-===================================================== */
-
-export async function createOrder(
-  product,
-  playerId,
-  phone
-) {
-
-  const user =
-    auth.currentUser;
-
-
-  if (!user) {
-
-    throw new Error(
-      "LOGIN_REQUIRED"
-    );
-  }
-
-
-  const orderData = {
-
-    /*
-      THIS IS THE USER OWNER
-    */
-    uid: user.uid,
-
-    /*
-      Extra user information
-    */
-    email:
-      user.email || "",
-
-    userName:
-      user.displayName || "",
-
-    /*
-      Product
-    */
-    productId:
-      product.id,
-
-    productName:
-      product.name,
-
-    price:
-      Number(product.price),
-
-    /*
-      Customer information
-    */
-    playerId:
-      playerId,
-
-    phone:
-      phone,
-
-    /*
-      Order status
-    */
-    status:
-      "Pending",
-
-    /*
-      Firebase server time
-    */
-    createdAt:
-      serverTimestamp()
-  };
-
-
-  /*
-    Firestore creates the order here.
-  */
-
-  const docRef =
-    await addDoc(
+    // Firestore orders collection
+    const docRef = await addDoc(
       collection(db, "orders"),
-      orderData
+      order
     );
 
 
-  return docRef.id;
+    console.log("Order created:", docRef.id);
+
+    console.log("Saved UID:", user.uid);
+
+
+    alert("Order placed successfully!");
+
+
+    // Order complete হওয়ার পরে My Orders
+    window.location.href = "orders.html";
+
+
+    return docRef.id;
+
+  } catch (error) {
+
+    console.error("Order error:", error);
+
+    alert(
+      "Order failed: " + error.message
+    );
+
+    return null;
+  }
 }
 
 
-/* =====================================================
-   LOAD CURRENT USER'S ORDERS ONLY
-===================================================== */
+// ======================================================
+// MAKE createOrder AVAILABLE TO OTHER HTML FILES
+// ======================================================
 
-export async function loadUserOrders() {
-
-  const user =
-    auth.currentUser;
+window.createOrder = createOrder;
 
 
-  if (!user) {
+// ======================================================
+// LOAD MY ORDERS
+// ======================================================
 
-    throw new Error(
-      "LOGIN_REQUIRED"
-    );
+async function loadMyOrders() {
+
+  const ordersContainer =
+    document.getElementById("ordersContainer");
+
+
+  if (!ordersContainer) {
+    return;
   }
 
 
-  /*
-    IMPORTANT:
+  // Login check
+  if (!auth.currentUser) {
 
-    Only documents where
-    uid == current user's uid
-    will be requested.
-  */
+    ordersContainer.innerHTML = `
+      <div class="empty-box">
+        <h3>Login Required</h3>
+        <p>Please login to see your orders.</p>
 
-  const ordersQuery =
-    query(
+        <a href="login.html" class="login-btn">
+          Login
+        </a>
+      </div>
+    `;
 
-      collection(
-        db,
-        "orders"
-      ),
+    return;
+  }
+
+
+  const uid = auth.currentUser.uid;
+
+
+  console.log("Loading orders for UID:", uid);
+
+
+  ordersContainer.innerHTML = `
+    <div class="loading">
+      Loading your orders...
+    </div>
+  `;
+
+
+  try {
+
+    /*
+      IMPORTANT:
+
+      আমরা শুধু current user's UID দিয়ে query করছি।
+
+      অন্য user-এর order এখানে আসবে না।
+    */
+
+    const ordersQuery = query(
+      collection(db, "orders"),
 
       where(
-        "uid",
+        "userId",
         "==",
-        user.uid
+        uid
       ),
 
       orderBy(
@@ -382,288 +204,254 @@ export async function loadUserOrders() {
     );
 
 
-  const snapshot =
-    await getDocs(
-      ordersQuery
-    );
+    const snapshot =
+      await getDocs(ordersQuery);
 
 
-  const orders = [];
+    if (snapshot.empty) {
 
+      ordersContainer.innerHTML = `
+        <div class="empty-box">
 
-  snapshot.forEach(
-    documentSnapshot => {
+          <div class="empty-icon">
+            📦
+          </div>
 
-      orders.push({
+          <h3>No Orders Yet</h3>
 
-        id:
-          documentSnapshot.id,
+          <p>
+            You haven't placed any orders yet.
+          </p>
 
-        ...documentSnapshot.data()
+          <a href="index.html" class="shop-btn">
+            Browse Offers
+          </a>
 
-      });
+        </div>
+      `;
 
+      return;
     }
-  );
 
 
-  return orders;
-}
+    let html = "";
 
 
-/* =====================================================
-   HEADER
-===================================================== */
+    snapshot.forEach((doc) => {
 
-export function renderHeader() {
-
-  const oldHeader =
-    document.querySelector(
-      ".top-header"
-    );
-
-  if (oldHeader) {
-    oldHeader.remove();
-  }
+      const order = doc.data();
 
 
-  const header =
-    document.createElement(
-      "header"
-    );
-
-  header.className =
-    "top-header";
+      let date = "Processing...";
 
 
-  header.innerHTML = `
+      if (order.createdAt) {
 
-    <a
-      href="index.html"
-      class="brand">
+        const timestamp =
+          order.createdAt.toDate();
 
-      <div class="brand-logo">
-        W
-      </div>
+        date =
+          timestamp.toLocaleString();
 
-      <div class="brand-name">
-        Water Price<br>
-        Top Up BD
-      </div>
-
-    </a>
-
-
-    <div class="header-actions">
-
-      <button
-        class="wallet-btn">
-
-        ৳ <span id="headerBalance">
-          0
-        </span>
-
-      </button>
-
-
-      <button
-        class="login-btn"
-        id="headerLoginButton">
-
-        Login
-
-      </button>
-
-    </div>
-
-  `;
-
-
-  document.body.prepend(
-    header
-  );
-
-
-  const loginButton =
-    document.getElementById(
-      "headerLoginButton"
-    );
-
-
-  onAuthStateChanged(
-    auth,
-    user => {
-
-      if (!loginButton) {
-        return;
       }
 
 
-      if (user) {
+      html += `
 
-        loginButton.textContent =
-          "Account";
+        <div class="order-card">
 
-        loginButton.onclick =
-          () => {
+          <div class="order-top">
 
-            window.location.href =
-              "account.html";
+            <div>
 
-          };
+              <span class="order-label">
+                ORDER ID
+              </span>
 
-      } else {
+              <strong>
+                #${doc.id.substring(0, 10)}
+              </strong>
 
-        loginButton.textContent =
-          "Login";
+            </div>
 
-        loginButton.onclick =
-          () => {
+            <span class="status ${getStatusClass(order.status)}">
+              ${order.status || "pending"}
+            </span>
 
-            window.location.href =
-              "login.html";
+          </div>
 
-          };
 
-      }
+          <div class="order-info">
 
-    }
-  );
+            <h3>
+              ${escapeHTML(order.productName || "Product")}
+            </h3>
+
+
+            <p>
+              Quantity:
+              <strong>
+                ${order.quantity || 1}
+              </strong>
+            </p>
+
+
+            <p>
+              Amount:
+              <strong>
+                ৳${Number(order.amount || 0).toFixed(2)}
+              </strong>
+            </p>
+
+
+            ${
+              order.phone
+                ? `
+                  <p>
+                    Phone:
+                    <strong>
+                      ${escapeHTML(order.phone)}
+                    </strong>
+                  </p>
+                `
+                : ""
+            }
+
+
+            <p class="order-date">
+              ${date}
+            </p>
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+
+    ordersContainer.innerHTML = html;
+
+
+  } catch (error) {
+
+    console.error(
+      "Load orders error:",
+      error
+    );
+
+
+    ordersContainer.innerHTML = `
+
+      <div class="error-box">
+
+        <h3>Could not load orders</h3>
+
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
 }
 
 
-/* =====================================================
-   BOTTOM NAVIGATION
-===================================================== */
+// ======================================================
+// STATUS CLASS
+// ======================================================
 
-export function renderBottomNav(
-  active = "home"
-) {
+function getStatusClass(status) {
 
-  const oldNav =
-    document.querySelector(
-      ".bottom-nav"
-    );
+  status =
+    String(status || "pending")
+      .toLowerCase();
 
-  if (oldNav) {
-    oldNav.remove();
+
+  if (status === "completed") {
+    return "completed";
   }
 
+  if (status === "cancelled") {
+    return "cancelled";
+  }
 
-  const nav =
-    document.createElement(
-      "nav"
-    );
-
-  nav.className =
-    "bottom-nav";
-
-
-  nav.innerHTML = `
-
-    <a
-      class="nav-item ${
-        active === "home"
-          ? "active"
-          : ""
-      }"
-      href="index.html">
-
-      <span class="nav-icon">
-        ⌂
-      </span>
-
-      Home
-
-    </a>
-
-
-    <a
-      class="nav-item ${
-        active === "orders"
-          ? "active"
-          : ""
-      }"
-      href="orders.html">
-
-      <span class="nav-icon">
-        ▣
-      </span>
-
-      My Orders
-
-    </a>
-
-
-    <a
-      class="add-nav"
-      href="index.html#products">
-
-      +
-
-    </a>
-
-
-    <a
-      class="nav-item"
-      href="index.html#codes">
-
-      <span class="nav-icon">
-        ▤
-      </span>
-
-      My Codes
-
-    </a>
-
-
-    <a
-      class="nav-item ${
-        active === "account"
-          ? "active"
-          : ""
-      }"
-      href="account.html">
-
-      <span class="nav-icon">
-        ♙
-      </span>
-
-      My Account
-
-    </a>
-
-  `;
-
-
-  document.body.appendChild(
-    nav
-  );
+  return "pending";
 }
 
 
-/* =====================================================
-   GLOBAL AUTH UI
-===================================================== */
+// ======================================================
+// HTML ESCAPE
+// ======================================================
 
-onAuthStateChanged(
-  auth,
-  user => {
+function escapeHTML(value) {
 
-    document
-      .querySelectorAll(
-        "[data-user-name]"
-      )
-      .forEach(
-        element => {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
-          element.textContent =
-            user?.displayName ||
-            user?.email ||
-            "Guest";
 
-        }
-      );
+// ======================================================
+// AUTOMATICALLY LOAD ORDERS PAGE
+// ======================================================
+
+onAuthStateChanged(auth, (user) => {
+
+  currentUser = user || null;
+
+
+  if (
+    user &&
+    document.getElementById("ordersContainer")
+  ) {
+
+    loadMyOrders();
 
   }
-);
+
+});
+
+
+// ======================================================
+// LOGOUT FUNCTION
+// ======================================================
+
+async function logoutUser() {
+
+  try {
+
+    const {
+      signOut
+    } = await import(
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"
+    );
+
+
+    await signOut(auth);
+
+    window.location.href =
+      "login.html";
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Logout failed: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+window.logoutUser = logoutUser;
