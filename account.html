@@ -17,76 +17,75 @@
 
 <body>
 
+<script type="module">
 
-<header class="header">
+import {
+  auth
+} from "./firebase-config.js";
 
-  <div class="container navbar">
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-    <a href="index.html" class="brand">
+import {
+  renderHeader,
+  renderBottomNav,
+  logout
+} from "./app.js";
 
-      <div class="brand-logo">
-        W
+
+onAuthStateChanged(auth, user => {
+
+  if (!user) {
+
+    window.location.href =
+      "login.html?redirect=account.html";
+
+    return;
+
+  }
+
+
+  renderHeader();
+
+
+  const app =
+    document.createElement("main");
+
+  app.className = "page";
+
+
+  const photo =
+    user.photoURL
+      ? `<img src="${user.photoURL}" alt="Profile">`
+      : (user.displayName ||
+         user.email ||
+         "U").charAt(0).toUpperCase();
+
+
+  app.innerHTML = `
+
+    <section class="section">
+
+      <div class="section-head">
+        <h2>My Account</h2>
       </div>
 
-      <div class="brand-name">
-        Water Price Top Up BD
-      </div>
 
-    </a>
+      <div class="profile-card">
 
-
-    <nav class="nav-links">
-
-      <a
-        href="index.html"
-        class="nav-link">
-        Home
-      </a>
-
-      <a
-        href="orders.html"
-        class="nav-link">
-        My Orders
-      </a>
-
-      <button
-        class="btn btn-danger"
-        data-logout>
-        Logout
-      </button>
-
-    </nav>
-
-  </div>
-
-</header>
-
-
-<main class="account-section">
-
-  <div class="container">
-
-
-    <div class="account-card">
-
-
-      <div class="profile">
-
-        <div
-          class="avatar"
-          id="avatar">
-          W
+        <div class="profile-avatar">
+          ${photo}
         </div>
 
+        <div class="profile-info">
 
-        <div>
-
-          <h2 id="userName">
-            Loading...
+          <h2>
+            ${user.displayName || "User"}
           </h2>
 
-          <p id="userEmail">
-            Loading...
+          <p>
+            ${user.email || ""}
           </p>
 
         </div>
@@ -94,97 +93,116 @@
       </div>
 
 
-      <div class="account-actions">
+      <div class="account-grid">
+
 
         <a
           href="orders.html"
-          class="btn btn-primary">
+          class="account-menu">
 
-          📦 My Orders
+          <div class="account-menu-icon">
+            📦
+          </div>
+
+          <div>
+
+            <h3>My Orders</h3>
+
+            <p>
+              View your previous orders
+            </p>
+
+          </div>
 
         </a>
 
 
         <a
-          href="index.html#offers"
-          class="btn btn-light">
+          href="index.html#products"
+          class="account-menu">
 
-          💎 View Offers
+          <div class="account-menu-icon">
+            💎
+          </div>
+
+          <div>
+
+            <h3>Top Up</h3>
+
+            <p>
+              Browse available packages
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <a
+          href="index.html"
+          class="account-menu">
+
+          <div class="account-menu-icon">
+            🏠
+          </div>
+
+          <div>
+
+            <h3>Home</h3>
+
+            <p>
+              Return to homepage
+            </p>
+
+          </div>
 
         </a>
 
 
         <button
-          class="btn btn-danger"
-          data-logout>
+          id="logout"
+          class="account-menu">
 
-          Logout
+          <div class="account-menu-icon">
+            ↪
+          </div>
+
+          <div>
+
+            <h3>Logout</h3>
+
+            <p>
+              Sign out of your account
+            </p>
+
+          </div>
 
         </button>
 
+
       </div>
 
+    </section>
 
-    </div>
-
-  </div>
-
-</main>
+  `;
 
 
-<script type="module">
-
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-  auth
-} from "./firebase-config.js";
+  document.body.appendChild(app);
 
 
-onAuthStateChanged(auth, (user) => {
-
-  if (!user) {
-
-    window.location.href =
-      "login.html";
-
-    return;
-
-  }
+  document
+    .getElementById("logout")
+    .addEventListener(
+      "click",
+      logout
+    );
 
 
-  document.getElementById("userName")
-    .textContent =
-      user.displayName ||
-      user.email.split("@")[0];
-
-
-  document.getElementById("userEmail")
-    .textContent =
-      user.email;
-
-
-  const letter =
-    (
-      user.displayName ||
-      user.email ||
-      "W"
-    )
-    .charAt(0)
-    .toUpperCase();
-
-
-  document.getElementById("avatar")
-    .textContent = letter;
+  renderBottomNav("account");
 
 });
 
 </script>
-
-
-<script type="module" src="app.js"></script>
 
 </body>
 </html>
