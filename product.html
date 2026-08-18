@@ -1,306 +1,224 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
-  <title>Order - Water Price Top Up BD</title>
+<title>
+  Top Up Products
+</title>
 
-  <link rel="stylesheet" href="style.css">
+<link
+  rel="stylesheet"
+  href="style.css"
+>
 
 </head>
 
+
 <body>
 
-<script type="module">
+<header class="topbar">
 
-import {
-  auth
-} from "./firebase-config.js";
+  <a
+    class="brand"
+    href="index.html"
+  >
 
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    <span class="brand-mark">
+      W
+    </span>
 
-import {
-  getProduct,
-  createOrder,
-  renderHeader,
-  renderBottomNav
-} from "./app.js";
+    <span>
+      WATER PRICE<br>
+      <b>TOP UP BD</b>
+    </span>
 
+  </a>
 
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
 
+  <div class="wallet-pill">
 
-const productId =
-  params.get("id");
+    ▣
 
+    <span data-wallet>
+      ৳0
+    </span>
 
-const product =
-  getProduct(productId);
+  </div>
 
 
-if (!product) {
+  <button
+    class="avatar"
+    data-account
+  >
+    U
+  </button>
 
-  window.location.href =
-    "index.html";
+</header>
 
-}
 
+<main class="page">
 
-onAuthStateChanged(auth, user => {
 
-  /*
-    User must login before order.
-  */
+  <div class="page-title">
 
-  if (!user) {
+    <p class="eyebrow">
+      FREE FIRE
+    </p>
 
-    window.location.href =
-      `login.html?redirect=${encodeURIComponent(
-        `product.html?id=${productId}`
-      )}`;
+    <h1>
+      Choose a Top Up
+    </h1>
 
-    return;
+    <p class="muted">
+      Select a package, enter your
+      game UID and place your order.
+    </p>
 
-  }
+  </div>
 
 
-  renderHeader();
+  <div class="category-tabs">
 
+    <button
+      data-filter="all"
+      class="selected"
+    >
+      All
+    </button>
 
-  const app =
-    document.createElement("main");
+    <button
+      data-filter="diamond"
+    >
+      Diamond
+    </button>
 
-  app.className = "page";
+    <button
+      data-filter="weekly"
+    >
+      Weekly
+    </button>
 
+    <button
+      data-filter="monthly"
+    >
+      Monthly
+    </button>
 
-  app.innerHTML = `
+    <button
+      data-filter="like"
+    >
+      Likes
+    </button>
 
-    <section class="section">
+  </div>
 
-      <a
-        href="index.html#products"
-        style="
-          display:inline-block;
-          margin-bottom:15px;
-          color:#6127ed;
-          font-weight:700;
-        ">
 
-        ← Back to products
+  <div
+    id="products"
+    class="products-grid"
+  ></div>
 
-      </a>
 
+  <section
+    id="checkout"
+    class="checkout panel hidden"
+  >
 
-      <div class="product-detail">
+    <p class="eyebrow">
+      CHECKOUT
+    </p>
 
+    <h2 id="selectedProductName">
+      Selected package
+    </h2>
 
-        <div class="product-detail-art">
+    <p>
+      Price:
 
-          <div class="big-diamond">
-            ${product.icon}
-          </div>
+      <b id="selectedProductPrice">
+        ৳0
+      </b>
 
-        </div>
+    </p>
 
 
-        <div class="product-detail-content">
+    <form id="orderForm">
 
-          <h1>
-            ${product.name}
-          </h1>
+      <input
+        type="hidden"
+        id="selectedProductId"
+      >
 
 
-          <div class="detail-price">
+      <label>
 
-            ${
-              product.price === 0
-                ? "FREE"
-                : "৳" + product.price
-            }
+        Game UID
 
-          </div>
+        <input
+          name="uid"
+          id="gameUid"
+          inputmode="numeric"
+          required
+          placeholder="Enter your Free Fire UID"
+        >
 
+      </label>
 
-          <p class="detail-description">
 
-            ${product.description}
+      <button
+        class="btn primary full"
+        type="submit"
+      >
+        Place Order
+      </button>
 
-            <br><br>
+    </form>
 
-            Please enter the required information
-            below to place your order.
+  </section>
 
-          </p>
+</main>
 
 
-          <div
-            id="orderMessage"
-            class="message">
-          </div>
+<nav class="bottom-nav">
 
+  <a href="index.html">
+    ⌂
+    <span>Home</span>
+  </a>
 
-          <form
-            id="orderForm"
-            class="order-form">
+  <a href="orders.html">
+    ▣
+    <span>My Orders</span>
+  </a>
 
+  <a
+    class="add active"
+    href="product.html"
+  >
+    ＋
+  </a>
 
-            <input
-              id="playerId"
-              type="text"
-              placeholder="Player ID / UID"
-              required>
+  <a href="account.html">
+    ☻
+    <span>My Account</span>
+  </a>
 
+</nav>
 
-            <input
-              id="phone"
-              type="tel"
-              placeholder="Mobile number"
-              required>
 
-
-            <button
-              type="submit"
-              class="full-btn">
-
-              Place Order
-
-            </button>
-
-
-          </form>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  `;
-
-
-  document.body.appendChild(app);
-
-
-  const form =
-    document.getElementById(
-      "orderForm"
-    );
-
-  const message =
-    document.getElementById(
-      "orderMessage"
-    );
-
-
-  form.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-
-      const playerId =
-        document.getElementById(
-          "playerId"
-        ).value.trim();
-
-
-      const phone =
-        document.getElementById(
-          "phone"
-        ).value.trim();
-
-
-      if (!playerId || !phone) {
-
-        message.textContent =
-          "Please fill in all fields.";
-
-        message.className =
-          "message error";
-
-        return;
-
-      }
-
-
-      const submitButton =
-        form.querySelector("button");
-
-
-      submitButton.disabled = true;
-
-      submitButton.textContent =
-        "Placing Order...";
-
-
-      try {
-
-        const orderId =
-          await createOrder(
-            product,
-            playerId,
-            phone
-          );
-
-
-        message.textContent =
-          `Order placed successfully. Order ID: ${orderId}`;
-
-        message.className =
-          "message success";
-
-
-        form.reset();
-
-
-        setTimeout(() => {
-
-          window.location.href =
-            "orders.html";
-
-        }, 1500);
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-          "Could not place order. Please try again.";
-
-        message.className =
-          "message error";
-
-
-        submitButton.disabled =
-          false;
-
-        submitButton.textContent =
-          "Place Order";
-
-      }
-
-    }
-  );
-
-
-  renderBottomNav();
-
-});
-
-</script>
+<script
+  type="module"
+  src="app.js"
+></script>
 
 </body>
 </html>
