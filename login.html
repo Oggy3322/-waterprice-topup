@@ -1,113 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
-  <title>Login - Water Price Top Up BD</title>
+<title>
+  Login • Water Price Top Up BD
+</title>
 
-  <link rel="stylesheet" href="style.css">
+<link
+  rel="stylesheet"
+  href="style.css"
+>
 
 </head>
 
-<body>
+<body class="auth-page">
 
-<main class="auth-page">
+<div class="auth-shell">
 
-  <div class="auth-card">
+  <a
+    class="auth-brand"
+    href="index.html"
+  >
 
-    <div class="auth-logo">
+    <span class="brand-mark">
+      W
+    </span>
+
+    <b>
+      Water Price<br>
+      Top Up BD
+    </b>
+
+  </a>
+
+
+  <section class="auth-card">
+
+    <div class="auth-icon">
       W
     </div>
 
-    <h1>Welcome back</h1>
-
-    <p class="auth-subtitle">
-      Login to continue to Water Price Top Up BD.
+    <p class="eyebrow">
+      WELCOME BACK
     </p>
 
-    <div id="message" class="message"></div>
+    <h1>
+      Login to your account
+    </h1>
+
+    <p class="muted">
+      Securely continue to your
+      top-up dashboard.
+    </p>
 
 
-    <button id="googleLogin" class="google-btn">
-
-      <svg
-        class="google-logo"
-        viewBox="0 0 24 24">
-
-        <path
-          fill="#4285F4"
-          d="M21.35 12.27c0-.79-.07-1.55-.23-2.27H12v4.3h5.22a4.46 4.46 0 0 1-1.94 2.93v2.43h3.14c1.84-1.69 2.93-4.18 2.93-7.39z"/>
-
-        <path
-          fill="#34A853"
-          d="M12 21.5c2.63 0 4.84-.87 6.45-2.34l-3.14-2.43c-.87.58-1.98.92-3.31.92-2.54 0-4.7-1.72-5.47-4.03H3.28v2.51A9.75 9.75 0 0 0 12 21.5z"/>
-
-        <path
-          fill="#FBBC05"
-          d="M6.53 13.62A5.86 5.86 0 0 1 6.22 12c0-.56.1-1.1.31-1.62V7.87H3.28A9.75 9.75 0 0 0 2.25 12c0 1.57.38 3.05 1.03 4.13l3.25-2.51z"/>
-
-        <path
-          fill="#EA4335"
-          d="M12 6.35c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.44 14.63 2.5 12 2.5a9.75 9.75 0 0 0-8.72 5.37l3.25 2.51C7.3 8.07 9.46 6.35 12 6.35z"/>
-
-      </svg>
-
+    <button
+      id="googleLogin"
+      class="social-btn"
+    >
+      G&nbsp;&nbsp;
       Continue with Google
-
     </button>
 
 
     <div class="divider">
-      OR
+      <span>OR</span>
     </div>
 
 
     <form id="loginForm">
 
-      <div class="form-group">
-
-        <label>Email address</label>
+      <label>
+        Email address
 
         <input
           id="email"
           type="email"
+          required
           placeholder="you@example.com"
-          required>
+        >
 
-      </div>
+      </label>
 
 
-      <div class="form-group">
-
-        <label>Password</label>
+      <label>
+        Password
 
         <input
           id="password"
           type="password"
+          required
           placeholder="Your password"
-          required>
+        >
 
-      </div>
+      </label>
 
 
       <button
-        class="primary-btn"
-        type="submit">
-
+        class="btn primary full"
+        type="submit"
+      >
         Login
-
       </button>
 
     </form>
 
 
-    <div class="auth-footer">
+    <p class="auth-footer">
 
       Don't have an account?
 
@@ -115,153 +122,31 @@
         Create account
       </a>
 
-    </div>
+    </p>
 
 
-    <div class="auth-footer">
-
-      <a href="index.html">
-        ← Back to website
-      </a>
-
-    </div>
-
-  </div>
-
-</main>
+    <a
+      class="back"
+      href="index.html"
+    >
+      ← Back to website
+    </a>
 
 
-<script type="module">
+    <p
+      id="authMessage"
+      class="message"
+    ></p>
 
-import {
-  auth,
-  googleProvider
-} from "./firebase-config.js";
+  </section>
 
-import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+</div>
 
 
-const message =
-  document.getElementById("message");
-
-
-function showError(text) {
-
-  message.textContent = text;
-
-  message.className =
-    "message error";
-
-}
-
-
-function redirectAfterLogin() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const redirect =
-    params.get("redirect");
-
-  if (redirect) {
-
-    window.location.href =
-      decodeURIComponent(redirect);
-
-  } else {
-
-    window.location.href =
-      "account.html";
-
-  }
-
-}
-
-
-/* Google */
-
-document
-  .getElementById("googleLogin")
-  .addEventListener("click", async () => {
-
-    try {
-
-      await signInWithPopup(
-        auth,
-        googleProvider
-      );
-
-      redirectAfterLogin();
-
-    } catch (error) {
-
-      console.error(error);
-
-      showError(
-        "Google login failed. Please try again."
-      );
-
-    }
-
-  });
-
-
-/* Email */
-
-document
-  .getElementById("loginForm")
-  .addEventListener("submit", async event => {
-
-    event.preventDefault();
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    const password =
-      document.getElementById("password").value;
-
-
-    try {
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      redirectAfterLogin();
-
-    } catch (error) {
-
-      console.error(error);
-
-      showError(
-        "Invalid email or password."
-      );
-
-    }
-
-  });
-
-
-onAuthStateChanged(auth, user => {
-
-  if (user) {
-
-    // Don't automatically redirect here,
-    // so the user can still see the page.
-
-  }
-
-});
-
-</script>
+<script
+  type="module"
+  src="app.js"
+></script>
 
 </body>
 </html>
