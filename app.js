@@ -9,8 +9,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
@@ -24,9 +24,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/* -----------------------------
+/* =====================================================
    PRODUCTS
------------------------------ */
+===================================================== */
 
 export const products = [
   {
@@ -95,18 +95,26 @@ export const products = [
 ];
 
 
-/* -----------------------------
-   HELPERS
------------------------------ */
+/* =====================================================
+   GET PRODUCT
+===================================================== */
 
 export function getProduct(id) {
   return products.find(product => product.id === id);
 }
 
+
+/* =====================================================
+   LOGIN REQUIRED
+===================================================== */
+
 export function requireLogin(returnUrl = window.location.href) {
+
   if (!auth.currentUser) {
+
     window.location.href =
       `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+
     return false;
   }
 
@@ -114,278 +122,325 @@ export function requireLogin(returnUrl = window.location.href) {
 }
 
 
-/* -----------------------------
+/* =====================================================
    GOOGLE LOGIN
------------------------------ */
+===================================================== */
 
 export async function loginWithGoogle() {
+
   try {
-    const result = await signInWithPopup(auth, googleProvider);
+
+    const result =
+      await signInWithPopup(
+        auth,
+        googleProvider
+      );
 
     return result.user;
 
   } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
 
-
-/* -----------------------------
-   EMAIL LOGIN
------------------------------ */
-
-export async function loginWithEmail(email, password) {
-  try {
-    const result = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
+    console.error(
+      "Google login error:",
+      error
     );
 
-    return result.user;
-
-  } catch (error) {
-    console.error(error);
     throw error;
   }
 }
 
 
-/* -----------------------------
+/* =====================================================
+   EMAIL LOGIN
+===================================================== */
+
+export async function loginWithEmail(
+  email,
+  password
+) {
+
+  try {
+
+    const result =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+    return result.user;
+
+  } catch (error) {
+
+    console.error(
+      "Email login error:",
+      error
+    );
+
+    throw error;
+  }
+}
+
+
+/* =====================================================
    REGISTER
------------------------------ */
+===================================================== */
 
 export async function registerWithEmail(
   name,
   email,
   password
 ) {
-  try {
-    const result = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
 
-    await updateProfile(result.user, {
-      displayName: name
-    });
+  try {
+
+    const result =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+    await updateProfile(
+      result.user,
+      {
+        displayName: name
+      }
+    );
 
     return result.user;
 
   } catch (error) {
-    console.error(error);
+
+    console.error(
+      "Registration error:",
+      error
+    );
+
     throw error;
   }
 }
 
 
-/* -----------------------------
+/* =====================================================
    LOGOUT
------------------------------ */
+===================================================== */
 
 export async function logout() {
-  await signOut(auth);
-  window.location.href = "index.html";
+
+  try {
+
+    await signOut(auth);
+
+    window.location.href =
+      "index.html";
+
+  } catch (error) {
+
+    console.error(
+      "Logout error:",
+      error
+    );
+  }
 }
 
 
-/* -----------------------------
-   SAVE ORDER
------------------------------ */
+/* =====================================================
+   CREATE ORDER
+   IMPORTANT:
+   uid is saved with the order.
+===================================================== */
 
 export async function createOrder(
   product,
   playerId,
   phone
 ) {
-  if (!auth.currentUser) {
-    throw new Error("LOGIN_REQUIRED");
+
+  const user =
+    auth.currentUser;
+
+
+  if (!user) {
+
+    throw new Error(
+      "LOGIN_REQUIRED"
+    );
   }
 
-  const order = {
-    userId: auth.currentUser.uid,
 
-    userEmail:
-      auth.currentUser.email || "",
+  const orderData = {
+
+    /*
+      THIS IS THE USER OWNER
+    */
+    uid: user.uid,
+
+    /*
+      Extra user information
+    */
+    email:
+      user.email || "",
 
     userName:
-      auth.currentUser.displayName || "",
+      user.displayName || "",
 
-    productId: product.id,
+    /*
+      Product
+    */
+    productId:
+      product.id,
 
-    productName: product.name,
+    productName:
+      product.name,
 
-    price: product.price,
+    price:
+      Number(product.price),
 
-    playerId: playerId,
+    /*
+      Customer information
+    */
+    playerId:
+      playerId,
 
-    phone: phone,
+    phone:
+      phone,
 
-    status: "Pending",
+    /*
+      Order status
+    */
+    status:
+      "Pending",
 
-    createdAt: serverTimestamp()
+    /*
+      Firebase server time
+    */
+    createdAt:
+      serverTimestamp()
   };
 
-  const docRef = await addDoc(
-    collection(db, "orders"),
-    order
-  );
+
+  /*
+    Firestore creates the order here.
+  */
+
+  const docRef =
+    await addDoc(
+      collection(db, "orders"),
+      orderData
+    );
+
 
   return docRef.id;
 }
 
 
-/* -----------------------------
-   LOAD USER ORDERS
------------------------------ */
+/* =====================================================
+   LOAD CURRENT USER'S ORDERS ONLY
+===================================================== */
 
 export async function loadUserOrders() {
-  if (!auth.currentUser) {
-    return [];
+
+  const user =
+    auth.currentUser;
+
+
+  if (!user) {
+
+    throw new Error(
+      "LOGIN_REQUIRED"
+    );
   }
 
-  const q = query(
-    collection(db, "orders"),
-    where("userId", "==", auth.currentUser.uid),
-    orderBy("createdAt", "desc")
+
+  /*
+    IMPORTANT:
+
+    Only documents where
+    uid == current user's uid
+    will be requested.
+  */
+
+  const ordersQuery =
+    query(
+
+      collection(
+        db,
+        "orders"
+      ),
+
+      where(
+        "uid",
+        "==",
+        user.uid
+      ),
+
+      orderBy(
+        "createdAt",
+        "desc"
+      )
+    );
+
+
+  const snapshot =
+    await getDocs(
+      ordersQuery
+    );
+
+
+  const orders = [];
+
+
+  snapshot.forEach(
+    documentSnapshot => {
+
+      orders.push({
+
+        id:
+          documentSnapshot.id,
+
+        ...documentSnapshot.data()
+
+      });
+
+    }
   );
 
-  const snapshot = await getDocs(q);
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
+  return orders;
 }
 
 
-/* -----------------------------
-   AUTH UI
------------------------------ */
-
-export function setupAuthUI() {
-
-  onAuthStateChanged(auth, user => {
-
-    document.querySelectorAll(
-      "[data-user-name]"
-    ).forEach(element => {
-
-      element.textContent =
-        user?.displayName ||
-        user?.email ||
-        "Guest";
-
-    });
-
-
-    document.querySelectorAll(
-      "[data-login-button]"
-    ).forEach(button => {
-
-      if (user) {
-
-        button.textContent = "Account";
-
-        button.onclick = () => {
-          window.location.href = "account.html";
-        };
-
-      } else {
-
-        button.textContent = "Login";
-
-        button.onclick = () => {
-          window.location.href = "login.html";
-        };
-
-      }
-
-    });
-
-
-    document.querySelectorAll(
-      "[data-logout]"
-    ).forEach(button => {
-
-      button.onclick = logout;
-
-    });
-
-
-    document.querySelectorAll(
-      "[data-protected]"
-    ).forEach(element => {
-
-      element.onclick = () => {
-        requireLogin();
-      };
-
-    });
-
-  });
-}
-
-
-/* -----------------------------
-   BOTTOM NAV
------------------------------ */
-
-export function renderBottomNav(active = "home") {
-
-  const nav = document.createElement("nav");
-
-  nav.className = "bottom-nav";
-
-  nav.innerHTML = `
-    <a class="nav-item ${active === "home" ? "active" : ""}"
-       href="index.html">
-      <span class="nav-icon">⌂</span>
-      Home
-    </a>
-
-    <a class="nav-item ${active === "orders" ? "active" : ""}"
-       href="orders.html">
-      <span class="nav-icon">▣</span>
-      My Orders
-    </a>
-
-    <a class="add-nav"
-       href="index.html#products">
-       +
-    </a>
-
-    <a class="nav-item"
-       href="index.html#codes">
-      <span class="nav-icon">▤</span>
-      My Codes
-    </a>
-
-    <a class="nav-item ${active === "account" ? "active" : ""}"
-       href="account.html">
-      <span class="nav-icon">♙</span>
-      My Account
-    </a>
-  `;
-
-  document.body.appendChild(nav);
-}
-
-
-/* -----------------------------
+/* =====================================================
    HEADER
------------------------------ */
+===================================================== */
 
 export function renderHeader() {
 
-  const header = document.createElement("header");
+  const oldHeader =
+    document.querySelector(
+      ".top-header"
+    );
 
-  header.className = "top-header";
+  if (oldHeader) {
+    oldHeader.remove();
+  }
+
+
+  const header =
+    document.createElement(
+      "header"
+    );
+
+  header.className =
+    "top-header";
+
 
   header.innerHTML = `
-    <a href="index.html" class="brand">
+
+    <a
+      href="index.html"
+      class="brand">
 
       <div class="brand-logo">
         W
@@ -398,27 +453,217 @@ export function renderHeader() {
 
     </a>
 
+
     <div class="header-actions">
 
-      <button class="wallet-btn">
-        ৳ <span id="headerBalance">0</span>
+      <button
+        class="wallet-btn">
+
+        ৳ <span id="headerBalance">
+          0
+        </span>
+
       </button>
+
 
       <button
         class="login-btn"
-        data-login-button>
+        id="headerLoginButton">
+
         Login
+
       </button>
 
     </div>
+
   `;
 
-  document.body.prepend(header);
+
+  document.body.prepend(
+    header
+  );
+
+
+  const loginButton =
+    document.getElementById(
+      "headerLoginButton"
+    );
+
+
+  onAuthStateChanged(
+    auth,
+    user => {
+
+      if (!loginButton) {
+        return;
+      }
+
+
+      if (user) {
+
+        loginButton.textContent =
+          "Account";
+
+        loginButton.onclick =
+          () => {
+
+            window.location.href =
+              "account.html";
+
+          };
+
+      } else {
+
+        loginButton.textContent =
+          "Login";
+
+        loginButton.onclick =
+          () => {
+
+            window.location.href =
+              "login.html";
+
+          };
+
+      }
+
+    }
+  );
 }
 
 
-/* -----------------------------
-   START GLOBAL UI
------------------------------ */
+/* =====================================================
+   BOTTOM NAVIGATION
+===================================================== */
 
-setupAuthUI();
+export function renderBottomNav(
+  active = "home"
+) {
+
+  const oldNav =
+    document.querySelector(
+      ".bottom-nav"
+    );
+
+  if (oldNav) {
+    oldNav.remove();
+  }
+
+
+  const nav =
+    document.createElement(
+      "nav"
+    );
+
+  nav.className =
+    "bottom-nav";
+
+
+  nav.innerHTML = `
+
+    <a
+      class="nav-item ${
+        active === "home"
+          ? "active"
+          : ""
+      }"
+      href="index.html">
+
+      <span class="nav-icon">
+        ⌂
+      </span>
+
+      Home
+
+    </a>
+
+
+    <a
+      class="nav-item ${
+        active === "orders"
+          ? "active"
+          : ""
+      }"
+      href="orders.html">
+
+      <span class="nav-icon">
+        ▣
+      </span>
+
+      My Orders
+
+    </a>
+
+
+    <a
+      class="add-nav"
+      href="index.html#products">
+
+      +
+
+    </a>
+
+
+    <a
+      class="nav-item"
+      href="index.html#codes">
+
+      <span class="nav-icon">
+        ▤
+      </span>
+
+      My Codes
+
+    </a>
+
+
+    <a
+      class="nav-item ${
+        active === "account"
+          ? "active"
+          : ""
+      }"
+      href="account.html">
+
+      <span class="nav-icon">
+        ♙
+      </span>
+
+      My Account
+
+    </a>
+
+  `;
+
+
+  document.body.appendChild(
+    nav
+  );
+}
+
+
+/* =====================================================
+   GLOBAL AUTH UI
+===================================================== */
+
+onAuthStateChanged(
+  auth,
+  user => {
+
+    document
+      .querySelectorAll(
+        "[data-user-name]"
+      )
+      .forEach(
+        element => {
+
+          element.textContent =
+            user?.displayName ||
+            user?.email ||
+            "Guest";
+
+        }
+      );
+
+  }
+);
