@@ -1,93 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
 
-  <title>Create Account - Water Price Top Up BD</title>
+<title>
+  Create Account • Water Price Top Up BD
+</title>
 
-  <link rel="stylesheet" href="style.css">
+<link
+  rel="stylesheet"
+  href="style.css"
+>
 
 </head>
 
-<body>
+<body class="auth-page">
 
-<main class="auth-page">
+<div class="auth-shell">
 
-  <div class="auth-card">
+  <a
+    class="auth-brand"
+    href="index.html"
+  >
 
-    <div class="auth-logo">
+    <span class="brand-mark">
+      W
+    </span>
+
+    <b>
+      Water Price<br>
+      Top Up BD
+    </b>
+
+  </a>
+
+
+  <section class="auth-card">
+
+    <div class="auth-icon">
       W
     </div>
 
-    <h1>Create account</h1>
-
-    <p class="auth-subtitle">
-      Create your Water Price Top Up BD account.
+    <p class="eyebrow">
+      CREATE ACCOUNT
     </p>
 
-    <div id="message" class="message"></div>
+    <h1>
+      Join Water Price
+    </h1>
+
+    <p class="muted">
+      Create your account to track
+      orders and rank progress.
+    </p>
 
 
     <form id="registerForm">
 
-      <div class="form-group">
-
-        <label>Your name</label>
+      <label>
+        Name
 
         <input
           id="name"
-          type="text"
+          required
           placeholder="Your name"
-          required>
+        >
 
-      </div>
+      </label>
 
 
-      <div class="form-group">
-
-        <label>Email address</label>
+      <label>
+        Email address
 
         <input
           id="email"
           type="email"
+          required
           placeholder="you@example.com"
-          required>
+        >
 
-      </div>
+      </label>
 
 
-      <div class="form-group">
-
-        <label>Password</label>
+      <label>
+        Password
 
         <input
           id="password"
           type="password"
           minlength="6"
-          placeholder="At least 6 characters"
-          required>
+          required
+          placeholder="Minimum 6 characters"
+        >
 
-      </div>
+      </label>
 
 
       <button
+        class="btn primary full"
         type="submit"
-        class="primary-btn">
-
-        Create Account
-
+      >
+        Create account
       </button>
 
     </form>
 
 
-    <div class="auth-footer">
+    <p class="auth-footer">
 
       Already have an account?
 
@@ -95,110 +121,31 @@
         Login
       </a>
 
-    </div>
+    </p>
 
 
-    <div class="auth-footer">
-
-      <a href="index.html">
-        ← Back to website
-      </a>
-
-    </div>
-
-  </div>
-
-</main>
+    <a
+      class="back"
+      href="index.html"
+    >
+      ← Back to website
+    </a>
 
 
-<script type="module">
+    <p
+      id="authMessage"
+      class="message"
+    ></p>
 
-import {
-  registerWithEmail
-} from "./app.js";
+  </section>
 
-
-const form =
-  document.getElementById("registerForm");
-
-const message =
-  document.getElementById("message");
+</div>
 
 
-form.addEventListener("submit", async event => {
-
-  event.preventDefault();
-
-
-  const name =
-    document.getElementById("name")
-      .value.trim();
-
-  const email =
-    document.getElementById("email")
-      .value.trim();
-
-  const password =
-    document.getElementById("password")
-      .value;
-
-
-  try {
-
-    await registerWithEmail(
-      name,
-      email,
-      password
-    );
-
-    message.textContent =
-      "Account created successfully.";
-
-    message.className =
-      "message success";
-
-
-    setTimeout(() => {
-
-      window.location.href =
-        "account.html";
-
-    }, 700);
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    let text =
-      "Could not create account.";
-
-    if (error.code ===
-        "auth/email-already-in-use") {
-
-      text =
-        "This email is already registered.";
-
-    }
-
-    if (error.code ===
-        "auth/weak-password") {
-
-      text =
-        "Password must be at least 6 characters.";
-
-    }
-
-    message.textContent = text;
-
-    message.className =
-      "message error";
-
-  }
-
-});
-
-</script>
+<script
+  type="module"
+  src="app.js"
+></script>
 
 </body>
 </html>
