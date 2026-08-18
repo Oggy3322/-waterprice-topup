@@ -1,1 +1,87 @@
- 
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bronze" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd39a"/>
+      <stop offset="35%" stop-color="#c87941"/>
+      <stop offset="70%" stop-color="#8f4b28"/>
+      <stop offset="100%" stop-color="#e6a06b"/>
+    </linearGradient>
+
+    <radialGradient id="shine">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Premium glow -->
+  <circle cx="100" cy="100" r="86"
+          fill="none"
+          stroke="#e49a68"
+          stroke-width="5"
+          opacity=".55"
+          filter="url(#glow)"/>
+
+  <!-- Badge -->
+  <path d="M100 12
+           L124 27
+           L151 25
+           L164 48
+           L187 64
+           L178 91
+           L187 116
+           L164 132
+           L151 158
+           L124 155
+           L100 188
+           L76 155
+           L49 158
+           L36 132
+           L13 116
+           L22 91
+           L13 64
+           L36 48
+           L49 25
+           L76 27 Z"
+        fill="url(#bronze)"
+        stroke="#fff0df"
+        stroke-width="4"/>
+
+  <!-- Inner shield -->
+  <path d="M100 43
+           L139 61
+           L133 119
+           Q100 148 67 119
+           L61 61 Z"
+        fill="#7f4328"
+        stroke="#f5c29c"
+        stroke-width="4"/>
+
+  <!-- Rank mark -->
+  <path d="M100 58
+           L111 82
+           L137 85
+           L118 103
+           L123 129
+           L100 117
+           L77 129
+           L82 103
+           L63 85
+           L89 82 Z"
+        fill="url(#bronze)"
+        stroke="#ffe2c7"
+        stroke-width="3"/>
+
+  <!-- Shine -->
+  <ellipse cx="70" cy="55" rx="38" ry="20"
+           fill="url(#shine)"
+           opacity=".45"
+           transform="rotate(-25 70 55)"/>
+</svg>
