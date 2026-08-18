@@ -1,548 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>My Orders - Water Price Top Up BD</title>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-
-    body {
-
-      margin: 0;
-
-      font-family:
-        Inter,
-        Arial,
-        sans-serif;
-
-      background:
-        #f5f7fb;
-
-      color: #111827;
-
-    }
-
-
-    /* ================= HEADER ================= */
-
-    .header {
-
-      height: 72px;
-
-      background: white;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      padding:
-        0 24px;
-
-      box-shadow:
-        0 2px 15px
-        rgba(0,0,0,.06);
-
-      position: sticky;
-
-      top: 0;
-
-      z-index: 100;
-
-    }
-
-
-    .logo {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      text-decoration: none;
-
-      color: #5b21e6;
-
-      font-size: 21px;
-
-      font-weight: 800;
-
-    }
-
-
-    .logo-icon {
-
-      width: 45px;
-
-      height: 45px;
-
-      border-radius: 14px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      color: white;
-
-      font-size: 25px;
-
-      font-weight: 900;
-
-      background:
-        linear-gradient(
-          135deg,
-          #6d28d9,
-          #9333ea
-        );
-
-      box-shadow:
-        0 8px 20px
-        rgba(109,40,217,.25);
-
-    }
-
-
-    .back-btn {
-
-      text-decoration: none;
-
-      color: #5b21e6;
-
-      font-weight: 700;
-
-    }
-
-
-    /* ================= MAIN ================= */
-
-    .container {
-
-      width: 100%;
-
-      max-width: 850px;
-
-      margin: auto;
-
-      padding:
-        35px 18px 100px;
-
-    }
-
-
-    .page-title {
-
-      font-size: 34px;
-
-      margin:
-        0 0 8px;
-
-      font-weight: 850;
-
-    }
-
-
-    .page-subtitle {
-
-      margin:
-        0 0 28px;
-
-      color: #6b7280;
-
-      font-size: 15px;
-
-    }
-
-
-    /* ================= ORDER CARD ================= */
-
-    .order-card {
-
-      background: white;
-
-      border-radius: 20px;
-
-      padding: 22px;
-
-      margin-bottom: 18px;
-
-      border:
-        1px solid #e5e7eb;
-
-      box-shadow:
-        0 8px 30px
-        rgba(15,23,42,.06);
-
-    }
-
-
-    .order-top {
-
-      display: flex;
-
-      justify-content:
-        space-between;
-
-      align-items: center;
-
-      gap: 15px;
-
-      padding-bottom: 16px;
-
-      border-bottom:
-        1px solid #edf0f4;
-
-    }
-
-
-    .order-label {
-
-      display: block;
-
-      font-size: 11px;
-
-      color: #9ca3af;
-
-      font-weight: 700;
-
-      letter-spacing: 1px;
-
-      margin-bottom: 4px;
-
-    }
-
-
-    .status {
-
-      padding:
-        7px 13px;
-
-      border-radius: 50px;
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      text-transform: capitalize;
-
-    }
-
-
-    .status.pending {
-
-      background: #fff7ed;
-
-      color: #c2410c;
-
-    }
-
-
-    .status.completed {
-
-      background: #ecfdf5;
-
-      color: #047857;
-
-    }
-
-
-    .status.cancelled {
-
-      background: #fef2f2;
-
-      color: #dc2626;
-
-    }
-
-
-    .order-info {
-
-      padding-top: 18px;
-
-    }
-
-
-    .order-info h3 {
-
-      margin:
-        0 0 15px;
-
-      font-size: 21px;
-
-    }
-
-
-    .order-info p {
-
-      margin:
-        8px 0;
-
-      color: #6b7280;
-
-    }
-
-
-    .order-info strong {
-
-      color: #111827;
-
-    }
-
-
-    .order-date {
-
-      font-size: 12px;
-
-      color: #9ca3af !important;
-
-      margin-top: 18px !important;
-
-    }
-
-
-    /* ================= EMPTY ================= */
-
-    .empty-box {
-
-      background: white;
-
-      border-radius: 24px;
-
-      padding: 55px 25px;
-
-      text-align: center;
-
-      box-shadow:
-        0 8px 30px
-        rgba(15,23,42,.06);
-
-    }
-
-
-    .empty-icon {
-
-      font-size: 50px;
-
-      margin-bottom: 15px;
-
-    }
-
-
-    .empty-box h3 {
-
-      margin:
-        0 0 8px;
-
-      font-size: 24px;
-
-    }
-
-
-    .empty-box p {
-
-      color: #6b7280;
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .shop-btn,
-    .login-btn {
-
-      display: inline-block;
-
-      text-decoration: none;
-
-      background:
-        linear-gradient(
-          135deg,
-          #6d28d9,
-          #9333ea
-        );
-
-      color: white;
-
-      padding:
-        13px 24px;
-
-      border-radius: 12px;
-
-      font-weight: 800;
-
-    }
-
-
-    /* ================= LOADING ================= */
-
-    .loading {
-
-      background: white;
-
-      border-radius: 20px;
-
-      padding: 40px;
-
-      text-align: center;
-
-      color: #6b7280;
-
-    }
-
-
-    .error-box {
-
-      background: #fff1f2;
-
-      color: #be123c;
-
-      border-radius: 18px;
-
-      padding: 25px;
-
-    }
-
-
-    /* ================= MOBILE ================= */
-
-    @media (max-width: 600px) {
-
-      .header {
-
-        padding:
-          0 15px;
-
-      }
-
-
-      .logo {
-
-        font-size: 17px;
-
-      }
-
-
-      .logo-icon {
-
-        width: 40px;
-
-        height: 40px;
-
-      }
-
-
-      .container {
-
-        padding:
-          28px 14px 80px;
-
-      }
-
-
-      .page-title {
-
-        font-size: 29px;
-
-      }
-
-
-      .order-card {
-
-        padding: 18px;
-
-        border-radius: 17px;
-
-      }
-
-    }
-
-  </style>
+<meta charset="utf-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
+<title>
+  My Orders
+</title>
+
+<link
+  rel="stylesheet"
+  href="style.css"
+>
 
 </head>
 
 
 <body>
 
+<header class="topbar">
 
-  <!-- ================= HEADER ================= -->
+  <a
+    class="brand"
+    href="index.html"
+  >
 
-  <header class="header">
+    <span class="brand-mark">
+      W
+    </span>
 
-    <a
-      href="index.html"
-      class="logo"
-    >
+    <span>
+      WATER PRICE<br>
+      <b>TOP UP BD</b>
+    </span>
 
-      <div class="logo-icon">
-        W
-      </div>
-
-      <span>
-        Water Price Top Up BD
-      </span>
-
-    </a>
+  </a>
 
 
-    <a
-      href="index.html"
-      class="back-btn"
-    >
-      Home
-    </a>
+  <div class="wallet-pill">
 
-  </header>
+    ▣
+
+    <span data-wallet>
+      ৳0
+    </span>
+
+  </div>
 
 
-  <!-- ================= CONTENT ================= -->
+  <button
+    class="avatar"
+    data-account
+  >
+    U
+  </button>
 
-  <main class="container">
+</header>
 
-    <h1 class="page-title">
+
+<main class="page">
+
+  <div class="page-title">
+
+    <p class="eyebrow">
+      HISTORY
+    </p>
+
+    <h1>
       My Orders
     </h1>
 
-    <p class="page-subtitle">
-      View and track your orders
+    <p class="muted">
+      Only orders belonging to your
+      signed-in account are shown.
     </p>
 
+  </div>
 
-    <div id="ordersContainer">
 
-      <div class="loading">
-        Checking login...
-      </div>
+  <div
+    id="ordersList"
+    class="orders-list"
+  >
 
+    <div class="loading">
+      Checking login...
     </div>
 
-  </main>
+  </div>
+
+</main>
 
 
-  <!-- ================= FIREBASE APP ================= -->
+<nav class="bottom-nav">
 
-  <script
-    type="module"
-    src="./app.js"
-  ></script>
+  <a href="index.html">
+    ⌂
+    <span>Home</span>
+  </a>
 
+  <a
+    class="active"
+    href="orders.html"
+  >
+    ▣
+    <span>My Orders</span>
+  </a>
+
+  <a
+    class="add"
+    href="product.html"
+  >
+    ＋
+  </a>
+
+  <a href="account.html">
+    ☻
+    <span>My Account</span>
+  </a>
+
+</nav>
+
+
+<script
+  type="module"
+  src="app.js"
+></script>
 
 </body>
-
 </html>
