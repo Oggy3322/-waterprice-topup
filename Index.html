@@ -1,1155 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Water Price Top Up BD</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background: #f5f7fb;
-      color: #171717;
-    }
-
-    button {
-      cursor: pointer;
-      border: none;
-    }
-
-    /* HEADER */
-    header {
-      height: 76px;
-      background: white;
-      border-bottom: 1px solid #e7e7e7;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6%;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #6730ff, #8b42ff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .brand {
-      font-size: 23px;
-      font-weight: 800;
-      color: #6128e9;
-    }
-
-    nav {
-      display: flex;
-      gap: 28px;
-      align-items: center;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #444;
-      font-weight: 600;
-    }
-
-    nav a:hover {
-      color: #6429ec;
-    }
-
-    .login-btn,
-    .logout-btn {
-      background: linear-gradient(135deg, #6429ed, #7d32ff);
-      color: white;
-      padding: 13px 23px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .user-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-name {
-      font-weight: 700;
-      color: #444;
-      max-width: 130px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #6125ec, #8738ff);
-      color: white;
-      padding: 70px 7%;
-    }
-
-    .hero-content {
-      max-width: 1150px;
-      margin: auto;
-    }
-
-    .hero h1 {
-      font-size: 43px;
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      opacity: .92;
-      max-width: 650px;
-      line-height: 1.6;
-    }
-
-    .hero-btn {
-      margin-top: 28px;
-      background: white;
-      color: #6328ed;
-      padding: 15px 25px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 16px;
-    }
-
-    /* MAIN */
-    .container {
-      width: 90%;
-      max-width: 1150px;
-      margin: 40px auto;
-    }
-
-    .section-title {
-      font-size: 28px;
-      margin-bottom: 22px;
-    }
-
-    /* OFFERS */
-    .offers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .offer-card {
-      background: white;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-      border: 1px solid #eee;
-    }
-
-    .offer-card h3 {
-      color: #6027e9;
-      font-size: 21px;
-      margin-bottom: 10px;
-    }
-
-    .offer-card p {
-      color: #666;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-
-    .price {
-      font-size: 25px;
-      font-weight: 800;
-      margin-bottom: 17px;
-    }
-
-    .order-btn {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      background: #6729ed;
-      color: white;
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    .order-btn:hover {
-      background: #5220c8;
-    }
-
-    /* FEATURES */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-
-    .feature {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,.05);
-    }
-
-    .feature-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .feature h3 {
-      margin-bottom: 8px;
-    }
-
-    .feature p {
-      color: #666;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #151515;
-      color: white;
-      text-align: center;
-      padding: 30px 15px;
-      margin-top: 60px;
-    }
-
-    footer p {
-      color: #aaa;
-      margin-top: 8px;
-    }
-
-    /* MODAL */
-    .modal-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.65);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      z-index: 999;
-    }
-
-    .modal-bg.show {
-      display: flex;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 430px;
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      position: relative;
-      box-shadow: 0 20px 60px rgba(0,0,0,.3);
-    }
-
-    .close {
-      position: absolute;
-      right: 18px;
-      top: 15px;
-      background: transparent;
-      font-size: 25px;
-      color: #777;
-    }
-
-    .modal h2 {
-      text-align: center;
-      margin-bottom: 8px;
-    }
-
-    .modal-subtitle {
-      text-align: center;
-      color: #777;
-      margin-bottom: 22px;
-      font-size: 14px;
-    }
-
-    .input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .input:focus {
-      border-color: #6729ed;
-    }
-
-    .main-auth-btn {
-      width: 100%;
-      padding: 14px;
-      background: #6729ed;
-      color: white;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 5px;
-    }
-
-    .google-btn {
-      width: 100%;
-      padding: 14px;
-      background: white;
-      color: #333;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 700;
-      margin-top: 12px;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 18px 0;
-      color: #999;
-      font-size: 13px;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      height: 1px;
-      background: #ddd;
-      flex: 1;
-    }
-
-    .switch-auth {
-      text-align: center;
-      margin-top: 18px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    .switch-auth span {
-      color: #6429ed;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .error {
-      color: #e53935;
-      font-size: 13px;
-      margin: 8px 0;
-      display: none;
-    }
-
-    /* ORDER MODAL */
-    .order-info {
-      background: #f5f1ff;
-      padding: 15px;
-      border-radius: 12px;
-      margin: 15px 0;
-    }
-
-    .order-info strong {
-      color: #6027e9;
-    }
-
-    /* MOBILE */
-    @media (max-width: 800px) {
-      header {
-        padding: 0 18px;
-      }
-
-      .brand {
-        font-size: 18px;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .hero {
-        padding: 50px 22px;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .offers {
-        grid-template-columns: 1fr;
-      }
-
-      .features {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .user-name {
-        display: none;
-      }
-    }
-
-    @media (max-width: 450px) {
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .logo {
-        width: 43px;
-        height: 43px;
-      }
-
-      .login-btn,
-      .logout-btn {
-        padding: 11px 16px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header>
+<header class="header">
 
-  <div class="logo-area">
-    <div class="logo">W</div>
-    <div class="brand">Water Price Top Up BD</div>
-  </div>
+  <div class="container navbar">
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#offers">Weekly Offers</a>
-    <a href="#monthly">Monthly</a>
-    <a href="#support">Support</a>
-  </nav>
+    <a href="index.html" class="brand">
 
-  <div id="authArea">
-    <button class="login-btn" onclick="openLogin()">Login</button>
+      <div class="brand-logo">W</div>
+
+      <div class="brand-name">
+        Water Price Top Up BD
+      </div>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+      <a href="index.html" class="nav-link">
+        Home
+      </a>
+
+      <a href="#offers" class="nav-link">
+        Offers
+      </a>
+
+      <a href="orders.html"
+         class="nav-link"
+         data-orders>
+        My Orders
+      </a>
+
+      <button
+        class="btn btn-light"
+        data-account>
+        Account
+      </button>
+
+      <a
+        href="login.html"
+        class="btn btn-primary"
+        data-login>
+        Login
+      </a>
+
+      <button
+        class="btn btn-danger"
+        data-logout
+        style="display:none;">
+        Logout
+      </button>
+
+    </nav>
+
   </div>
 
 </header>
 
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-content">
+<main>
 
-    <h1>Water Price Top Up BD</h1>
+<section class="hero">
 
-    <p>
-      Fast, simple and secure digital top-up service.
-      Choose your package and place your order easily.
-    </p>
+  <div class="container hero-grid">
 
-    <button class="hero-btn" onclick="scrollToOffers()">
-      View Offers
-    </button>
+    <div>
+
+      <h1>
+        Water Price<br>
+        Top Up BD
+      </h1>
+
+      <p>
+        Fast, simple and secure digital top-up service.
+        Choose your package and place your order easily.
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          href="#offers"
+          class="btn btn-light">
+          View Offers
+        </a>
+
+        <a
+          href="account.html"
+          class="btn btn-light">
+          My Account
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="hero-card">
+
+      <div class="hero-card-title">
+        Why choose us?
+      </div>
+
+      <div class="hero-stat">
+        <strong>⚡ Fast</strong>
+        Quick order processing
+      </div>
+
+      <div class="hero-stat">
+        <strong>🔒 Secure</strong>
+        Secure account system
+      </div>
+
+      <div class="hero-stat">
+        <strong>💎 Easy</strong>
+        Simple top-up ordering
+      </div>
+
+    </div>
 
   </div>
+
 </section>
 
 
-<!-- OFFERS -->
-<div class="container" id="offers">
+<section class="section" id="offers">
 
-  <h2 class="section-title">Weekly Offers</h2>
+  <div class="container">
 
-  <div class="offers">
+    <h2 class="section-title">
+      Weekly Offers
+    </h2>
 
-    <div class="offer-card">
-      <h3>Weekly Basic</h3>
-      <p>Perfect package for regular users.</p>
-      <div class="price">৳50</div>
-
-      <button
-        class="order-btn"
-        onclick="startOrder('Weekly Basic', '৳50')">
-        Order Now
-      </button>
-    </div>
+    <p class="section-subtitle">
+      Choose your preferred package and order now.
+    </p>
 
 
-    <div class="offer-card">
-      <h3>Weekly Standard</h3>
-      <p>More value for your weekly usage.</p>
-      <div class="price">৳100</div>
-
-      <button
-        class="order-btn"
-        onclick="startOrder('Weekly Standard', '৳100')">
-        Order Now
-      </button>
-    </div>
+    <div class="product-grid">
 
 
-    <div class="offer-card">
-      <h3>Weekly Premium</h3>
-      <p>Premium weekly package for heavy users.</p>
-      <div class="price">৳200</div>
+      <div class="product-card">
 
-      <button
-        class="order-btn"
-        onclick="startOrder('Weekly Premium', '৳200')">
-        Order Now
-      </button>
-    </div>
+        <div class="product-icon">
+          W
+        </div>
 
-  </div>
-</div>
+        <h3>
+          Starter Package
+        </h3>
 
+        <p>
+          Basic top-up package.
+        </p>
 
-<!-- MONTHLY -->
-<div class="container" id="monthly">
+        <div class="price">
+          ৳50
+        </div>
 
-  <h2 class="section-title">Monthly Offers</h2>
+        <br>
 
-  <div class="offers">
+        <button
+          class="btn btn-primary"
+          data-order
+          data-product="Starter Package"
+          data-price="50">
+          Order Now
+        </button>
 
-    <div class="offer-card">
-      <h3>Monthly Basic</h3>
-      <p>Simple monthly package.</p>
-      <div class="price">৳300</div>
-
-      <button
-        class="order-btn"
-        onclick="startOrder('Monthly Basic', '৳300')">
-        Order Now
-      </button>
-    </div>
+      </div>
 
 
-    <div class="offer-card">
-      <h3>Monthly Standard</h3>
-      <p>Best choice for regular monthly users.</p>
-      <div class="price">৳500</div>
+      <div class="product-card">
 
-      <button
-        class="order-btn"
-        onclick="startOrder('Monthly Standard', '৳500')">
-        Order Now
-      </button>
-    </div>
+        <div class="product-icon">
+          W
+        </div>
+
+        <h3>
+          Popular Package
+        </h3>
+
+        <p>
+          Best value package.
+        </p>
+
+        <div class="price">
+          ৳100
+        </div>
+
+        <br>
+
+        <button
+          class="btn btn-primary"
+          data-order
+          data-product="Popular Package"
+          data-price="100">
+          Order Now
+        </button>
+
+      </div>
 
 
-    <div class="offer-card">
-      <h3>Monthly Premium</h3>
-      <p>Maximum value monthly package.</p>
-      <div class="price">৳1000</div>
+      <div class="product-card">
 
-      <button
-        class="order-btn"
-        onclick="startOrder('Monthly Premium', '৳1000')">
-        Order Now
-      </button>
-    </div>
+        <div class="product-icon">
+          W
+        </div>
 
-  </div>
-</div>
+        <h3>
+          Premium Package
+        </h3>
+
+        <p>
+          Premium top-up package.
+        </p>
+
+        <div class="price">
+          ৳200
+        </div>
+
+        <br>
+
+        <button
+          class="btn btn-primary"
+          data-order
+          data-product="Premium Package"
+          data-price="200">
+          Order Now
+        </button>
+
+      </div>
 
 
-<!-- FEATURES -->
-<div class="container">
-
-  <h2 class="section-title">Why Choose Us?</h2>
-
-  <div class="features">
-
-    <div class="feature">
-      <div class="feature-icon">⚡</div>
-      <h3>Fast Service</h3>
-      <p>Quick and easy ordering experience.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">🔐</div>
-      <h3>Secure</h3>
-      <p>Your account is protected by Firebase Authentication.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">💎</div>
-      <h3>Great Offers</h3>
-      <p>Choose from weekly and monthly packages.</p>
-    </div>
-
-    <div class="feature" id="support">
-      <div class="feature-icon">💬</div>
-      <h3>Support</h3>
-      <p>Contact our support team when you need help.</p>
     </div>
 
   </div>
 
-</div>
+</section>
+
+</main>
 
 
-<!-- FOOTER -->
-<footer>
-  <h3>Water Price Top Up BD</h3>
-  <p>© 2026 Water Price Top Up BD. All rights reserved.</p>
+<footer class="footer">
+
+  <div class="container">
+
+    <strong>
+      Water Price Top Up BD
+    </strong>
+
+    <p>
+      © <span data-year></span>
+      Water Price Top Up BD. All rights reserved.
+    </p>
+
+  </div>
+
 </footer>
 
 
-<!-- LOGIN MODAL -->
-<div class="modal-bg" id="loginModal">
-
-  <div class="modal">
-
-    <button class="close" onclick="closeLogin()">×</button>
-
-    <h2 id="authTitle">Login</h2>
-
-    <div class="modal-subtitle">
-      Login to continue your order
-    </div>
-
-    <input
-      class="input"
-      id="email"
-      type="email"
-      placeholder="Email address">
-
-    <input
-      class="input"
-      id="password"
-      type="password"
-      placeholder="Password">
-
-    <div class="error" id="authError"></div>
-
-    <button
-      class="main-auth-btn"
-      onclick="emailAuth()"
-      id="emailAuthButton">
-      Login
-    </button>
-
-    <div class="divider">OR</div>
-
-    <button class="google-btn" onclick="googleLogin()">
-      🔵 Continue with Google
-    </button>
-
-    <div class="switch-auth">
-      <span id="switchText">Don't have an account?</span>
-      <span onclick="toggleAuthMode()" id="switchButton">
-        Create account
-      </span>
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ORDER MODAL -->
-<div class="modal-bg" id="orderModal">
-
-  <div class="modal">
-
-    <button class="close" onclick="closeOrder()">×</button>
-
-    <h2>Place Order</h2>
-
-    <div class="order-info">
-      <p>Package:</p>
-      <strong id="selectedPackage"></strong>
-
-      <br><br>
-
-      <p>Price:</p>
-      <strong id="selectedPrice"></strong>
-    </div>
-
-    <input
-      class="input"
-      id="playerId"
-      placeholder="Enter your ID / Number">
-
-    <div class="error" id="orderError"></div>
-
-    <button
-      class="main-auth-btn"
-      onclick="submitOrder()">
-      Confirm Order
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-
-<script>
-
-  /* ==============================
-     FIREBASE CONFIG
-  ============================== */
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCfiqHTb3sGk1e7cfPyVeOoXsDJsm2Gbeo",
-    authDomain: "water-price-top-up-bd.firebaseapp.com",
-    projectId: "water-price-top-up-bd",
-    storageBucket: "water-price-top-up-bd.firebasestorage.app",
-    messagingSenderId: "759484315438",
-    appId: "1:759484315438:web:0630e5c17673b214526cbf",
-    measurementId: "G-8252E0PJPM"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-
-  const auth = firebase.auth();
-
-  let isRegisterMode = false;
-
-  let pendingPackage = "";
-  let pendingPrice = "";
-
-
-  /* ==============================
-     LOGIN MODAL
-  ============================== */
-
-  function openLogin() {
-    document
-      .getElementById("loginModal")
-      .classList.add("show");
-
-    clearAuthError();
-  }
-
-
-  function closeLogin() {
-    document
-      .getElementById("loginModal")
-      .classList.remove("show");
-  }
-
-
-  function toggleAuthMode() {
-
-    isRegisterMode = !isRegisterMode;
-
-    const title =
-      document.getElementById("authTitle");
-
-    const button =
-      document.getElementById("emailAuthButton");
-
-    const switchText =
-      document.getElementById("switchText");
-
-    const switchButton =
-      document.getElementById("switchButton");
-
-    if (isRegisterMode) {
-
-      title.innerText = "Create Account";
-
-      button.innerText = "Create Account";
-
-      switchText.innerText =
-        "Already have an account?";
-
-      switchButton.innerText =
-        "Login";
-
-    } else {
-
-      title.innerText = "Login";
-
-      button.innerText = "Login";
-
-      switchText.innerText =
-        "Don't have an account?";
-
-      switchButton.innerText =
-        "Create account";
-    }
-
-    clearAuthError();
-  }
-
-
-  /* ==============================
-     EMAIL LOGIN / REGISTER
-  ============================== */
-
-  async function emailAuth() {
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    const password =
-      document.getElementById("password").value;
-
-    if (!email || !password) {
-
-      showAuthError(
-        "Please enter your email and password."
-      );
-
-      return;
-    }
-
-    try {
-
-      if (isRegisterMode) {
-
-        await auth.createUserWithEmailAndPassword(
-          email,
-          password
-        );
-
-      } else {
-
-        await auth.signInWithEmailAndPassword(
-          email,
-          password
-        );
-      }
-
-      closeLogin();
-
-    } catch (error) {
-
-      showAuthError(
-        getFriendlyError(error.code)
-      );
-    }
-  }
-
-
-  /* ==============================
-     GOOGLE LOGIN
-  ============================== */
-
-  async function googleLogin() {
-
-    const provider =
-      new firebase.auth.GoogleAuthProvider();
-
-    provider.setCustomParameters({
-      prompt: "select_account"
-    });
-
-    try {
-
-      await auth.signInWithPopup(provider);
-
-      closeLogin();
-
-    } catch (error) {
-
-      showAuthError(
-        getFriendlyError(error.code)
-      );
-    }
-  }
-
-
-  /* ==============================
-     AUTH STATE
-  ============================== */
-
-  auth.onAuthStateChanged(function(user) {
-
-    const authArea =
-      document.getElementById("authArea");
-
-    if (user) {
-
-      let name =
-        user.displayName ||
-        user.email ||
-        "User";
-
-      authArea.innerHTML = `
-        <div class="user-box">
-          <span class="user-name">
-            ${escapeHtml(name)}
-          </span>
-
-          <button
-            class="logout-btn"
-            onclick="logout()">
-            Logout
-          </button>
-        </div>
-      `;
-
-    } else {
-
-      authArea.innerHTML = `
-        <button
-          class="login-btn"
-          onclick="openLogin()">
-          Login
-        </button>
-      `;
-    }
-
-  });
-
-
-  /* ==============================
-     LOGOUT
-  ============================== */
-
-  async function logout() {
-
-    try {
-
-      await auth.signOut();
-
-    } catch (error) {
-
-      alert("Logout failed.");
-
-    }
-  }
-
-
-  /* ==============================
-     ORDER
-  ============================== */
-
-  function startOrder(packageName, price) {
-
-    const user = auth.currentUser;
-
-    /*
-      USER MUST LOGIN BEFORE ORDERING
-    */
-
-    if (!user) {
-
-      pendingPackage = packageName;
-      pendingPrice = price;
-
-      openLogin();
-
-      return;
-    }
-
-    showOrderModal(packageName, price);
-  }
-
-
-  function showOrderModal(packageName, price) {
-
-    document.getElementById(
-      "selectedPackage"
-    ).innerText = packageName;
-
-    document.getElementById(
-      "selectedPrice"
-    ).innerText = price;
-
-    document
-      .getElementById("orderModal")
-      .classList.add("show");
-
-  }
-
-
-  function closeOrder() {
-
-    document
-      .getElementById("orderModal")
-      .classList.remove("show");
-  }
-
-
-  function submitOrder() {
-
-    const user = auth.currentUser;
-
-    if (!user) {
-
-      closeOrder();
-      openLogin();
-
-      return;
-    }
-
-    const playerId =
-      document.getElementById("playerId")
-      .value
-      .trim();
-
-    if (!playerId) {
-
-      const error =
-        document.getElementById("orderError");
-
-      error.innerText =
-        "Please enter your ID / Number.";
-
-      error.style.display = "block";
-
-      return;
-    }
-
-    /*
-      PAYMENT / ORDER BACKEND WILL BE CONNECTED HERE.
-      For now this confirms that the user is logged in.
-    */
-
-    alert(
-      "Order request received!\n\n" +
-      "Package: " +
-      document.getElementById("selectedPackage").innerText +
-      "\nPrice: " +
-      document.getElementById("selectedPrice").innerText +
-      "\nID: " +
-      playerId
-    );
-
-    closeOrder();
-  }
-
-
-  /* ==============================
-     HELPERS
-  ============================== */
-
-  function showAuthError(message) {
-
-    const error =
-      document.getElementById("authError");
-
-    error.innerText = message;
-    error.style.display = "block";
-  }
-
-
-  function clearAuthError() {
-
-    const error =
-      document.getElementById("authError");
-
-    error.innerText = "";
-    error.style.display = "none";
-  }
-
-
-  function getFriendlyError(code) {
-
-    const errors = {
-
-      "auth/email-already-in-use":
-        "This email is already registered.",
-
-      "auth/invalid-email":
-        "Please enter a valid email address.",
-
-      "auth/weak-password":
-        "Password should be at least 6 characters.",
-
-      "auth/user-not-found":
-        "No account found with this email.",
-
-      "auth/wrong-password":
-        "Incorrect password.",
-
-      "auth/invalid-credential":
-        "Email or password is incorrect.",
-
-      "auth/popup-closed-by-user":
-        "Google login was cancelled.",
-
-      "auth/popup-blocked":
-        "Your browser blocked the Google login popup."
-
-    };
-
-    return errors[code] ||
-      "Something went wrong. Please try again.";
-  }
-
-
-  function escapeHtml(text) {
-
-    const div =
-      document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-  }
-
-
-  function scrollToOffers() {
-
-    document
-      .getElementById("offers")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-
-  }
-
-
-  /*
-    If the user was trying to order before login,
-    automatically open the selected order after login.
-  */
-
-  auth.onAuthStateChanged(function(user) {
-
-    if (
-      user &&
-      pendingPackage &&
-      pendingPrice &&
-      !document
-        .getElementById("loginModal")
-        .classList.contains("show")
-    ) {
-
-      const packageName =
-        pendingPackage;
-
-      const price =
-        pendingPrice;
-
-      pendingPackage = "";
-      pendingPrice = "";
-
-      showOrderModal(
-        packageName,
-        price
-      );
-    }
-
-  });
-
-</script>
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="app.js"></script>
 
 </body>
 </html>
