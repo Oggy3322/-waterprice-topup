@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>My Orders - Water Price Top Up BD</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+  <div class="container navbar">
+
+    <a href="index.html" class="brand">
+
+      <div class="brand-logo">
+        W
+      </div>
+
+      <div class="brand-name">
+        Water Price Top Up BD
+      </div>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+      <a
+        href="index.html"
+        class="nav-link">
+        Home
+      </a>
+
+      <a
+        href="account.html"
+        class="nav-link">
+        Account
+      </a>
+
+      <button
+        class="btn btn-danger"
+        data-logout>
+        Logout
+      </button>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main class="section">
+
+  <div class="container">
+
+    <h1 class="section-title">
+      My Orders
+    </h1>
+
+    <p class="section-subtitle">
+      Your recent top-up orders.
+    </p>
+
+
+    <div
+      id="ordersList"
+      class="product-grid">
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<script type="module">
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  auth
+} from "./firebase-config.js";
+
+
+const ordersList =
+  document.getElementById("ordersList");
+
+
+onAuthStateChanged(auth, (user) => {
+
+  if (!user) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  const key =
+    "orders_" + user.uid;
+
+
+  const orders =
+    JSON.parse(
+      localStorage.getItem(key) || "[]"
+    );
+
+
+  if (orders.length === 0) {
+
+    ordersList.innerHTML = `
+
+      <div class="product-card">
+
+        <div class="product-icon">
+          📦
+        </div>
+
+        <h3>
+          No orders yet
+        </h3>
+
+        <p>
+          You haven't placed any orders yet.
+        </p>
+
+        <a
+          href="index.html#offers"
+          class="btn btn-primary">
+
+          View Offers
+
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  ordersList.innerHTML =
+    orders.map(order => `
+
+      <div class="product-card">
+
+        <div class="product-icon">
+          ✓
+        </div>
+
+        <h3>
+          ${order.product}
+        </h3>
+
+        <p>
+          Order ID: ${order.id}
+        </p>
+
+        <p>
+          ${order.date}
+        </p>
+
+        <div class="price">
+          ৳${order.price}
+        </div>
+
+      </div>
+
+    `).join("");
+
+});
+
+</script>
+
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
