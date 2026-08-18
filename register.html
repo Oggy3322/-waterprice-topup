@@ -17,39 +17,33 @@
 
 <body>
 
+<main class="auth-page">
 
-<div class="form-wrapper">
+  <div class="auth-card">
 
-  <div class="form-card">
-
-
-    <div class="form-logo">
+    <div class="auth-logo">
       W
     </div>
 
+    <h1>Create account</h1>
 
-    <h1>
-      Create Account
-    </h1>
-
-    <p>
-      Join Water Price Top Up BD
+    <p class="auth-subtitle">
+      Create your Water Price Top Up BD account.
     </p>
+
+    <div id="message" class="message"></div>
 
 
     <form id="registerForm">
 
-
       <div class="form-group">
 
-        <label>
-          Your Name
-        </label>
+        <label>Your name</label>
 
         <input
-          type="text"
           id="name"
-          placeholder="Enter your name"
+          type="text"
+          placeholder="Your name"
           required>
 
       </div>
@@ -57,14 +51,12 @@
 
       <div class="form-group">
 
-        <label>
-          Email Address
-        </label>
+        <label>Email address</label>
 
         <input
-          type="email"
           id="email"
-          placeholder="Enter your email"
+          type="email"
+          placeholder="you@example.com"
           required>
 
       </div>
@@ -72,15 +64,13 @@
 
       <div class="form-group">
 
-        <label>
-          Password
-        </label>
+        <label>Password</label>
 
         <input
-          type="password"
           id="password"
-          placeholder="Minimum 6 characters"
+          type="password"
           minlength="6"
+          placeholder="At least 6 characters"
           required>
 
       </div>
@@ -88,23 +78,16 @@
 
       <button
         type="submit"
-        class="btn btn-primary form-submit">
+        class="primary-btn">
 
         Create Account
 
       </button>
 
-
     </form>
 
 
-    <div
-      class="message"
-      id="message">
-    </div>
-
-
-    <div class="form-bottom">
+    <div class="auth-footer">
 
       Already have an account?
 
@@ -115,30 +98,24 @@
     </div>
 
 
-    <div class="form-bottom">
+    <div class="auth-footer">
 
       <a href="index.html">
-        ← Back to Website
+        ← Back to website
       </a>
 
     </div>
 
-
   </div>
 
-</div>
+</main>
 
 
 <script type="module">
 
 import {
-  createUserWithEmailAndPassword,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-  auth
-} from "./firebase-config.js";
+  registerWithEmail
+} from "./app.js";
 
 
 const form =
@@ -148,64 +125,37 @@ const message =
   document.getElementById("message");
 
 
-function showMessage(text, success = false) {
+form.addEventListener("submit", async event => {
 
-  message.style.display = "block";
-
-  message.textContent = text;
-
-  if (success) {
-
-    message.style.background = "#dcfce7";
-    message.style.color = "#166534";
-
-  } else {
-
-    message.style.background = "#fee2e2";
-    message.style.color = "#b91c1c";
-
-  }
-
-}
-
-
-form.addEventListener("submit", async (e) => {
-
-  e.preventDefault();
+  event.preventDefault();
 
 
   const name =
-    document.getElementById("name").value.trim();
+    document.getElementById("name")
+      .value.trim();
 
   const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email")
+      .value.trim();
 
   const password =
-    document.getElementById("password").value;
+    document.getElementById("password")
+      .value;
 
 
   try {
 
-    const result =
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-
-    await updateProfile(
-      result.user,
-      {
-        displayName: name
-      }
+    await registerWithEmail(
+      name,
+      email,
+      password
     );
 
+    message.textContent =
+      "Account created successfully.";
 
-    showMessage(
-      "Account created successfully!",
-      true
-    );
+    message.className =
+      "message success";
 
 
     setTimeout(() => {
@@ -213,29 +163,36 @@ form.addEventListener("submit", async (e) => {
       window.location.href =
         "account.html";
 
-    }, 800);
+    }, 700);
 
 
   } catch (error) {
 
     console.error(error);
 
-    if (
-      error.code ===
-      "auth/email-already-in-use"
-    ) {
+    let text =
+      "Could not create account.";
 
-      showMessage(
-        "This email already has an account."
-      );
+    if (error.code ===
+        "auth/email-already-in-use") {
 
-    } else {
-
-      showMessage(
-        "Could not create account."
-      );
+      text =
+        "This email is already registered.";
 
     }
+
+    if (error.code ===
+        "auth/weak-password") {
+
+      text =
+        "Password must be at least 6 characters.";
+
+    }
+
+    message.textContent = text;
+
+    message.className =
+      "message error";
 
   }
 
