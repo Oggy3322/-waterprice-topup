@@ -3,7 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
   <title>Water Price Top Up BD</title>
 
@@ -12,267 +15,234 @@
 
 <body>
 
-<header class="header">
+<script type="module">
 
-  <div class="container navbar">
+import {
+  products,
+  getProduct,
+  requireLogin,
+  renderHeader,
+  renderBottomNav
+} from "./app.js";
 
-    <a href="index.html" class="brand">
+renderHeader();
 
-      <div class="brand-logo">W</div>
 
-      <div class="brand-name">
-        Water Price Top Up BD
-      </div>
+const app = document.createElement("main");
 
-    </a>
+app.className = "page";
 
+app.innerHTML = `
 
-    <nav class="nav-links">
+  <section class="hero">
 
-      <a href="index.html" class="nav-link">
-        Home
-      </a>
+    <small>Premium Digital Top-Up</small>
 
-      <a href="#offers" class="nav-link">
-        Offers
-      </a>
-
-      <a href="orders.html"
-         class="nav-link"
-         data-orders>
-        My Orders
-      </a>
-
-      <button
-        class="btn btn-light"
-        data-account>
-        Account
-      </button>
-
-      <a
-        href="login.html"
-        class="btn btn-primary"
-        data-login>
-        Login
-      </a>
-
-      <button
-        class="btn btn-danger"
-        data-logout
-        style="display:none;">
-        Logout
-      </button>
-
-    </nav>
-
-  </div>
-
-</header>
-
-
-<main>
-
-<section class="hero">
-
-  <div class="container hero-grid">
-
-    <div>
-
-      <h1>
-        Water Price<br>
-        Top Up BD
-      </h1>
-
-      <p>
-        Fast, simple and secure digital top-up service.
-        Choose your package and place your order easily.
-      </p>
-
-      <div class="hero-actions">
-
-        <a
-          href="#offers"
-          class="btn btn-light">
-          View Offers
-        </a>
-
-        <a
-          href="account.html"
-          class="btn btn-light">
-          My Account
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="hero-card">
-
-      <div class="hero-card-title">
-        Why choose us?
-      </div>
-
-      <div class="hero-stat">
-        <strong>⚡ Fast</strong>
-        Quick order processing
-      </div>
-
-      <div class="hero-stat">
-        <strong>🔒 Secure</strong>
-        Secure account system
-      </div>
-
-      <div class="hero-stat">
-        <strong>💎 Easy</strong>
-        Simple top-up ordering
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="section" id="offers">
-
-  <div class="container">
-
-    <h2 class="section-title">
-      Weekly Offers
-    </h2>
-
-    <p class="section-subtitle">
-      Choose your preferred package and order now.
-    </p>
-
-
-    <div class="product-grid">
-
-
-      <div class="product-card">
-
-        <div class="product-icon">
-          W
-        </div>
-
-        <h3>
-          Starter Package
-        </h3>
-
-        <p>
-          Basic top-up package.
-        </p>
-
-        <div class="price">
-          ৳50
-        </div>
-
-        <br>
-
-        <button
-          class="btn btn-primary"
-          data-order
-          data-product="Starter Package"
-          data-price="50">
-          Order Now
-        </button>
-
-      </div>
-
-
-      <div class="product-card">
-
-        <div class="product-icon">
-          W
-        </div>
-
-        <h3>
-          Popular Package
-        </h3>
-
-        <p>
-          Best value package.
-        </p>
-
-        <div class="price">
-          ৳100
-        </div>
-
-        <br>
-
-        <button
-          class="btn btn-primary"
-          data-order
-          data-product="Popular Package"
-          data-price="100">
-          Order Now
-        </button>
-
-      </div>
-
-
-      <div class="product-card">
-
-        <div class="product-icon">
-          W
-        </div>
-
-        <h3>
-          Premium Package
-        </h3>
-
-        <p>
-          Premium top-up package.
-        </p>
-
-        <div class="price">
-          ৳200
-        </div>
-
-        <br>
-
-        <button
-          class="btn btn-primary"
-          data-order
-          data-product="Premium Package"
-          data-price="200">
-          Order Now
-        </button>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<footer class="footer">
-
-  <div class="container">
-
-    <strong>
-      Water Price Top Up BD
-    </strong>
+    <h1>
+      Water Price<br>
+      Top Up BD
+    </h1>
 
     <p>
-      © <span data-year></span>
-      Water Price Top Up BD. All rights reserved.
+      Fast, simple and secure digital top-up service.
+      Choose your package and place your order easily.
     </p>
 
-  </div>
+    <a href="#products" class="hero-btn">
+      View Offers
+    </a>
 
-</footer>
+  </section>
 
 
-<script type="module" src="firebase-config.js"></script>
-<script type="module" src="app.js"></script>
+  <section class="section" id="products">
+
+    <div class="section-head">
+      <h2>Weekly Offer</h2>
+      <a href="#products">View All</a>
+    </div>
+
+    <div class="product-grid" id="weeklyProducts"></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="section-head">
+      <h2>Monthly & Premium</h2>
+      <a href="#products">View All</a>
+    </div>
+
+    <div class="product-grid" id="premiumProducts"></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="section-head">
+      <h2>Diamond Packages</h2>
+    </div>
+
+    <div class="product-grid" id="diamondProducts"></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="feature-box">
+
+      <div class="section-head">
+        <h2>Why choose us?</h2>
+      </div>
+
+      <div class="feature-grid">
+
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast Delivery</h3>
+          <p>
+            Orders are processed quickly
+            after confirmation.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🔐</div>
+          <h3>Secure Account</h3>
+          <p>
+            Your account and order
+            information stays protected.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">💎</div>
+          <h3>Premium Service</h3>
+          <p>
+            Quality packages with a
+            clean premium experience.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+`;
+
+document.body.appendChild(app);
+
+
+/* Product card */
+
+function productCard(product) {
+
+  return `
+
+    <article class="product-card">
+
+      <div class="product-art">
+
+        <div class="diamond-icon">
+          ${product.icon}
+        </div>
+
+      </div>
+
+      <div class="product-content">
+
+        <h3>${product.name}</h3>
+
+        <p class="product-description">
+          ${product.description}
+        </p>
+
+        <div class="product-bottom">
+
+          <span class="price">
+            ${product.price === 0
+              ? "FREE"
+              : "৳" + product.price}
+          </span>
+
+          <button
+            class="order-btn"
+            data-product="${product.id}">
+            Order
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+  `;
+}
+
+
+/* Weekly */
+
+document.querySelector("#weeklyProducts").innerHTML =
+  products
+    .filter(p => p.id === "weekly")
+    .map(productCard)
+    .join("");
+
+
+/* Premium */
+
+document.querySelector("#premiumProducts").innerHTML =
+  products
+    .filter(p =>
+      ["monthly", "premium"].includes(p.id)
+    )
+    .map(productCard)
+    .join("");
+
+
+/* Diamonds */
+
+document.querySelector("#diamondProducts").innerHTML =
+  products
+    .filter(p =>
+      p.id.includes("diamond")
+    )
+    .map(productCard)
+    .join("");
+
+
+/* Order buttons */
+
+document.querySelectorAll(
+  "[data-product]"
+).forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const id = button.dataset.product;
+
+    if (!requireLogin(
+      `product.html?id=${encodeURIComponent(id)}`
+    )) {
+      return;
+    }
+
+    window.location.href =
+      `product.html?id=${encodeURIComponent(id)}`;
+
+  });
+
+});
+
+
+renderBottomNav("home");
+
+</script>
 
 </body>
 </html>
