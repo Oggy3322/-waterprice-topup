@@ -1,78 +1,35 @@
-// firebase-config.js
-
 import {
   initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 import {
   getAuth
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
   getFirestore
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-
-// =====================================================
-// FIREBASE CONFIG
-// =====================================================
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyCfiqHTb3sGk1e7cfPyVeOoXsDJsm2Gbeo",
+  apiKey: "YOUR_API_KEY",
 
-  authDomain:
-    "water-price-top-up-bd.firebaseapp.com",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
 
-  projectId:
-    "water-price-top-up-bd",
+  projectId: "YOUR_PROJECT_ID",
 
-  storageBucket:
-    "water-price-top-up-bd.firebasestorage.app",
+  storageBucket: "YOUR_PROJECT.appspot.com",
 
-  messagingSenderId:
-    "759484315438",
+  messagingSenderId: "YOUR_SENDER_ID",
 
-  appId:
-    "1:759484315438:web:0630e5c17673b214526cbf",
-
-  measurementId:
-    "G-8252E0PJPM"
+  appId: "YOUR_APP_ID"
 
 };
 
 
-// =====================================================
-// INITIALIZE FIREBASE
-// =====================================================
+const app = initializeApp(firebaseConfig);
 
-const app =
-  initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
-
-// =====================================================
-// AUTHENTICATION
-// =====================================================
-
-const auth =
-  getAuth(app);
-
-
-// =====================================================
-// FIRESTORE
-// =====================================================
-
-const db =
-  getFirestore(app);
-
-
-// =====================================================
-// EXPORT
-// =====================================================
-
-export {
-  app,
-  auth,
-  db
-};
+export const db = getFirestore(app);
