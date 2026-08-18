@@ -1,843 +1,643 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#063b59">
+  <title>Water Price Top Up BD</title>
 
-<title>Water Price Top Up BD</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Georgia, "Noto Serif Bengali", serif;
-    background:#f3f6ff;
-    color:#10243b;
-    padding-bottom:80px;
-}
-
-/* HEADER */
-.header{
-    height:75px;
-    background:#073b5b;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 18px;
-    color:white;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-family:Arial,sans-serif;
-    font-weight:bold;
-    font-size:22px;
-}
-
-.logo-icon{
-    width:45px;
-    height:45px;
-    border-radius:12px 22px 12px 22px;
-    background:linear-gradient(135deg,#0b5278,#a20a59);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.logo-text span{
-    color:#e91e82;
-}
-
-.wallet{
-    background:#0b4769;
-    border:1px solid #ffffff44;
-    border-radius:30px;
-    padding:13px 18px;
-    font-weight:bold;
-}
-
-/* MAIN */
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:20px 15px;
-}
-
-.hero{
-    background:linear-gradient(135deg,#ffffff,#eef5ff);
-    border:1px solid #dce4ef;
-    border-radius:20px;
-    padding:25px 20px;
-    margin-bottom:20px;
-}
-
-.hero h1{
-    font-size:30px;
-    margin-bottom:8px;
-}
-
-.hero p{
-    color:#667085;
-}
-
-/* SECTION */
-.section-title{
-    font-size:26px;
-    margin:20px 0 15px;
-}
-
-/* PRODUCT GRID */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.card{
-    background:white;
-    border:1px solid #e1e7ef;
-    border-radius:15px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:.2s;
-    box-shadow:0 5px 15px #073b5b10;
-}
-
-.card:hover{
-    transform:translateY(-3px);
-}
-
-.card-image{
-    height:145px;
-    background:
-    radial-gradient(circle at center,#285cff 0,#141b69 45%,#071747 100%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-family:Arial,sans-serif;
-    font-size:35px;
-    font-weight:bold;
-}
-
-.card h3{
-    text-align:center;
-    padding:14px 8px;
-    font-size:17px;
-    line-height:1.3;
-}
-
-/* TOPUP PAGE */
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.form-card{
-    background:white;
-    border:1px solid #dce4ef;
-    border-radius:18px;
-    padding:20px;
-    margin-bottom:18px;
-}
-
-.step{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:18px;
-}
-
-.number{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:#073b5b;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:Arial;
-}
-
-.options{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-}
-
-.option{
-    background:white;
-    border:2px solid #d7dce3;
-    border-radius:12px;
-    padding:16px;
-    cursor:pointer;
-    text-align:left;
-}
-
-.option.active{
-    border-color:#ff6900;
-}
-
-.option strong{
-    display:block;
-    font-size:18px;
-}
-
-.price{
-    color:#ff6900;
-    font-weight:bold;
-}
-
-.input{
-    width:100%;
-    padding:15px;
-    border:2px solid #b9d1f4;
-    border-radius:12px;
-    font-size:17px;
-    outline:none;
-}
-
-.payment{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.buy{
-    width:100%;
-    background:#073b5b;
-    color:white;
-    border:0;
-    padding:16px;
-    border-radius:12px;
-    margin-top:18px;
-    font-size:19px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* BOTTOM NAV */
-.bottom-nav{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    height:72px;
-    background:white;
-    border-top:1px solid #dce4ef;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    z-index:100;
-}
-
-.nav-btn{
-    border:0;
-    background:none;
-    color:#64748b;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.nav-btn.active{
-    color:#073b5b;
-}
-
-.nav-icon{
-    display:block;
-    font-size:23px;
-    margin-bottom:3px;
-}
-
-.plus{
-    width:55px;
-    height:55px;
-    margin:-22px auto 0;
-    border-radius:50%;
-    background:#073b5b;
-    color:white;
-    border:5px solid white;
-    font-size:32px;
-    line-height:42px;
-}
-
-/* MESSAGE */
-.message{
-    display:none;
-    position:fixed;
-    left:50%;
-    bottom:90px;
-    transform:translateX(-50%);
-    background:#111827;
-    color:white;
-    padding:12px 18px;
-    border-radius:10px;
-    z-index:200;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-
-    .logo{
-        font-size:17px;
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .logo-icon{
-        width:40px;
-        height:40px;
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: #eef3ff;
+      color: #082542;
+      padding-bottom: 95px;
     }
 
-    .wallet{
-        padding:11px 14px;
+    button {
+      font-family: inherit;
+      cursor: pointer;
     }
 
-    .container{
-        padding:15px 12px;
+    /* ================= HEADER ================= */
+
+    .top-header {
+      background: #063b59;
+      color: white;
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 18px rgba(0,0,0,.18);
     }
 
-    .hero h1{
-        font-size:25px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .grid{
-        grid-template-columns:repeat(3,1fr);
-        gap:10px;
+    .logo {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 25%, #fff 0 3%, transparent 4%),
+        linear-gradient(145deg, #7026b5, #ff008c);
+      border: 3px solid rgba(255,255,255,.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      font-size: 27px;
+      font-weight: 900;
+      color: white;
+      text-shadow: 0 2px 8px #000;
+      box-shadow: 0 0 22px rgba(255,0,190,.5);
+      flex-shrink: 0;
     }
 
-    .card-image{
-        height:110px;
-        font-size:25px;
+    .brand-name {
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      font-size: 21px;
+      line-height: 1.05;
+      letter-spacing: .5px;
     }
 
-    .card h3{
-        font-size:14px;
-        padding:11px 5px;
+    .brand-name span {
+      color: #ff1493;
     }
 
-    .options{
-        grid-template-columns:1fr 1fr;
+    .wallet {
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 40px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      font-size: 15px;
+      white-space: nowrap;
+      background: rgba(0,0,0,.08);
     }
 
-    .payment{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(min-width:800px){
-
-    .grid{
-        grid-template-columns:repeat(4,1fr);
+    .wallet-icon {
+      font-size: 24px;
     }
 
-}
-</style>
+    /* ================= HERO ================= */
+
+    .hero {
+      margin: 20px 18px 25px;
+      min-height: 245px;
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at 75% 45%, rgba(0,157,255,.9), transparent 25%),
+        radial-gradient(circle at 40% 65%, rgba(150,0,255,.8), transparent 35%),
+        linear-gradient(135deg,#041347,#10106c 48%,#17002e);
+      box-shadow:
+        0 12px 35px rgba(24,40,130,.35),
+        inset 0 0 45px rgba(0,100,255,.25);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    .hero:before {
+      content: "◆  ◆       ◇        ◆";
+      position: absolute;
+      top: 22px;
+      right: 12px;
+      color: #42c8ff;
+      font-size: 22px;
+      opacity: .7;
+      letter-spacing: 15px;
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      right: -45px;
+      bottom: -65px;
+      background: radial-gradient(circle,#00bfff,transparent 65%);
+      opacity: .5;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 28px 22px;
+      max-width: 75%;
+    }
+
+    .hero h1 {
+      font-family: Arial, sans-serif;
+      font-size: 30px;
+      line-height: 1.05;
+      color: white;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      color: #ff1493;
+    }
+
+    .hero p {
+      margin-top: 13px;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 7px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-badge {
+      padding: 8px 10px;
+      border-radius: 18px;
+      border: 1px solid #29bfff;
+      background: rgba(0,0,0,.25);
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .diamond-box {
+      position: absolute;
+      right: 10px;
+      bottom: 20px;
+      font-size: 70px;
+      filter: drop-shadow(0 0 18px #00c8ff);
+      z-index: 2;
+    }
+
+    /* ================= SECTION ================= */
+
+    .section {
+      padding: 0 18px;
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      margin: 20px 0 17px;
+      color: #082542;
+      font-weight: 900;
+    }
+
+    .section-title span {
+      color: #ff1493;
+    }
+
+    /* ================= CARDS ================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 21px;
+      overflow: hidden;
+      border: 1px solid #dce3f0;
+      box-shadow: 0 7px 20px rgba(17,41,90,.12);
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .card:active {
+      transform: scale(.96);
+    }
+
+    .art {
+      height: 145px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 50% 50%, #164fff 0, #0d1a72 42%, #050c3f 100%);
+    }
+
+    .art:before {
+      content: "◆   ◇   ◆";
+      position: absolute;
+      color: #41d9ff;
+      top: 14px;
+      font-size: 13px;
+      opacity: .7;
+      letter-spacing: 8px;
+    }
+
+    .art:after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle,rgba(0,117,255,.85),transparent 67%);
+      filter: blur(4px);
+    }
+
+    .art-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      text-shadow: 0 3px 10px #000;
+    }
+
+    .art-icon {
+      font-size: 53px;
+      line-height: 1;
+      filter: drop-shadow(0 0 10px #00d9ff);
+    }
+
+    .art-letter {
+      font-size: 43px;
+    }
+
+    .art-title {
+      font-size: 16px;
+      color: #ffe900;
+      margin-top: 7px;
+      text-transform: uppercase;
+    }
+
+    .card-name {
+      min-height: 72px;
+      padding: 13px 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.15;
+      font-weight: 900;
+      color: #102b48;
+    }
+
+    /* ================= SERVICE ART ================= */
+
+    .game-art {
+      background:
+        radial-gradient(circle at 50% 50%, #174cff, transparent 37%),
+        linear-gradient(145deg,#111b7d,#05072c);
+    }
+
+    .game-art .art-icon {
+      font-size: 47px;
+      color: white;
+    }
+
+    /* ================= CTA ================= */
+
+    .cta {
+      margin: 15px 18px 30px;
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      color: white;
+      background:
+        radial-gradient(circle at 20% 20%,#7c00ff,transparent 35%),
+        linear-gradient(135deg,#062a58,#0c0b56,#80004d);
+      box-shadow: 0 10px 30px rgba(27,20,100,.3);
+    }
+
+    .cta h2 {
+      font-family: Arial,sans-serif;
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .cta p {
+      font-family: Arial,sans-serif;
+      opacity: .9;
+      margin-bottom: 18px;
+    }
+
+    .primary-btn {
+      border: none;
+      background: linear-gradient(90deg,#ff009d,#ff4d00);
+      color: white;
+      border-radius: 28px;
+      padding: 13px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 5px 18px rgba(255,0,130,.4);
+    }
+
+    /* ================= BOTTOM NAV ================= */
+
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 82px;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(15px);
+      border-top: 1px solid #dfe4ee;
+      z-index: 200;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      align-items: end;
+      padding-bottom: 8px;
+    }
+
+    .nav-item {
+      border: none;
+      background: transparent;
+      color: #687383;
+      font-size: 11px;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-icon {
+      font-size: 25px;
+    }
+
+    .nav-item.active {
+      color: #0754c9;
+    }
+
+    .add-money {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: 5px solid white;
+      background: linear-gradient(145deg,#0875ff,#062b9c);
+      color: white;
+      font-size: 35px;
+      margin-top: -35px;
+      box-shadow: 0 5px 20px rgba(0,70,200,.4);
+    }
+
+    /* ================= LOGIN MODAL ================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,10,30,.72);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 390px;
+      background: white;
+      border-radius: 25px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      position: relative;
+      text-align: center;
+    }
+
+    .close {
+      position: absolute;
+      right: 17px;
+      top: 12px;
+      border: none;
+      background: none;
+      font-size: 30px;
+      color: #555;
+    }
+
+    .login-logo {
+      margin: auto auto 12px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg,#711ec0,#ff008c);
+      color: white;
+      font-family: Arial,sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .login-box h2 {
+      color: #082542;
+      margin-bottom: 7px;
+      font-family: Arial,sans-serif;
+    }
+
+    .login-box p {
+      color: #7b8490;
+      margin-bottom: 20px;
+      font-family: Arial,sans-serif;
+      font-size: 14px;
+    }
+
+    .login-btn {
+      width: 100%;
+      border: 1px solid #d8dce3;
+      background: white;
+      padding: 13px;
+      border-radius: 12px;
+      margin: 7px 0;
+      font-family: Arial,sans-serif;
+      font-size: 15px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .google {
+      color: #222;
+    }
+
+    .facebook {
+      background: #1877f2;
+      color: white;
+      border-color: #1877f2;
+    }
+
+    .login-note {
+      margin-top: 13px;
+      font-size: 11px !important;
+      color: #999 !important;
+    }
+
+    /* ================= TOAST ================= */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 100px;
+      transform: translateX(-50%) translateY(20px);
+      background: #082542;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 25px;
+      font-family: Arial,sans-serif;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s;
+      z-index: 700;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 360px) {
+      .grid {
+        gap: 8px;
+      }
+
+      .art {
+        height: 125px;
+      }
+
+      .card-name {
+        font-size: 15px;
+      }
+
+      .brand-name {
+        font-size: 17px;
+      }
+
+      .wallet {
+        padding: 8px 10px;
+      }
+    }
+
+    @media (min-width: 700px) {
+      body {
+        max-width: 900px;
+        margin: auto;
+      }
+
+      .bottom-nav {
+        max-width: 900px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .grid {
+        grid-template-columns: repeat(4,1fr);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="header">
+  <!-- ================= HEADER ================= -->
 
-    <div class="logo">
+  <header class="top-header">
 
-        <div class="logo-icon">
-            WP
-        </div>
+    <div class="brand">
+      <div class="logo">WP</div>
 
-        <div class="logo-text">
-            WATER PRICE
-            <span>TOP UP BD</span>
-        </div>
-
+      <div class="brand-name">
+        WATER PRICE<br>
+        <span>TOP UP BD</span>
+      </div>
     </div>
 
     <div class="wallet">
-        💳 0৳
+      <span class="wallet-icon">💳</span>
+      <span>৳ 0</span>
     </div>
 
-</header>
+  </header>
 
 
-<main class="container">
+  <!-- ================= HERO ================= -->
 
-<!-- HOME PAGE -->
-<section id="home" class="page active">
+  <section class="hero">
 
-    <div class="hero">
+    <div class="hero-content">
 
-        <h1>Water Price Top Up BD</h1>
+      <h1>
+        WATER PRICE<br>
+        <span>TOP UP BD</span>
+      </h1>
 
-        <p>
-            দ্রুত, সহজ ও নিরাপদে আপনার প্রিয় গেমে Top Up করুন।
-        </p>
+      <p>
+        Fast, Easy & Secure Top Up<br>
+        for your favorite games!
+      </p>
+
+      <div class="hero-buttons">
+        <div class="hero-badge">⚡ Fast Delivery</div>
+        <div class="hero-badge">🛡 100% Safe</div>
+        <div class="hero-badge">🎧 24/7 Support</div>
+      </div>
 
     </div>
 
+    <div class="diamond-box">💎</div>
+
+  </section>
+
+
+  <!-- ================= POPULAR OFFERS ================= -->
+
+  <section class="section">
 
     <h2 class="section-title">
-        Popular Offers
+      Popular <span>Offers</span>
     </h2>
-
 
     <div class="grid">
 
-        <div class="card" onclick="openTopup('Weekly Offer')">
-
-            <div class="card-image">
-                W 💎
-            </div>
-
-            <h3>
-                Weekly Offer
-            </h3>
-
+      <div class="card" onclick="openService('Weekly Offer')">
+        <div class="art">
+          <div class="art-content">
+            <div class="art-icon">W💎</div>
+            <div class="art-title">Weekly Offer</div>
+          </div>
         </div>
-
-
-        <div class="card" onclick="openTopup('Monthly Offer')">
-
-            <div class="card-image">
-                M 💎
-            </div>
-
-            <h3>
-                Monthly Offer
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Premium Users')">
-
-            <div class="card-image">
-                ★
-            </div>
-
-            <h3>
-                Premium Users
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Free 25 Diamond')">
-
-            <div class="card-image">
-                25 💎
-            </div>
-
-            <h3>
-                Free 25 Diamond Voucher
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Facebook Followers')">
-
-            <div class="card-image">
-                f
-            </div>
-
-            <h3>
-                Facebook Followers
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Facebook Post React')">
-
-            <div class="card-image">
-                👍
-            </div>
-
-            <h3>
-                Facebook Post React
-            </h3>
-
-        </div>
-
-    </div>
-
-
-    <h2 class="section-title">
-        Game Services
-    </h2>
-
-
-    <div class="grid">
-
-        <div class="card" onclick="openTopup('FF UID Top Up')">
-
-            <div class="card-image">
-                FF
-            </div>
-
-            <h3>
-                FF UID Top Up (BD)
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Weekly Lite')">
-
-            <div class="card-image">
-                W+
-            </div>
-
-            <h3>
-                Weekly Lite (BD Server)
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Level Up Pass')">
-
-            <div class="card-image">
-                LV
-            </div>
-
-            <h3>
-                New Level Up Pass
-            </h3>
-
-        </div>
-
-
-        <div class="card" onclick="openTopup('Weekly Monthly Offer')">
-
-            <div class="card-image">
-                WM
-            </div>
-
-            <h3>
-                Weekly / Monthly Offer
-            </h3>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- TOPUP PAGE -->
-<section id="topup" class="page">
-
-    <div class="hero">
-
-        <h1 id="serviceName">
-            Weekly Offer
-        </h1>
-
-        <p>
-            আপনার Game UID দিয়ে অর্ডার করুন।
-        </p>
-
-    </div>
-
-
-    <!-- STEP 1 -->
-
-    <div class="form-card">
-
-        <div class="step">
-
-            <div class="number">
-                1
-            </div>
-
-            Select Recharge
-
-        </div>
-
-
-        <div class="options">
-
-
-            <button class="option active"
-                onclick="selectPackage(this,156)">
-
-                <strong>
-                    Weekly
-                </strong>
-
-                <span class="price">
-                    156 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,780)">
-
-                <strong>
-                    Monthly
-                </strong>
-
-                <span class="price">
-                    780 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,20)">
-
-                <strong>
-                    25 Diamond
-                </strong>
-
-                <span class="price">
-                    20 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,35)">
-
-                <strong>
-                    50 Diamond
-                </strong>
-
-                <span class="price">
-                    35 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,79)">
-
-                <strong>
-                    115 Diamond
-                </strong>
-
-                <span class="price">
-                    79 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,158)">
-
-                <strong>
-                    240 Diamond
-                </strong>
-
-                <span class="price">
-                    158 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,237)">
-
-                <strong>
-                    355 Diamond
-                </strong>
-
-                <span class="price">
-                    237 TK
-                </span>
-
-            </button>
-
-
-            <button class="option"
-                onclick="selectPackage(this,336)">
-
-                <strong>
-                    505 Diamond
-                </strong>
-
-                <span class="price">
-                    336 TK
-                </span>
-
-            </button>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- STEP 2 -->
-
-    <div class="form-card">
-
-        <div class="step">
-
-            <div class="number">
-                2
-            </div>
-
-            Account Info
-
-        </div>
-
-
-        <input
-            type="text"
-            id="uid"
-            class="input"
-            placeholder="এখানে Game UID / ID Code দিন"
-        >
-
-    </div>
-
-
-    <!-- STEP 3 -->
-
-    <div class="form-card">
-
-        <div class="step">
-
-            <div class="number">
-                3
-            </div>
-
-            Select Payment
-
-        </div>
-
-
-        <div class="payment">
-
-
-            <button class="option active">
-
-                💳
-
-                <strong>
-                    Wallet Pay
-                </strong>
-
-            </button>
-
-
-            <button class="option">
-
-                📱
-
-                <strong>
-                    Instant Pay
-                </strong>
-
-                <small>
-                    bKash / Nagad / Rocket
-                </small>
-
-            </button>
-
-
-        </div>
-
-
-        <button
-            class="buy"
-            onclick="buyNow()"
-        >
-
-            Buy Now —
-            <span id="total">
-                156
-            </span>
-            TK
-
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ORDERS -->
-
-<section id="orders" class="page">
-
-    <div class="hero">
-
-        <h1>
-            My Orders
-        </h1>
-
-        <p>
-            আপনার অর্ডারগুলো এখানে দেখা যাবে।
-        </p>
-
-    </div>
-
-
-    <div class="form-card">
-
-        <p id="orderText">
-            এখনো কোনো অর্ডার নেই।
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- ADD MONEY -->
-
-<section id="money" class="page">
-
-    <div class="hero">
-
-        <h1>
-            Add Money
-        </h1>
-
-        <p>
-            Wallet balance বাড়াতে টাকা Add করুন।
-        </p>
-
-    </div>
-
-
-    <div class="form-card">
-
-        <input
-            class="input"
-            type="number"
-            placeholder="Amount TK"
-        >
-
-        <button
-            class="buy"
-            onclick="showMessage('Payment system demo mode')"
-        >
-            Continue
-        </button>
-
-    </div>
-
-</section>
