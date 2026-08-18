@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#063b59">
+
   <title>Water Price Top Up BD</title>
 
   <style>
@@ -11,562 +11,356 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: Georgia, "Times New Roman", serif;
-      background: #eef3ff;
-      color: #082542;
-      padding-bottom: 95px;
+      font-family: Arial, sans-serif;
+      background: #f3f6ff;
+      color: #10233f;
     }
 
     button {
-      font-family: inherit;
       cursor: pointer;
     }
 
-    /* ================= HEADER ================= */
+    /* ================= LOGIN ================= */
 
-    .top-header {
-      background: #063b59;
+    #loginPage {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #071d49, #073f62);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 25px;
+      padding: 30px 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+
+    .logo {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: white;
-      padding: 15px 18px;
+      font-size: 28px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #673ab7, #e91e63);
+    }
+
+    .login-box h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 27px;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccd3df;
+      border-radius: 12px;
+      margin-bottom: 13px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: #3157d5;
+    }
+
+    .main-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #102d73;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .main-btn:hover {
+      background: #173f9b;
+    }
+
+    .google-btn {
+      width: 100%;
+      padding: 13px;
+      margin-top: 12px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: white;
+      color: #222;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .google-btn:hover {
+      background: #f6f6f6;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      color: #999;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #ddd;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 18px;
+      color: #666;
+    }
+
+    .switch span {
+      color: #3157d5;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #authMessage {
+      margin-top: 12px;
+      text-align: center;
+      color: #d32f2f;
+      min-height: 20px;
+    }
+
+    /* ================= APP ================= */
+
+    #app {
+      display: none;
+    }
+
+    .topbar {
+      background: #063f60;
+      color: white;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 18px rgba(0,0,0,.18);
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
     }
 
-    .logo {
-      width: 62px;
-      height: 62px;
+    .brand-logo {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 25%, #fff 0 3%, transparent 4%),
-        linear-gradient(145deg, #7026b5, #ff008c);
-      border: 3px solid rgba(255,255,255,.65);
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-family: Arial, sans-serif;
-      font-size: 27px;
-      font-weight: 900;
-      color: white;
-      text-shadow: 0 2px 8px #000;
-      box-shadow: 0 0 22px rgba(255,0,190,.5);
-      flex-shrink: 0;
+      align-items: center;
+      background: linear-gradient(135deg, #673ab7, #e91e63);
+      font-weight: bold;
+      font-size: 19px;
     }
 
-    .brand-name {
-      font-family: Arial, sans-serif;
-      font-weight: 900;
+    .brand h2 {
       font-size: 21px;
-      line-height: 1.05;
-      letter-spacing: .5px;
     }
 
-    .brand-name span {
-      color: #ff1493;
+    .brand h2 span {
+      color: #ff1690;
     }
 
-    .wallet {
-      border: 1px solid rgba(255,255,255,.45);
-      border-radius: 40px;
-      padding: 10px 16px;
+    .user-area {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: Arial, sans-serif;
-      font-weight: bold;
-      font-size: 15px;
-      white-space: nowrap;
-      background: rgba(0,0,0,.08);
+      gap: 10px;
     }
 
-    .wallet-icon {
-      font-size: 24px;
+    .user-photo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: white;
     }
 
-    /* ================= HERO ================= */
+    .logout {
+      background: #e53935;
+      border: none;
+      color: white;
+      padding: 9px 13px;
+      border-radius: 9px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 60px;
+    }
 
     .hero {
-      margin: 20px 18px 25px;
-      min-height: 245px;
-      border-radius: 25px;
-      overflow: hidden;
-      position: relative;
-      background:
-        radial-gradient(circle at 75% 45%, rgba(0,157,255,.9), transparent 25%),
-        radial-gradient(circle at 40% 65%, rgba(150,0,255,.8), transparent 35%),
-        linear-gradient(135deg,#041347,#10106c 48%,#17002e);
-      box-shadow:
-        0 12px 35px rgba(24,40,130,.35),
-        inset 0 0 45px rgba(0,100,255,.25);
-      border: 1px solid rgba(255,255,255,.25);
-    }
-
-    .hero:before {
-      content: "◆  ◆       ◇        ◆";
-      position: absolute;
-      top: 22px;
-      right: 12px;
-      color: #42c8ff;
-      font-size: 22px;
-      opacity: .7;
-      letter-spacing: 15px;
-    }
-
-    .hero:after {
-      content: "";
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      right: -45px;
-      bottom: -65px;
-      background: radial-gradient(circle,#00bfff,transparent 65%);
-      opacity: .5;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 28px 22px;
-      max-width: 75%;
+      background: #f8faff;
+      border: 1px solid #dce4f1;
+      border-radius: 28px;
+      padding: 45px 35px;
+      margin-bottom: 35px;
     }
 
     .hero h1 {
-      font-family: Arial, sans-serif;
-      font-size: 30px;
-      line-height: 1.05;
-      color: white;
-      text-transform: uppercase;
-      font-weight: 900;
-    }
-
-    .hero h1 span {
-      color: #ff1493;
+      font-family: Georgia, serif;
+      font-size: 48px;
+      line-height: 1.15;
+      margin-bottom: 20px;
     }
 
     .hero p {
-      margin-top: 13px;
-      color: white;
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.45;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 7px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .hero-badge {
-      padding: 8px 10px;
-      border-radius: 18px;
-      border: 1px solid #29bfff;
-      background: rgba(0,0,0,.25);
-      color: white;
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    .diamond-box {
-      position: absolute;
-      right: 10px;
-      bottom: 20px;
-      font-size: 70px;
-      filter: drop-shadow(0 0 18px #00c8ff);
-      z-index: 2;
-    }
-
-    /* ================= SECTION ================= */
-
-    .section {
-      padding: 0 18px;
-      margin-bottom: 28px;
+      font-family: Georgia, serif;
+      font-size: 25px;
+      color: #727a87;
+      line-height: 1.5;
     }
 
     .section-title {
-      font-size: 32px;
-      margin: 20px 0 17px;
-      color: #082542;
-      font-weight: 900;
+      font-family: Georgia, serif;
+      font-size: 38px;
+      margin: 25px 0;
     }
 
-    .section-title span {
-      color: #ff1493;
-    }
-
-    /* ================= CARDS ================= */
-
-    .grid {
+    .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 13px;
+      gap: 22px;
     }
 
     .card {
       background: white;
-      border-radius: 21px;
-      overflow: hidden;
-      border: 1px solid #dce3f0;
-      box-shadow: 0 7px 20px rgba(17,41,90,.12);
-      transition: transform .2s, box-shadow .2s;
-      cursor: pointer;
-    }
-
-    .card:active {
-      transform: scale(.96);
-    }
-
-    .art {
-      height: 145px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(circle at 50% 50%, #164fff 0, #0d1a72 42%, #050c3f 100%);
-    }
-
-    .art:before {
-      content: "◆   ◇   ◆";
-      position: absolute;
-      color: #41d9ff;
-      top: 14px;
-      font-size: 13px;
-      opacity: .7;
-      letter-spacing: 8px;
-    }
-
-    .art:after {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: radial-gradient(circle,rgba(0,117,255,.85),transparent 67%);
-      filter: blur(4px);
-    }
-
-    .art-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      color: white;
-      font-family: Arial, sans-serif;
-      font-weight: 900;
-      text-shadow: 0 3px 10px #000;
-    }
-
-    .art-icon {
-      font-size: 53px;
-      line-height: 1;
-      filter: drop-shadow(0 0 10px #00d9ff);
-    }
-
-    .art-letter {
-      font-size: 43px;
-    }
-
-    .art-title {
-      font-size: 16px;
-      color: #ffe900;
-      margin-top: 7px;
-      text-transform: uppercase;
-    }
-
-    .card-name {
-      min-height: 72px;
-      padding: 13px 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 17px;
-      line-height: 1.15;
-      font-weight: 900;
-      color: #102b48;
-    }
-
-    /* ================= SERVICE ART ================= */
-
-    .game-art {
-      background:
-        radial-gradient(circle at 50% 50%, #174cff, transparent 37%),
-        linear-gradient(145deg,#111b7d,#05072c);
-    }
-
-    .game-art .art-icon {
-      font-size: 47px;
-      color: white;
-    }
-
-    /* ================= CTA ================= */
-
-    .cta {
-      margin: 15px 18px 30px;
       border-radius: 24px;
-      padding: 24px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(20,40,90,.10);
+      border: 1px solid #e0e5ef;
+    }
+
+    .card-top {
+      height: 175px;
+      background: radial-gradient(circle, #153ed5, #07145c);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 42px;
+      font-weight: bold;
+    }
+
+    .card-bottom {
+      padding: 25px 15px;
+      min-height: 105px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      color: white;
-      background:
-        radial-gradient(circle at 20% 20%,#7c00ff,transparent 35%),
-        linear-gradient(135deg,#062a58,#0c0b56,#80004d);
-      box-shadow: 0 10px 30px rgba(27,20,100,.3);
-    }
-
-    .cta h2 {
-      font-family: Arial,sans-serif;
-      font-size: 25px;
-      margin-bottom: 8px;
-    }
-
-    .cta p {
-      font-family: Arial,sans-serif;
-      opacity: .9;
-      margin-bottom: 18px;
-    }
-
-    .primary-btn {
-      border: none;
-      background: linear-gradient(90deg,#ff009d,#ff4d00);
-      color: white;
-      border-radius: 28px;
-      padding: 13px 28px;
-      font-size: 16px;
+      font-family: Georgia, serif;
+      font-size: 23px;
       font-weight: bold;
-      box-shadow: 0 5px 18px rgba(255,0,130,.4);
     }
 
-    /* ================= BOTTOM NAV ================= */
-
-    .bottom-nav {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 82px;
-      background: rgba(255,255,255,.97);
-      backdrop-filter: blur(15px);
-      border-top: 1px solid #dfe4ee;
-      z-index: 200;
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      align-items: end;
-      padding-bottom: 8px;
-    }
-
-    .nav-item {
-      border: none;
-      background: transparent;
-      color: #687383;
-      font-size: 11px;
-      font-weight: bold;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .nav-icon {
-      font-size: 25px;
-    }
-
-    .nav-item.active {
-      color: #0754c9;
-    }
-
-    .add-money {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      border: 5px solid white;
-      background: linear-gradient(145deg,#0875ff,#062b9c);
-      color: white;
-      font-size: 35px;
-      margin-top: -35px;
-      box-shadow: 0 5px 20px rgba(0,70,200,.4);
-    }
-
-    /* ================= LOGIN MODAL ================= */
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,10,30,.72);
-      backdrop-filter: blur(8px);
-      z-index: 500;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .login-box {
-      width: 100%;
-      max-width: 390px;
+    .profile {
       background: white;
-      border-radius: 25px;
-      padding: 28px 22px;
-      box-shadow: 0 20px 70px rgba(0,0,0,.35);
-      position: relative;
-      text-align: center;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 40px;
+      box-shadow: 0 5px 20px rgba(20,40,90,.08);
     }
 
-    .close {
-      position: absolute;
-      right: 17px;
-      top: 12px;
-      border: none;
-      background: none;
-      font-size: 30px;
-      color: #555;
+    .profile h2 {
+      margin-bottom: 15px;
     }
 
-    .login-logo {
-      margin: auto auto 12px;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(145deg,#711ec0,#ff008c);
+    .download-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 13px 18px;
+      border-radius: 10px;
+      background: #102d73;
       color: white;
-      font-family: Arial,sans-serif;
-      font-size: 30px;
-      font-weight: 900;
-    }
-
-    .login-box h2 {
-      color: #082542;
-      margin-bottom: 7px;
-      font-family: Arial,sans-serif;
-    }
-
-    .login-box p {
-      color: #7b8490;
-      margin-bottom: 20px;
-      font-family: Arial,sans-serif;
-      font-size: 14px;
-    }
-
-    .login-btn {
-      width: 100%;
-      border: 1px solid #d8dce3;
-      background: white;
-      padding: 13px;
-      border-radius: 12px;
-      margin: 7px 0;
-      font-family: Arial,sans-serif;
-      font-size: 15px;
+      text-decoration: none;
       font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
     }
 
-    .google {
-      color: #222;
-    }
-
-    .facebook {
-      background: #1877f2;
-      color: white;
-      border-color: #1877f2;
-    }
-
-    .login-note {
-      margin-top: 13px;
-      font-size: 11px !important;
-      color: #999 !important;
-    }
-
-    /* ================= TOAST ================= */
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 100px;
-      transform: translateX(-50%) translateY(20px);
-      background: #082542;
-      color: white;
-      padding: 12px 18px;
-      border-radius: 25px;
-      font-family: Arial,sans-serif;
-      font-size: 13px;
-      opacity: 0;
-      pointer-events: none;
-      transition: .3s;
-      z-index: 700;
-      white-space: nowrap;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ================= RESPONSIVE ================= */
-
-    @media (max-width: 360px) {
-      .grid {
-        gap: 8px;
+    @media (max-width: 750px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
       }
 
-      .art {
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero p {
+        font-size: 21px;
+      }
+
+      .section-title {
+        font-size: 34px;
+      }
+
+      .card-top {
+        height: 145px;
+        font-size: 34px;
+      }
+
+      .card-bottom {
+        font-size: 19px;
+      }
+
+      .brand h2 {
+        font-size: 16px;
+      }
+
+      .logout {
+        padding: 7px 9px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero {
+        padding: 30px 20px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .card-top {
         height: 125px;
-      }
-
-      .card-name {
-        font-size: 15px;
-      }
-
-      .brand-name {
-        font-size: 17px;
-      }
-
-      .wallet {
-        padding: 8px 10px;
-      }
-    }
-
-    @media (min-width: 700px) {
-      body {
-        max-width: 900px;
-        margin: auto;
-      }
-
-      .bottom-nav {
-        max-width: 900px;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .grid {
-        grid-template-columns: repeat(4,1fr);
       }
     }
   </style>
@@ -574,70 +368,202 @@
 
 <body>
 
-  <!-- ================= HEADER ================= -->
+<!-- ================= LOGIN PAGE ================= -->
 
-  <header class="top-header">
+<div id="loginPage">
 
-    <div class="brand">
-      <div class="logo">WP</div>
+  <div class="login-box">
 
-      <div class="brand-name">
-        WATER PRICE<br>
-        <span>TOP UP BD</span>
-      </div>
+    <div class="logo">WP</div>
+
+    <h1 id="authTitle">Welcome Back</h1>
+
+    <p class="login-subtitle">
+      Water Price Top Up BD
+    </p>
+
+    <form id="authForm">
+
+      <input
+        id="email"
+        class="input"
+        type="email"
+        placeholder="Email address"
+        required
+      >
+
+      <input
+        id="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+        required
+      >
+
+      <button class="main-btn" type="submit" id="emailBtn">
+        Login
+      </button>
+
+    </form>
+
+    <div class="divider">OR</div>
+
+    <button class="google-btn" id="googleBtn">
+      🔵 Continue with Google
+    </button>
+
+    <div class="switch">
+      <span id="switchText">
+        Don't have an account? Create account
+      </span>
     </div>
 
-    <div class="wallet">
-      <span class="wallet-icon">💳</span>
-      <span>৳ 0</span>
+    <div id="authMessage"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="app">
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-logo">
+        WP
+      </div>
+
+      <h2>
+        WATER PRICE <span>TOP UP BD</span>
+      </h2>
+
+    </div>
+
+    <div class="user-area">
+
+      <img
+        id="userPhoto"
+        class="user-photo"
+        src=""
+        alt="User"
+      >
+
+      <button class="logout" id="logoutBtn">
+        Logout
+      </button>
+
     </div>
 
   </header>
 
 
-  <!-- ================= HERO ================= -->
+  <main class="container">
 
-  <section class="hero">
-
-    <div class="hero-content">
+    <section class="hero">
 
       <h1>
-        WATER PRICE<br>
-        <span>TOP UP BD</span>
+        Water Price Top Up BD
       </h1>
 
       <p>
-        Fast, Easy & Secure Top Up<br>
-        for your favorite games!
+        Fast, easy & secure top up for your favourite games and services.
       </p>
 
-      <div class="hero-buttons">
-        <div class="hero-badge">⚡ Fast Delivery</div>
-        <div class="hero-badge">🛡 100% Safe</div>
-        <div class="hero-badge">🎧 24/7 Support</div>
+    </section>
+
+
+    <!-- POPULAR OFFERS -->
+
+    <h2 class="section-title">
+      Popular Offers
+    </h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-top">W 💎</div>
+        <div class="card-bottom">Weekly Offer</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">M 💎</div>
+        <div class="card-bottom">Monthly Offer</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">★</div>
+        <div class="card-bottom">Premium Users</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">25 💎</div>
+        <div class="card-bottom">Free 25 Diamond Voucher</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">f</div>
+        <div class="card-bottom">Facebook Followers</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">👍</div>
+        <div class="card-bottom">Facebook Post React</div>
       </div>
 
     </div>
 
-    <div class="diamond-box">💎</div>
 
-  </section>
-
-
-  <!-- ================= POPULAR OFFERS ================= -->
-
-  <section class="section">
+    <!-- GAME SERVICES -->
 
     <h2 class="section-title">
-      Popular <span>Offers</span>
+      Game Services
     </h2>
 
-    <div class="grid">
+    <div class="cards">
 
-      <div class="card" onclick="openService('Weekly Offer')">
-        <div class="art">
-          <div class="art-content">
-            <div class="art-icon">W💎</div>
-            <div class="art-title">Weekly Offer</div>
-          </div>
+      <div class="card">
+        <div class="card-top">FF</div>
+        <div class="card-bottom">
+          FF UID Top Up (BD)
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">W+</div>
+        <div class="card-bottom">
+          Weekly Lite (BD Server)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">LV</div>
+        <div class="card-bottom">
+          New Level Up Pass
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">WM</div>
+        <div class="card-bottom">
+          Weekly / Monthly Offer
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <div class="profile">
+
+      <h2>
+        Your Account
+      </h2>
+
+      <p>
+        <strong>Name:</strong>
+        <span id="profileName">Loading
