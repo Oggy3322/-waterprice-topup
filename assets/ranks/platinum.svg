@@ -1,1 +1,18 @@
- 
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="plat" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#eaffff"/>
+      <stop offset=".3" stop-color="#75e6e8"/>
+      <stop offset=".55" stop-color="#ffffff"/>
+      <stop offset=".8" stop-color="#46aeb8"/>
+      <stop offset="1" stop-color="#dfffff"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="210" fill="#54dce5" opacity=".2"/>
+  <path d="M256 35 404 108 438 256 404 404 256 477 108 404 74 256 108 108Z"
+        fill="url(#plat)" stroke="#dfffff" stroke-width="10"/>
+  <path d="M256 95 352 145 380 256 352 367 256 417 160 367 132 256 160 145Z"
+        fill="#087f8b" opacity=".3"/>
+  <path d="M256 112 282 190 365 205 300 255 323 337 256 290 189 337 212 255 147 205 230 190Z"
+        fill="#fff"/>
+</svg>
